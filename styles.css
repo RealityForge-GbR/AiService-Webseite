@@ -1370,6 +1370,11 @@ h2 {
   line-height: 1.75;
 }
 
+.strategy-aside .strategy-statement {
+  color: var(--text);
+  font-weight: 700;
+}
+
 .strategy-copy > p:nth-of-type(3) {
   color: var(--text);
   font-weight: 650;
