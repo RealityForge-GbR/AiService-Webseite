@@ -1205,14 +1205,10 @@ h2 {
   margin-top: 1rem;
 }
 
-.service-grid-detailed .card-index,
-.card-index {
-  margin: 0 0 0.8rem;
+.card-symbol {
+  width: 2.1rem;
+  height: 2.1rem;
   color: var(--accent-soft);
-  font-family: Consolas, "SFMono-Regular", monospace;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
 }
 
 .section-heading-copy > p + p {
@@ -1332,13 +1328,8 @@ h2 {
   border-bottom: 1px solid var(--line);
 }
 
-.metric-mark {
-  display: block;
+.metric-icon {
   margin-bottom: 3rem;
-  color: var(--accent);
-  font-family: Consolas, "SFMono-Regular", monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
 }
 
 .business-grid h3 {
@@ -1443,22 +1434,19 @@ h2 {
   display: none;
 }
 
-.case-number {
-  margin: 0 0 3rem;
-  color: var(--accent);
-  font-family: Consolas, "SFMono-Regular", monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.1em;
+.case-icon {
+  margin-bottom: 2.5rem;
 }
 
 .use-case-card h3 {
+  min-height: 4.35rem;
   margin-bottom: 1.7rem;
   font-size: clamp(1.35rem, 2vw, 1.9rem);
   font-weight: 650;
   line-height: 1.15;
 }
 
-.use-case-card > p:not(.case-number):not(.case-label):not(.case-benefit) {
+.use-case-card > p:not(.case-label):not(.case-benefit) {
   margin: 0 0 1rem;
   color: var(--muted);
   font-size: 0.92rem;
@@ -1539,12 +1527,20 @@ h2 {
 }
 
 .system-equation small {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   margin-bottom: auto;
   color: var(--faint);
   font-family: Consolas, "SFMono-Regular", monospace;
   font-size: 0.59rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.equation-icon {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .system-equation strong {
@@ -1583,13 +1579,34 @@ h2 {
 
 .ai-card h3 {
   max-width: 23ch;
+  min-height: 5rem;
   margin-bottom: 1.5rem;
   font-size: clamp(1.4rem, 2.3vw, 2.15rem);
   font-weight: 620;
   line-height: 1.15;
 }
 
-.ai-card p:not(.card-index) {
+.ai-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.ai-card-meta span {
+  color: var(--faint);
+  font-family: Consolas, "SFMono-Regular", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.ai-icon {
+  flex: 0 0 auto;
+}
+
+.ai-card p {
   margin: 0 0 1rem;
   color: var(--muted);
   line-height: 1.72;
@@ -1932,7 +1949,9 @@ h2 {
     padding-left: 0;
   }
 
-  .service-grid-detailed h3 {
+  .service-grid-detailed h3,
+  .use-case-card h3,
+  .ai-card h3 {
     min-height: 0;
   }
 
