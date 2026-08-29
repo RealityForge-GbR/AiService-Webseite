@@ -90,8 +90,8 @@
     entEasing: 'expo',
     entOvershoot: 0,
     entStop: 26,
-    markScale: 1.16,
-    markX: 0,
+    markScale: 1.3,
+    markX: -26,
     markY: 0,
     bg: 'transparent',
     align: 'center'
