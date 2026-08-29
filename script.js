@@ -19,6 +19,10 @@ let collapseTimer;
 let modalTimer;
 let lastUseCaseTrigger;
 
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
 function updateThemeControl() {
   const isLight = root.dataset.theme === 'light';
   toggle.setAttribute('aria-pressed', String(isLight));

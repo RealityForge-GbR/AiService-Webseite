@@ -23,9 +23,18 @@
     <script src="script.js?v=rf-wordmark-1" defer></script>
     <script>
       (() => {
-        const saved = localStorage.getItem('realityforge-theme') || localStorage.getItem('rf-theme');
-        const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.dataset.theme = saved || preferred;
+        const root = document.documentElement;
+        root.dataset.theme = 'dark';
+
+        if ('scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+        }
+
+        if (window.location.hash) {
+          history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+        }
+
+        window.scrollTo(0, 0);
       })();
     </script>
     <script type="application/ld+json">
