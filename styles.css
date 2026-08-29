@@ -138,6 +138,10 @@ button:focus-visible {
   letter-spacing: -0.04em;
 }
 
+.brand-wordmark {
+  font-family: var(--rf-logo-font-final, Inter, "Segoe UI", Helvetica, Arial, sans-serif);
+}
+
 .main-nav {
   display: flex;
   gap: clamp(1.25rem, 2.6vw, 2.7rem);
@@ -1100,12 +1104,157 @@ h2 {
   }
 }
 
-/* Extended AI Services page */
-
+/* Hero wordmark composition */
 .hero {
+  display: block;
+  overflow: clip;
   min-height: auto;
-  padding-block: clamp(4.5rem, 8vw, 7rem);
+  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(5rem, 9vw, 8rem);
 }
+
+.hero-wordmark-stage {
+  display: grid;
+  width: 100%;
+  margin-block: clamp(-7rem, -7vw, -3.5rem) clamp(-6rem, -5vw, -2.5rem);
+  place-items: center;
+}
+
+.hero-wordmark-stage reality-forge-logo {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 9;
+}
+
+.hero-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.36fr) minmax(20rem, 0.64fr);
+  column-gap: clamp(4rem, 9vw, 9rem);
+  align-items: start;
+  min-width: 0;
+  padding-top: clamp(2.5rem, 4vw, 4.5rem);
+  border-top: 1px solid var(--line-strong);
+}
+
+.hero-copy h1 {
+  grid-column: 1;
+  grid-row: 1 / span 4;
+  max-width: 10.5ch;
+  margin: 0;
+  font-size: clamp(4.2rem, 7.3vw, 7.6rem);
+}
+
+.hero-copy .hero-intro,
+.hero-copy .hero-capabilities,
+.hero-copy .hero-actions {
+  grid-column: 2;
+}
+
+.hero-copy .hero-intro {
+  font-size: clamp(1.05rem, 1.35vw, 1.22rem);
+}
+
+.hero-copy .hero-capabilities {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.hero-copy .hero-capabilities li {
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  font-size: 0.61rem;
+  letter-spacing: 0.09em;
+}
+
+.hero-copy .hero-actions {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 1000px) {
+  .hero-wordmark-stage {
+    margin-block: -3.5rem -2rem;
+  }
+
+  .hero-copy {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+  }
+
+  .hero-copy h1,
+  .hero-copy .hero-intro,
+  .hero-copy .hero-capabilities,
+  .hero-copy .hero-actions {
+    grid-column: 1;
+  }
+
+  .hero-copy h1 {
+    grid-row: auto;
+    max-width: 11ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-copy .hero-intro {
+    max-width: 43rem;
+  }
+
+  .hero-copy .hero-capabilities,
+  .hero-copy .hero-actions {
+    width: min(100%, 43rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    gap: 0;
+    padding-block: 1.25rem 5rem;
+  }
+
+  .hero-wordmark-stage {
+    width: 134%;
+    margin-block: -1.5rem -1rem;
+    margin-left: -17%;
+  }
+
+  .hero-copy {
+    padding-top: 2.5rem;
+  }
+
+  .hero-copy h1 {
+    margin-bottom: 2rem;
+    font-size: clamp(3.15rem, 14.5vw, 5.2rem);
+  }
+}
+
+@media (max-width: 470px) {
+  .hero-copy .hero-actions {
+    align-items: flex-start;
+  }
+}
+
+.logo-static-fallback {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+  color: var(--text);
+  font-family: var(--rf-logo-font-final, Inter, "Segoe UI", Helvetica, Arial, sans-serif);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 650;
+  letter-spacing: -0.06em;
+}
+
+reality-forge-logo:defined > .logo-static-fallback {
+  display: none;
+}
+
+/* Extended AI Services page */
 
 .hero-copy {
   min-width: 0;
