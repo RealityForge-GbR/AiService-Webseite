@@ -12,6 +12,8 @@ const useCaseModalBody = document.querySelector('[data-use-case-modal-body]');
 const useCaseCloseButtons = [...document.querySelectorAll('[data-use-case-close]')];
 const systemFusion = document.querySelector('[data-system-fusion]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const heroWordmark = document.querySelector('#hero-wordmark');
+const wordmarkSettings = window.RealityForgeLogoSettings;
 
 let collapseTimer;
 let modalTimer;
@@ -31,6 +33,18 @@ toggle.addEventListener('click', () => {
 });
 
 updateThemeControl();
+
+if (heroWordmark && wordmarkSettings) {
+  root.style.setProperty('--rf-logo-font-final', wordmarkSettings.fontFinal);
+  root.style.setProperty('--rf-logo-font-code', wordmarkSettings.fontCode);
+  heroWordmark.config = wordmarkSettings;
+
+  if (wordmarkSettings.reducedMotion === 'static' && reduceMotion.matches) {
+    heroWordmark.showFinal();
+  } else {
+    heroWordmark.restart();
+  }
+}
 
 if (systemFusion && !reduceMotion.matches && 'IntersectionObserver' in window) {
   systemFusion.classList.add('is-animated');

@@ -17,6 +17,10 @@
     <title>KI-Beratung &amp; lokale KI in Berlin | RealityForge</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23f4f1f8'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='20' fill='%2309080d'%3ERF%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
+    <!-- Adobe Fonts: paste the supplied Web Project CSS <link> here, then set adobeFinalFamily in assets/reality-forge-logo-config.js. -->
+    <script src="assets/reality-forge-logo-config.js" defer></script>
+    <script src="assets/reality-forge-logo.js" defer></script>
+    <script src="script.js" defer></script>
     <script>
       (() => {
         const saved = localStorage.getItem('realityforge-theme') || localStorage.getItem('rf-theme');
@@ -91,6 +95,14 @@
     </header>
 
     <main id="main">
+      <section class="wordmark-hero section-shell" aria-label="RealityForge">
+        <div class="hero-wordmark-stage">
+          <reality-forge-logo id="hero-wordmark" aria-label="RealityForge">
+            <span class="logo-static-fallback">RealityForge</span>
+          </reality-forge-logo>
+        </div>
+      </section>
+
       <section class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-copy">
           <h1 id="hero-title">KI-Systeme für konkrete <em>Anwendungen.</em></h1>
@@ -106,34 +118,6 @@
           </div>
         </div>
 
-        <div class="system-visual" aria-label="Abstrakte modulare KI-Systemarchitektur mit drei verbundenen Ebenen für Daten, KI-Verarbeitung und Integration" role="img">
-          <div class="architecture-grid" aria-hidden="true"></div>
-          <div class="architecture-meta" aria-hidden="true">
-            <span>RF / KI-SYSTEM</span>
-            <span>SYSTEMPLAN</span>
-          </div>
-          <div class="architecture-canvas" aria-hidden="true">
-            <div class="architecture-rail"><span></span><span></span><span></span><i></i></div>
-            <div class="architecture-stage stage-data">
-              <div class="stage-heading"><strong>Datenebene</strong></div>
-              <div class="stage-modules"><span>Quellen</span><span>Dateien</span><span>Systeme</span></div>
-            </div>
-            <div class="architecture-route route-one"><span>aufbereiten</span></div>
-            <div class="architecture-stage stage-processing">
-              <div class="stage-heading"><strong>KI-Verarbeitung</strong></div>
-              <div class="stage-modules"><span>Kontext</span><span>Logik</span><span>Prüfung</span></div>
-            </div>
-            <div class="architecture-route route-two"><span>integrieren</span></div>
-            <div class="architecture-stage stage-integration">
-              <div class="stage-heading"><strong>Integrationsebene</strong></div>
-              <div class="stage-modules"><span>APIs</span><span>UI</span><span>Betrieb</span></div>
-            </div>
-          </div>
-          <div class="architecture-footer" aria-hidden="true">
-            <span>KOMPONENTEN / DATENFLUSS</span>
-            <span class="flow-readout"><i></i> Gerichteter Datenfluss</span>
-          </div>
-        </div>
       </section>
 
       <section class="services section-shell section-rule" id="leistungen" aria-labelledby="services-title">
@@ -460,6 +444,5 @@
       <div class="footer-bottom"><span>© 2026 RealityForge GbR</span><a href="#top">Nach oben <span aria-hidden="true">↑</span></a></div>
     </footer>
 
-    <script src="script.js"></script>
   </body>
 </html>
