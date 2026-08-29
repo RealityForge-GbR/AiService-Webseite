@@ -1890,9 +1890,17 @@ h2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 4.6rem;
-  height: 4.2rem;
+  width: 4.8rem;
+  height: 4.5rem;
   transform: translate(-50%, -50%);
+}
+
+.ai-neural-mark::before {
+  content: "";
+  position: absolute;
+  inset: 0.48rem 0.62rem;
+  border: 1px dashed rgba(var(--accent-rgb), 0.2);
+  border-radius: 50%;
 }
 
 .neural-core,
@@ -1906,12 +1914,22 @@ h2 {
   z-index: 2;
   top: 50%;
   left: 50%;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.15rem;
+  height: 1.15rem;
   border: 1px solid var(--accent-soft);
+  border-radius: 0.3rem;
   background: var(--accent);
   box-shadow: 0 0 0 0.35rem rgba(var(--accent-rgb), 0.1), 0 0 1.2rem rgba(var(--accent-rgb), 0.65);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.neural-core::after {
+  content: "";
+  position: absolute;
+  inset: 0.28rem;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0.82;
 }
 
 .neural-node {
@@ -1923,23 +1941,33 @@ h2 {
 }
 
 .neural-node-one {
-  top: 0.2rem;
-  left: 0.65rem;
+  top: 0.05rem;
+  left: calc(50% - 0.31rem);
 }
 
 .neural-node-two {
-  top: 0.35rem;
-  right: 0.35rem;
+  top: 0.7rem;
+  right: 0.2rem;
 }
 
 .neural-node-three {
-  right: 0.8rem;
-  bottom: 0.15rem;
+  right: 0.2rem;
+  bottom: 0.65rem;
 }
 
 .neural-node-four {
-  bottom: 0.35rem;
-  left: 0.25rem;
+  bottom: 0.05rem;
+  left: calc(50% - 0.31rem);
+}
+
+.neural-node-five {
+  bottom: 0.65rem;
+  left: 0.2rem;
+}
+
+.neural-node-six {
+  top: 0.7rem;
+  left: 0.2rem;
 }
 
 .neural-path {
@@ -1947,26 +1975,34 @@ h2 {
   z-index: 1;
   top: 50%;
   left: 50%;
-  width: 2.25rem;
+  width: 2.05rem;
   height: 1px;
   background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.28));
   transform-origin: left;
 }
 
 .neural-path-one {
-  transform: rotate(-138deg);
+  transform: rotate(-90deg);
 }
 
 .neural-path-two {
-  transform: rotate(-38deg);
+  transform: rotate(-32deg);
 }
 
 .neural-path-three {
-  transform: rotate(42deg);
+  transform: rotate(32deg);
 }
 
 .neural-path-four {
-  transform: rotate(145deg);
+  transform: rotate(90deg);
+}
+
+.neural-path-five {
+  transform: rotate(148deg);
+}
+
+.neural-path-six {
+  transform: rotate(212deg);
 }
 
 .system-mark {
@@ -2013,12 +2049,18 @@ h2 {
 }
 
 .system-orbit-two {
-  inset: 1.25rem;
+  inset: 0.82rem;
   border-style: dashed;
-  border-color: rgba(var(--accent-rgb), 0.42);
+  border-color: rgba(var(--accent-rgb), 0.32);
 }
 
-.system-port {
+.system-orbit-three {
+  inset: 1.25rem;
+  border-style: dotted;
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+.system-orbit i {
   position: absolute;
   z-index: 3;
   width: 0.6rem;
@@ -2029,19 +2071,22 @@ h2 {
   box-shadow: 0 0 0.7rem rgba(var(--accent-rgb), 0.7);
 }
 
-.system-port-one {
-  top: 0.15rem;
+.system-orbit-one i {
+  top: -0.3rem;
   left: 50%;
+  transform: translateX(-50%);
 }
 
-.system-port-two {
-  right: 0.25rem;
-  bottom: 22%;
+.system-orbit-two i {
+  top: 50%;
+  right: -0.3rem;
+  transform: translateY(-50%);
 }
 
-.system-port-three {
-  bottom: 14%;
-  left: 0.55rem;
+.system-orbit-three i {
+  bottom: -0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .fusion-link {
@@ -2160,11 +2205,15 @@ h2 {
 }
 
 .system-fusion.is-animated.is-visible .system-orbit-one {
-  animation: fusion-orbit 10s linear 2600ms infinite;
+  animation: fusion-orbit 42s linear 2600ms infinite;
 }
 
 .system-fusion.is-animated.is-visible .system-orbit-two {
-  animation: fusion-orbit-reverse 8s linear 2600ms infinite;
+  animation: fusion-orbit-reverse 54s linear 2600ms infinite;
+}
+
+.system-fusion.is-animated.is-visible .system-orbit-three {
+  animation: fusion-orbit 34s linear 2600ms infinite;
 }
 
 .system-fusion.is-animated.is-visible .fusion-caption {
