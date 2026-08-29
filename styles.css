@@ -1102,15 +1102,21 @@ h2 {
 
 /* Centered animated wordmark followed by the original hero copy. */
 .wordmark-hero {
-  overflow: clip;
-  padding-block: clamp(2rem, 4vw, 4rem) 0;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: clamp(2rem, 3vw, 3.8rem) 0;
 }
 
 .hero-wordmark-stage {
-  display: grid;
-  width: 100%;
-  margin-block: clamp(-4rem, -4vw, -2rem) clamp(-8rem, -8vw, -4rem);
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(100%, 64rem);
+  margin: 0 auto;
+  min-height: clamp(12rem, 30vw, 21rem);
+  padding-inline: clamp(0rem, 2vw, 1rem);
 }
 
 .hero-wordmark-stage reality-forge-logo {
@@ -1162,13 +1168,15 @@ reality-forge-logo:defined > .logo-static-fallback {
 
 @media (max-width: 1000px) {
   .hero-wordmark-stage {
-    margin-block: -2.5rem -4rem;
+    width: min(100%, 52rem);
+    min-height: clamp(10.5rem, 34vw, 18rem);
   }
 }
 
 @media (max-width: 760px) {
   .wordmark-hero {
-    padding-top: 1.25rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
   }
 
   .hero {
@@ -1176,9 +1184,9 @@ reality-forge-logo:defined > .logo-static-fallback {
   }
 
   .hero-wordmark-stage {
-    width: 134%;
-    margin-block: -1rem -2.5rem;
-    margin-left: -17%;
+    width: 100%;
+    min-height: clamp(9rem, 42vw, 16rem);
+    padding-inline: 0;
   }
 
   .hero-copy {

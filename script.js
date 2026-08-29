@@ -37,13 +37,19 @@ updateThemeControl();
 if (heroWordmark && wordmarkSettings) {
   root.style.setProperty('--rf-logo-font-final', wordmarkSettings.fontFinal);
   root.style.setProperty('--rf-logo-font-code', wordmarkSettings.fontCode);
-  heroWordmark.config = wordmarkSettings;
 
-  if (wordmarkSettings.reducedMotion === 'static' && reduceMotion.matches) {
-    heroWordmark.showFinal();
-  } else {
-    heroWordmark.restart();
-  }
+  customElements.whenDefined('reality-forge-logo').then(() => {
+    heroWordmark.config = wordmarkSettings;
+
+    requestAnimationFrame(() => {
+      if (wordmarkSettings.reducedMotion === 'static' && reduceMotion.matches) {
+        heroWordmark.showFinal();
+        return;
+      }
+
+      heroWordmark.restart();
+    });
+  });
 }
 
 if (systemFusion && !reduceMotion.matches && 'IntersectionObserver' in window) {
