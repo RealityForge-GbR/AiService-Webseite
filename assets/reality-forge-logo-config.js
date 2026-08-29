@@ -5,16 +5,17 @@
  * typefaces, colours, timing, glow, scan and particle values here rather than
  * editing the component itself.
  *
- * Adobe Fonts: after receiving the Web Project URL, add its stylesheet link in
- * index.html and replace `adobeFinalFamily` below with its published CSS family.
- * Do not add Adobe kit IDs or font files here.
+ * Adobe Fonts: the Web Project stylesheet is linked in index.html. Keep the
+ * temporary code face and the final wordmark face independently configurable
+ * through `adobeCodeFamily` and `adobeFinalFamily` below.
  */
 (function () {
   'use strict';
 
   var adobeFinalFamily = null; // Example when supplied: '"Your Adobe Family", sans-serif'
   var finalFallback = 'Inter, "Segoe UI", Helvetica, Arial, sans-serif';
-  var codeFallback = '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace';
+  var adobeCodeFamily = '"bd-terminal-vf", monospace';
+  var codeFallback = 'Monaco, Menlo, "Courier New", "SFMono-Regular", Consolas, "Liberation Mono", monospace';
 
   window.RealityForgeLogoSettings = Object.freeze({
     /* Behaviour and accessibility */
@@ -22,11 +23,15 @@
 
     /* Typography */
     fontFinal: adobeFinalFamily || finalFallback,
-    fontCode: codeFallback,
+    fontCode: adobeCodeFamily || codeFallback,
     fontSize: 112,
+    fontSizeCode: 112,
     weightFinal: 650,
-    weightCode: 500,
+    weightCode: 800,
+    widthCode: 225,
     tracking: -1.5,
+    trackingCode: -1.5,
+    matchCodeToFinal: true,
     wordGap: 34,
     wordA: 'Reality',
     wordB: 'Forge',

@@ -56,8 +56,10 @@
     /* typography — pass any CSS font-family string */
     fontFinal: '"Geist","Helvetica Neue",Arial,sans-serif',
     fontCode: '"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace',
-    fontSize: 112, weightFinal: 500, weightCode: 400,
-    tracking: -1.5, wordGap: 34,
+    fontSize: 112, fontSizeCode: 112,
+    weightFinal: 500, weightCode: 400, widthCode: 100,
+    tracking: -1.5, trackingCode: -1.5, matchCodeToFinal: true,
+    wordGap: 34,
     textColor: '#eeece7', codeColor: '#9fb0e8',
     cursorColor: '#8ea3ff', cursorW: 3, blink: 520,
     markScale: 1, markX: 0, markY: 0,
@@ -275,18 +277,22 @@
     _applyStyles() {
       var c = this._cfg;
       this.style.background = c.bg;
-      var set = function (t, fam, w, fill) {
+      var set = function (t, fam, w, fill, size, tracking, variations) {
         t.style.fontFamily = fam;
         t.style.fontWeight = String(w);
-        t.style.fontSize = c.fontSize + 'px';
-        t.style.letterSpacing = c.tracking + 'px';
+        t.style.fontSize = size + 'px';
+        t.style.letterSpacing = tracking + 'px';
+        t.style.fontVariationSettings = variations || 'normal';
         t.style.whiteSpace = 'pre';
         t.setAttribute('fill', fill);
       };
-      set(this.textA, c.fontFinal, c.weightFinal, c.textColor);
-      set(this.textHi, c.fontFinal, c.weightFinal, '#ffffff');
-      set(this.textB, c.fontFinal, c.weightFinal, c.textColor);
-      set(this.textMono, c.fontCode, c.weightCode, c.codeColor);
+      var codeSize = c.fontSizeCode || c.fontSize;
+      var codeTracking = typeof c.trackingCode === 'number' ? c.trackingCode : c.tracking;
+      var codeVariations = '"wght" ' + c.weightCode + ', "wdth" ' + c.widthCode;
+      set(this.textA, c.fontFinal, c.weightFinal, c.textColor, c.fontSize, c.tracking);
+      set(this.textHi, c.fontFinal, c.weightFinal, '#ffffff', c.fontSize, c.tracking);
+      set(this.textB, c.fontFinal, c.weightFinal, c.textColor, c.fontSize, c.tracking);
+      set(this.textMono, c.fontCode, c.weightCode, c.codeColor, codeSize, codeTracking, codeVariations);
       this.textA.textContent = c.wordA;
       this.textHi.textContent = c.wordA;
       this.textB.textContent = c.wordB;
@@ -312,15 +318,25 @@
     _measure() {
       var c = this._cfg;
       var prev = this.textMono.textContent;
+      this.textMono.removeAttribute('transform');
       this.textMono.textContent = c.wordB;
-      var wA = 500, wM = 320, wB = 300;
+      var wA = 500, wM = 320, wB = 300, hM = c.fontSizeCode || c.fontSize, hB = c.fontSize;
       try {
-        wA = this.textA.getBBox().width;
-        wM = this.textMono.getBBox().width;
-        wB = this.textB.getBBox().width;
+        var boxA = this.textA.getBBox();
+        var boxM = this.textMono.getBBox();
+        var boxB = this.textB.getBBox();
+        wA = boxA.width;
+        wM = boxM.width;
+        wB = boxB.width;
+        hM = boxM.height;
+        hB = boxB.height;
       } catch (e) {}
       this.textMono.textContent = prev;
-      var reserved = Math.max(wM, wB);
+      var codeScaleX = 1, codeScaleY = 1;
+      if (c.matchCodeToFinal && wM > 0 && wB > 0) codeScaleX = wB / wM;
+      if (c.matchCodeToFinal && hM > 0 && hB > 0) codeScaleY = hB / hM;
+      var alignedCodeW = wM * codeScaleX;
+      var reserved = Math.max(alignedCodeW, wB);
       var total = wA + c.wordGap + reserved;
       var cx = 800;
       if (c.align === 'left') cx = 100 + total / 2;
@@ -333,8 +349,10 @@
         pair[0].setAttribute('x', String(pair[1]));
         pair[0].setAttribute('y', String(oy));
       });
+      this.textMono.setAttribute('transform',
+        'translate(' + fx + ' ' + oy + ') scale(' + codeScaleX + ' ' + codeScaleY + ') translate(' + (-fx) + ' ' + (-oy) + ')');
       this.L = {
-        originX: ox, originY: oy, forgeX: fx, adv: wM / Math.max(1, c.wordB.length),
+        originX: ox, originY: oy, forgeX: fx, adv: alignedCodeW / Math.max(1, c.wordB.length),
         portalX: x0 - Math.max(10, c.fontSize * 0.14),
         endX: ox + wA + c.wordGap + reserved + Math.max(16, c.fontSize * 0.2),
         top: oy - c.fontSize * 0.78, bottom: oy + c.fontSize * 0.22

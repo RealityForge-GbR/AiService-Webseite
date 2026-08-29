@@ -11,6 +11,7 @@ const useCaseModalTitle = document.querySelector('[data-use-case-modal-title]');
 const useCaseModalBody = document.querySelector('[data-use-case-modal-body]');
 const useCaseCloseButtons = [...document.querySelectorAll('[data-use-case-close]')];
 const systemFusion = document.querySelector('[data-system-fusion]');
+const secureNetwork = document.querySelector('[data-secure-network]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const heroWordmark = document.querySelector('#hero-wordmark');
 const wordmarkSettings = window.RealityForgeLogoSettings;
@@ -70,6 +71,22 @@ if (systemFusion && !reduceMotion.matches && 'IntersectionObserver' in window) {
   });
 
   fusionObserver.observe(systemFusion);
+}
+
+if (secureNetwork && !reduceMotion.matches && 'IntersectionObserver' in window) {
+  secureNetwork.classList.add('is-animated');
+
+  const secureNetworkObserver = new IntersectionObserver((entries, observer) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+
+    secureNetwork.classList.add('is-visible');
+    observer.disconnect();
+  }, {
+    threshold: 0.25,
+    rootMargin: '0px 0px -8%'
+  });
+
+  secureNetworkObserver.observe(secureNetwork);
 }
 
 if (useCaseToggle && extraUseCases.length) {
