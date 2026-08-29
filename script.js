@@ -10,6 +10,7 @@ const useCaseDialog = document.querySelector('.use-case-dialog');
 const useCaseModalTitle = document.querySelector('[data-use-case-modal-title]');
 const useCaseModalBody = document.querySelector('[data-use-case-modal-body]');
 const useCaseCloseButtons = [...document.querySelectorAll('[data-use-case-close]')];
+const systemFusion = document.querySelector('[data-system-fusion]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let collapseTimer;
@@ -30,6 +31,22 @@ toggle.addEventListener('click', () => {
 });
 
 updateThemeControl();
+
+if (systemFusion && !reduceMotion.matches && 'IntersectionObserver' in window) {
+  systemFusion.classList.add('is-animated');
+
+  const fusionObserver = new IntersectionObserver((entries, observer) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+
+    systemFusion.classList.add('is-visible');
+    observer.disconnect();
+  }, {
+    threshold: 0.3,
+    rootMargin: '0px 0px -10%'
+  });
+
+  fusionObserver.observe(systemFusion);
+}
 
 if (useCaseToggle && extraUseCases.length) {
   extraUseCases.forEach((card, index) => {
