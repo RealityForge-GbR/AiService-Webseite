@@ -23,6 +23,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const heroWordmark = document.querySelector('#hero-wordmark');
 const heroTitle = document.querySelector('#hero-title');
 const heroTitleCopy = document.querySelector('.hero-main-title-copy');
+const heroTerminalShell = document.querySelector('.hero-terminal-shell');
 const economicsTitle = document.querySelector('#economics-title');
 const economicsTitleCopy = economicsTitle?.querySelector('span');
 const evidenceShowcase = document.querySelector('.evidence-showcase');
@@ -101,6 +102,7 @@ if (heroWordmark && wordmarkSettings) {
 
       if (Number.isFinite(wordmarkWidth) && wordmarkWidth > 0) {
         heroTitle.style.setProperty('--hero-title-width', `${wordmarkWidth}px`);
+        heroTerminalShell?.style.setProperty('--hero-content-width', `${wordmarkWidth}px`);
         fitSingleLine(heroTitle, heroTitleCopy, wordmarkWidth);
       }
     };
