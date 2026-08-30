@@ -96,6 +96,10 @@ if (heroWordmark && wordmarkSettings) {
     const syncHeroTitleWidth = () => {
       if (!heroTitle || !heroTitleCopy || !heroWordmark.textHi || !heroWordmark.textB) return;
 
+      if (heroTerminalShell && window.innerWidth > 760) {
+        heroTerminalShell.style.setProperty('--hero-wordmark-balance-shift', '0px');
+      }
+
       const realityBounds = heroWordmark.textHi.getBoundingClientRect();
       const forgeBounds = heroWordmark.textB.getBoundingClientRect();
       const wordmarkWidth = forgeBounds.right - realityBounds.left;
@@ -103,7 +107,23 @@ if (heroWordmark && wordmarkSettings) {
       if (Number.isFinite(wordmarkWidth) && wordmarkWidth > 0) {
         heroTitle.style.setProperty('--hero-title-width', `${wordmarkWidth}px`);
         heroTerminalShell?.style.setProperty('--hero-content-width', `${wordmarkWidth}px`);
+        heroTerminalShell?.style.setProperty('--hero-content-half-width', `${wordmarkWidth / 2}px`);
         fitSingleLine(heroTitle, heroTitleCopy, wordmarkWidth);
+
+        if (heroTerminalShell && window.innerWidth > 760) {
+          const titleBounds = heroTitle.getBoundingClientRect();
+          const shellBounds = heroTerminalShell.getBoundingClientRect();
+          const logoTop = Math.min(realityBounds.top, forgeBounds.top);
+          const logoBottom = Math.max(realityBounds.bottom, forgeBounds.bottom);
+          const topGap = logoTop + window.scrollY;
+          const titleGap = titleBounds.top - logoBottom;
+          const unclampedShift = (titleGap - topGap) / 2;
+          const balanceShift = Math.max(shellBounds.top - logoTop, unclampedShift);
+
+          if (Number.isFinite(balanceShift)) {
+            heroTerminalShell.style.setProperty('--hero-wordmark-balance-shift', `${balanceShift}px`);
+          }
+        }
       }
     };
 
