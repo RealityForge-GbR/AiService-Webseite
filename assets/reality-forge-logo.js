@@ -48,6 +48,21 @@
     scanColor: '#7c6fff', // used when linkColors is false
     dissolve: true,       // scanner breaks into motes after clearing "Forge"
 
+    /* lower portal divider — appears after the wordmark scan */
+    lowerPortalDelay: 120,
+    lowerPortalDur: 920,
+    lowerPortalLift: 26,
+    lowerPortalGap: 30,
+    lowerPortalGlowH: 76,
+    lowerPortalLineWidth: 2,
+    lowerParticleCount: 46,
+    lowerParticleRate: 16,
+    lowerParticleLife: 1350,
+    lowerParticleSpeed: 52,
+    lowerParticleMin: 0.7,
+    lowerParticleMax: 1.9,
+    lowerParticleOpacity: 0.5,
+
     /* particles — emitted only at the portal / moving beam */
     pOn: true, pCount: 14, pColor: '#9fb0ff', pMin: 1, pMax: 2.6, pOpacity: 0.7,
     pSpeed: 60, pLife: 900, pSpread: 0.85, pDrift: 20, pTrail: 6,
@@ -107,9 +122,14 @@
       this._cfg = Object.assign({}, DEFAULTS);
       this._t = 0;
       this._playing = false;
+      this._ambient = false;
       this._burst = false;
       this._parts = [];
       this._pool = [];
+      this._lowerParts = [];
+      this._lowerPool = [];
+      this._lowerSpawn = 0;
+      this._lowerSequence = 0;
       this._uid = ++UID;
     }
 
@@ -123,10 +143,12 @@
       if (this._t >= this._tl.total) this._t = 0;
       this._last = 0;
       this._playing = true;
+      this._ambient = true;
       this._schedule();
     }
     pause() {
       this._playing = false;
+      this._ambient = false;
       this._last = 0;
       cancelAnimationFrame(this._raf);
       this._raf = 0;
@@ -136,16 +158,18 @@
       this._last = 0;
       this._resetParticles();
       this._playing = true;
+      this._ambient = true;
       this._schedule();
     }
     seek(seconds) {
       this._playing = false;
+      this._ambient = false;
       this._resetParticles();
       this._t = Math.max(0, Math.min(this._tl.total, seconds * 1000));
       this._render(this._t);
     }
     /* static finished logo, no motion at all */
-    showFinal() { this._playing = false; this._t = this._tl.total; this._render(this._t); }
+    showFinal() { this._playing = false; this._ambient = false; this._t = this._tl.total; this._render(this._t); }
     get duration() { return this._tl.total / 1000; }
     get currentTime() { return this._t / 1000; }
 
@@ -191,7 +215,7 @@
       this.style.position = 'relative';
 
       var svg = el('svg', {
-        viewBox: '0 0 1600 900',
+        viewBox: '250 290 1100 320',
         width: '100%',
         height: '100%',
         role: 'img',
@@ -220,6 +244,40 @@
       this.reveal.appendChild(el('stop', { offset: 1, 'stop-color': '#fff' }));
       defs.appendChild(this.reveal);
 
+      this.lowerGlowGradient = el('radialGradient', {
+        id: id('lowerGlow'),
+        gradientUnits: 'objectBoundingBox',
+        cx: 0.5,
+        cy: 1,
+        r: 0.72,
+        fx: 0.5,
+        fy: 1
+      });
+      this.lowerGlowSolid = el('stop', { offset: 0, 'stop-color': '#7c6fff', 'stop-opacity': 0.48 });
+      this.lowerGlowMid = el('stop', { offset: 0.46, 'stop-color': '#7c6fff', 'stop-opacity': 0.13 });
+      this.lowerGlowGradient.appendChild(this.lowerGlowSolid);
+      this.lowerGlowGradient.appendChild(this.lowerGlowMid);
+      this.lowerGlowGradient.appendChild(el('stop', { offset: 1, 'stop-color': '#7c6fff', 'stop-opacity': 0 }));
+      defs.appendChild(this.lowerGlowGradient);
+
+      this.lowerLineGradient = el('linearGradient', {
+        id: id('lowerLine'),
+        gradientUnits: 'objectBoundingBox',
+        x1: 0,
+        y1: 0,
+        x2: 1,
+        y2: 0
+      });
+      this.lowerLineStart = el('stop', { offset: 0, 'stop-color': '#7c6fff', 'stop-opacity': 0 });
+      this.lowerLineInnerA = el('stop', { offset: 0.04, 'stop-color': '#7c6fff', 'stop-opacity': 0.92 });
+      this.lowerLineInnerB = el('stop', { offset: 0.96, 'stop-color': '#7c6fff', 'stop-opacity': 0.92 });
+      this.lowerLineEnd = el('stop', { offset: 1, 'stop-color': '#7c6fff', 'stop-opacity': 0 });
+      this.lowerLineGradient.appendChild(this.lowerLineStart);
+      this.lowerLineGradient.appendChild(this.lowerLineInnerA);
+      this.lowerLineGradient.appendChild(this.lowerLineInnerB);
+      this.lowerLineGradient.appendChild(this.lowerLineEnd);
+      defs.appendChild(this.lowerLineGradient);
+
       var mk = function (mid, rectAttrs) {
         var m = el('mask', { id: mid, maskUnits: 'userSpaceOnUse', x: -2000, y: -2000, width: 6000, height: 5000 });
         var r = el('rect', rectAttrs);
@@ -237,6 +295,28 @@
       this.glowR = el('rect', { x: 0, y: 0, width: 0, height: 0, fill: 'url(#' + id('glowR') + ')', opacity: 0 });
       this.trail = el('rect', { x: 0, y: 0, width: 0, height: 0, fill: 'url(#' + id('trail') + ')', opacity: 0 });
       this.word.appendChild(this.glowL); this.word.appendChild(this.glowR); this.word.appendChild(this.trail);
+
+      this.lowerPortalGlow = el('rect', {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        fill: 'url(#' + id('lowerGlow') + ')',
+        opacity: 0
+      });
+      this.lowerParticleGroup = el('g');
+      this.lowerPortalLine = el('rect', {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        rx: 1,
+        fill: 'url(#' + id('lowerLine') + ')',
+        opacity: 0
+      });
+      this.word.appendChild(this.lowerPortalGlow);
+      this.word.appendChild(this.lowerParticleGroup);
+      this.word.appendChild(this.lowerPortalLine);
 
       var gRev = el('g', { mask: 'url(#' + id('mRev') + ')' });
       this.wrapA = el('g');
@@ -271,6 +351,12 @@
         this.pGroup.appendChild(p);
         this._pool.push(p);
         this._parts.push({ alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, size: 1 });
+      }
+      for (var j = 0; j < 64; j++) {
+        var spark = el('circle', { opacity: 0, r: 1 });
+        this.lowerParticleGroup.appendChild(spark);
+        this._lowerPool.push(spark);
+        this._lowerParts.push({ alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, size: 1 });
       }
     }
 
@@ -311,7 +397,9 @@
       t.scanStart = t.pauseEnd + c.scanDelay * m;
       t.scanEnd = t.scanStart + (c.scanDur / Math.max(0.1, c.scanSpeed)) * m;
       t.settleEnd = t.scanEnd + c.settleDur * m;
-      t.total = t.settleEnd + c.holdDur * m;
+      t.lowerPortalStart = t.scanEnd + c.lowerPortalDelay * m;
+      t.lowerPortalEnd = t.lowerPortalStart + c.lowerPortalDur * m;
+      t.total = Math.max(t.settleEnd, t.lowerPortalEnd) + c.holdDur * m;
       return t;
     }
 
@@ -351,10 +439,12 @@
       });
       this.textMono.setAttribute('transform',
         'translate(' + fx + ' ' + oy + ') scale(' + codeScaleX + ' ' + codeScaleY + ') translate(' + (-fx) + ' ' + (-oy) + ')');
+      var wordEndX = ox + wA + c.wordGap + reserved;
       this.L = {
         originX: ox, originY: oy, forgeX: fx, adv: alignedCodeW / Math.max(1, c.wordB.length),
         portalX: x0 - Math.max(10, c.fontSize * 0.14),
-        endX: ox + wA + c.wordGap + reserved + Math.max(16, c.fontSize * 0.2),
+        wordEndX: wordEndX,
+        endX: wordEndX + Math.max(16, c.fontSize * 0.2),
         top: oy - c.fontSize * 0.78, bottom: oy + c.fontSize * 0.22
       };
       this.word.setAttribute('transform', 'translate(800,450) scale(' + c.markScale + ') translate(-800,-450)');
@@ -378,14 +468,21 @@
           }
         }
       }
-      this._render(this._t, this._playing ? dt : 0);
-      if (this._playing) this._schedule();
+      var active = this._playing || this._ambient;
+      this._render(this._t, active ? dt : 0);
+      if (active) this._schedule();
     }
     _resetParticles() {
       this._burst = false;
+      this._lowerSpawn = 0;
+      this._lowerSequence = 0;
       for (var i = 0; i < this._parts.length; i++) {
         this._parts[i].alive = false;
         this._pool[i].setAttribute('opacity', '0');
+      }
+      for (var j = 0; j < this._lowerParts.length; j++) {
+        this._lowerParts[j].alive = false;
+        this._lowerPool[j].setAttribute('opacity', '0');
       }
     }
 
@@ -484,7 +581,97 @@
       this.rBand.setAttribute('width', scanning ? bandW : 0);
       this.textHi.setAttribute('opacity', (scanning && inA) ? c.entHighlight : 0);
 
+      /* lower horizontal portal — rises from below and leaves an upward glow */
+      var lowerP = Math.max(0, Math.min(1,
+        (t - tl.lowerPortalStart) / Math.max(1, tl.lowerPortalEnd - tl.lowerPortalStart)));
+      var lowerE = ease('soft', lowerP);
+      var lowerX = L.originX;
+      var lowerTargetW = Math.max(0, L.wordEndX - L.originX);
+      var lowerW = lowerTargetW;
+      var lowerFinalY = L.bottom + c.lowerPortalGap;
+      var lowerY = lowerFinalY + c.lowerPortalLift * (1 - lowerE);
+      var lowerGlowH = c.lowerPortalGlowH * lowerE;
+      var lowerColor = c.linkColors ? c.portalColor : c.scanColor;
+
+      this.lowerPortalLine.setAttribute('x', lowerX);
+      this.lowerPortalLine.setAttribute('y', lowerY - c.lowerPortalLineWidth / 2);
+      this.lowerPortalLine.setAttribute('width', lowerW);
+      this.lowerPortalLine.setAttribute('height', c.lowerPortalLineWidth);
+      this.lowerPortalLine.setAttribute('opacity', lowerE * 0.88);
+      this.lowerPortalLine.style.filter = lowerP > 0
+        ? 'drop-shadow(0 0 ' + (c.glowRadius * 0.45) + 'px ' + lowerColor + ')'
+        : 'none';
+
+      this.lowerPortalGlow.setAttribute('x', lowerX);
+      this.lowerPortalGlow.setAttribute('y', lowerY - lowerGlowH);
+      this.lowerPortalGlow.setAttribute('width', lowerW);
+      this.lowerPortalGlow.setAttribute('height', lowerGlowH);
+      this.lowerPortalGlow.setAttribute('opacity', lowerE * 0.92);
+      this.lowerGlowSolid.setAttribute('stop-color', lowerColor);
+      this.lowerGlowMid.setAttribute('stop-color', lowerColor);
+      this.lowerLineStart.setAttribute('stop-color', lowerColor);
+      this.lowerLineInnerA.setAttribute('stop-color', lowerColor);
+      this.lowerLineInnerB.setAttribute('stop-color', lowerColor);
+      this.lowerLineEnd.setAttribute('stop-color', lowerColor);
+
+      this._lowerPortalParticles(t, dt || 0, lowerX, lowerFinalY, lowerTargetW, lowerE, lowerColor);
+
       this._particles(t, dt || 0, beamX, centerY, h, scanning);
+    }
+
+    _lowerPortalParticles(t, dt, lineX, lineY, lineW, progress, color) {
+      var c = this._cfg, P = this._lowerParts, pool = this._lowerPool, i;
+      var active = t >= this._tl.lowerPortalStart && progress > 0.12;
+      var limit = Math.min(pool.length, Math.max(0, c.lowerParticleCount));
+
+      if (active && dt > 0 && limit > 0) {
+        this._lowerSpawn += dt * Math.max(0, c.lowerParticleRate) / 1000;
+        var spawn = Math.min(3, Math.floor(this._lowerSpawn));
+        this._lowerSpawn -= spawn;
+
+        for (i = 0; i < limit && spawn > 0; i++) {
+          var p = P[i];
+          if (p.alive) continue;
+          p.alive = true;
+          p.age = 0;
+          p.life = c.lowerParticleLife * (0.6 + Math.random() * 0.85);
+          var spread = (0.5 + this._lowerSequence * 0.61803398875 + (Math.random() - 0.5) * 0.08) % 1;
+          if (spread < 0) spread += 1;
+          this._lowerSequence++;
+          p.x = lineX + lineW * (0.02 + spread * 0.96);
+          p.y = lineY - Math.random() * 3;
+          p.vx = ((Math.random() - 0.5) * c.lowerParticleSpeed * 0.18) / 1000;
+          p.vy = -(c.lowerParticleSpeed * (0.5 + Math.random() * 0.85)) / 1000;
+          p.size = c.lowerParticleMin + Math.random() * Math.max(0, c.lowerParticleMax - c.lowerParticleMin);
+          spawn--;
+        }
+      }
+
+      for (i = 0; i < P.length; i++) {
+        var q = P[i], node = pool[i];
+        if (!q.alive) {
+          if (node.getAttribute('opacity') !== '0') node.setAttribute('opacity', '0');
+          continue;
+        }
+        if (dt > 0) {
+          q.age += dt;
+          q.x += q.vx * dt;
+          q.y += q.vy * dt;
+          q.vx *= Math.pow(0.997, dt);
+        }
+        if (q.age >= q.life) {
+          q.alive = false;
+          node.setAttribute('opacity', '0');
+          continue;
+        }
+        var lifeP = q.age / q.life;
+        var fade = Math.min(1, lifeP / 0.12) * Math.pow(1 - lifeP, 1.45);
+        node.setAttribute('cx', q.x.toFixed(2));
+        node.setAttribute('cy', q.y.toFixed(2));
+        node.setAttribute('r', (q.size * (1 - lifeP * 0.35)).toFixed(2));
+        node.setAttribute('fill', color);
+        node.setAttribute('opacity', (c.lowerParticleOpacity * fade * progress).toFixed(3));
+      }
     }
 
     _particles(t, dt, beamX, centerY, h, scanning) {

@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  var adobeFinalFamily = null; // Example when supplied: '"Your Adobe Family", sans-serif'
+  var adobeFinalFamily = '"acier-bat-noir", sans-serif'; // Adobe UI name: Acier BAT Text Noir
   var finalFallback = 'Inter, "Segoe UI", Helvetica, Arial, sans-serif';
   var adobeCodeFamily = '"bd-terminal-vf", monospace';
   var codeFallback = 'Monaco, Menlo, "Courier New", "SFMono-Regular", Consolas, "Liberation Mono", monospace';
@@ -26,7 +26,7 @@
     fontCode: adobeCodeFamily || codeFallback,
     fontSize: 112,
     fontSizeCode: 112,
-    weightFinal: 650,
+    weightFinal: 400,
     weightCode: 800,
     widthCode: 225,
     tracking: -1.5,
@@ -34,7 +34,7 @@
     matchCodeToFinal: true,
     wordGap: 34,
     wordA: 'Reality',
-    wordB: 'Forge',
+    wordB: 'FORGE',
     textColor: 'var(--text)',
     codeColor: 'var(--accent-soft)',
     cursorColor: 'var(--accent-soft)',
@@ -72,6 +72,21 @@
     linkColors: true,
     scanColor: 'var(--accent)',
     dissolve: true,
+
+    /* Lower portal divider after the wordmark scan */
+    lowerPortalDelay: 120,
+    lowerPortalDur: 920,
+    lowerPortalLift: 26,
+    lowerPortalGap: 30,
+    lowerPortalGlowH: 76,
+    lowerPortalLineWidth: 2,
+    lowerParticleCount: 46,
+    lowerParticleRate: 16,
+    lowerParticleLife: 1350,
+    lowerParticleSpeed: 52,
+    lowerParticleMin: 0.7,
+    lowerParticleMax: 1.9,
+    lowerParticleOpacity: 0.5,
 
     /* Particles: only portal/scan particles; never ambient */
     pOn: true,
