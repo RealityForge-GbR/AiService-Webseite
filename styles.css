@@ -125,8 +125,6 @@ button:focus-visible {
   width: 100vw;
   transform: translateX(-50%);
   background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.019) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.016) 0 1px, transparent 1px 5px),
     radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.045), transparent 68%),
     var(--bg);
 }
@@ -1392,14 +1390,6 @@ reality-forge-logo:defined > .logo-static-fallback {
     min-height: 6.25rem;
   }
 
-  .site-header::before {
-    background:
-      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.052) 0 1px, transparent 1px 11px),
-      repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.044) 0 1px, transparent 1px 12px),
-      radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.085), transparent 68%),
-      var(--bg);
-  }
-
   .hero-terminal-shell {
     height: calc(100vh - 6.25rem);
     height: calc(100svh - 6.25rem);
@@ -1435,13 +1425,9 @@ reality-forge-logo:defined > .logo-static-fallback {
     grid-row: 4;
   }
 
-  .hero-copy {
-    --hero-copy-align-offset: max(0px, calc(50% - var(--hero-content-half-width, 50%)));
-  }
-
   .hero-copy .hero-intro,
   .hero-copy .hero-actions {
-    margin-left: var(--hero-copy-align-offset);
+    margin-left: var(--hero-copy-align-offset, 0px);
   }
 }
 
