@@ -1386,6 +1386,64 @@ reality-forge-logo:defined > .logo-static-fallback {
   }
 }
 
+@media (min-width: 761px) {
+  .site-header {
+    height: 6.25rem;
+    min-height: 6.25rem;
+  }
+
+  .site-header::before {
+    background:
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.031) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.028) 0 1px, transparent 1px 8px),
+      radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.065), transparent 68%),
+      var(--bg);
+  }
+
+  .hero-terminal-shell {
+    height: calc(100vh - 6.25rem);
+    height: calc(100svh - 6.25rem);
+  }
+
+  .hero-terminal-shell::before {
+    background:
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.034) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.028) 0 1px, transparent 1px 8px),
+      linear-gradient(180deg, transparent 0%, rgba(var(--accent-rgb), 0.065) 48%, transparent 52%);
+    background-size: auto, auto, 100% 220%;
+    opacity: 0.94;
+  }
+
+  .wordmark-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+    justify-items: center;
+    align-items: center;
+    gap: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .hero-wordmark-stage {
+    grid-row: 2;
+    width: min(calc(100% - clamp(1.5rem, 4vw, 4rem)), 94rem, 108svh);
+  }
+
+  .hero-main-title {
+    grid-row: 4;
+  }
+
+  .hero-copy {
+    --hero-copy-align-offset: max(0px, calc((100% - var(--hero-content-width, 100%)) / 2));
+  }
+
+  .hero-copy .hero-intro,
+  .hero-copy .hero-actions {
+    margin-left: var(--hero-copy-align-offset);
+  }
+}
+
 @media (max-width: 760px) {
   .hero-terminal-shell {
     --hero-content-width: calc(100vw - (2 * var(--page-padding)) - 0.5rem);
