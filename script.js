@@ -119,10 +119,23 @@ if (heroWordmark && wordmarkSettings) {
       const wordmarkWidth = forgeBounds.right - realityBounds.left;
 
       if (Number.isFinite(wordmarkWidth) && wordmarkWidth > 0) {
-        heroTitle.style.setProperty('--hero-title-width', `${wordmarkWidth}px`);
-        heroTerminalShell?.style.setProperty('--hero-content-width', `${wordmarkWidth}px`);
-        heroTerminalShell?.style.setProperty('--hero-content-half-width', `${wordmarkWidth / 2}px`);
-        fitSingleLine(heroTitle, heroTitleCopy, wordmarkWidth);
+        const isMobile = window.innerWidth <= 760;
+        const contentWidth = isMobile && heroCopy ? heroCopy.getBoundingClientRect().width : wordmarkWidth;
+
+        // On mobile the content rail sets the width, not the SVG's empty side margins.
+        if (isMobile) {
+          const logoWidth = heroWordmark.getBoundingClientRect().width;
+          const fittedLogoWidth = Math.round(logoWidth * contentWidth / wordmarkWidth * 100) / 100;
+          const previousWidth = parseFloat(heroWordmark.style.getPropertyValue('--hero-mobile-wordmark-width')) || 0;
+          if (Math.abs(fittedLogoWidth - previousWidth) > 0.1) {
+            heroWordmark.style.setProperty('--hero-mobile-wordmark-width', `${fittedLogoWidth}px`);
+          }
+        }
+
+        heroTitle.style.setProperty('--hero-title-width', `${contentWidth}px`);
+        heroTerminalShell?.style.setProperty('--hero-content-width', `${contentWidth}px`);
+        heroTerminalShell?.style.setProperty('--hero-content-half-width', `${contentWidth / 2}px`);
+        fitSingleLine(heroTitle, heroTitleCopy, contentWidth);
 
         if (heroTerminalShell && window.innerWidth > 760) {
           const titleBounds = heroTitle.getBoundingClientRect();
@@ -166,6 +179,7 @@ if (heroWordmark && wordmarkSettings) {
       : null;
 
     titleWidthObserver?.observe(heroWordmark);
+    window.addEventListener('resize', syncHeroTitleWidth);
     document.fonts?.ready.then(syncHeroTitleWidth);
     requestAnimationFrame(syncHeroTitleWidth);
 
