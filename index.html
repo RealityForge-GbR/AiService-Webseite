@@ -16,12 +16,12 @@
     <meta property="og:locale" content="de_DE">
     <title>KI-Beratung &amp; lokale KI in Berlin | RealityForge</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23f4f1f8'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='20' fill='%2309080d'%3ERF%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css?v=rf-wordmark-26">
+    <link rel="stylesheet" href="styles.css?v=rf-wordmark-27">
     <link rel="stylesheet" href="https://use.typekit.net/gfg1nhn.css">
     <!-- Adobe Fonts: family assignments for the temporary and final logo faces live in assets/reality-forge-logo-config.js. -->
     <script src="assets/reality-forge-logo-config.js?v=rf-wordmark-8" defer></script>
     <script src="assets/reality-forge-logo.js?v=rf-wordmark-9" defer></script>
-    <script src="script.js?v=rf-wordmark-18" defer></script>
+    <script src="script.js?v=rf-wordmark-19" defer></script>
     <script>
       (() => {
         const root = document.documentElement;
@@ -199,7 +199,10 @@
 
           <div class="evidence-team" data-evidence-team>
             <div class="evidence-team-terminal" aria-label="Eine Fachkraft mit KI erreicht Teamniveau">
-              <span aria-hidden="true">&gt;</span><strong data-evidence-team-type data-text="EINE FACHKRAFT MIT KI ERREICHT TEAMNIVEAU"></strong>
+              <div class="evidence-terminal-chrome" aria-hidden="true">
+                <span></span><span></span><span></span><small>realityforge@local — zsh</small>
+              </div>
+              <div class="evidence-terminal-line"><span aria-hidden="true">%</span><strong data-evidence-team-type data-text="EINE FACHKRAFT MIT KI ERREICHT TEAMNIVEAU"></strong></div>
             </div>
             <div class="evidence-team-copy" data-evidence-team-copy>
               <p>Im Feldexperiment erreichten einzelne Fachkräfte mit generativer KI eine vergleichbare Ergebnisqualität wie klassische Zweierteams ohne KI.</p>
@@ -224,11 +227,47 @@
         <div class="economics-bridge">
           <p class="reference-intro economics-review-intro">Wir betrachten deshalb die konkrete Aufgabe: <strong>Wie hoch ist die heutige Fehlerquote? Wie viele Arbeitsstunden werden benötigt? Welche Personalkosten entstehen? Welche Qualität erreicht KI bei denselben Fällen? Welcher Anteil lässt sich zuverlässig automatisieren?</strong></p>
         </div>
-        <div class="business-grid">
-          <article><svg class="line-icon card-symbol metric-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><path d="m8.5 12 2.2 2.2 4.8-5M12 2v2M12 20v2M2 12h2M20 12h2"></path></svg><h3>Qualität messen</h3><p>Reale Testfälle zeigen, wie zuverlässig ein System arbeitet und bei welchen Fällen menschliche Prüfung sinnvoll ist. Bei geeigneten Aufgaben kann KI die Qualität menschlicher Arbeit bereits erreichen oder verbessern.</p></article>
-          <article><svg class="line-icon card-symbol metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M3 19h18"></path><circle cx="18" cy="6" r="3"></circle><path d="M17 6h2M18 5v2"></path></svg><h3>Personalkosten reduzieren</h3><p>Große Prüfungen und Analysen können manuell Tage, Wochen oder ganze Teams beschäftigen. Automatisierung verändert den Aufwand pro bearbeitetem Fall erheblich und macht dadurch auch Aufgaben wirtschaftlich, die bisher aus Kostengründen liegen bleiben.</p></article>
-          <article><svg class="line-icon card-symbol metric-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="6" height="5"></rect><rect x="15" y="4" width="6" height="5"></rect><rect x="9" y="15" width="6" height="5"></rect><path d="M9 6.5h6M18 9v3h-6v3M6 9v3h6"></path></svg><h3>Routinefälle automatisieren</h3><p>Klare Fälle können automatisch verarbeitet werden. Fachkräfte konzentrieren sich auf Ausnahmen und Entscheidungen, bei denen ihre Erfahrung tatsächlich gebraucht wird.</p></article>
-          <article><svg class="line-icon card-symbol metric-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5M4 9l6-6M20 9l-6-6M4 15l6 6M20 15l-6 6"></path></svg><h3>Skalieren</h3><p>Automatisierte Prüfungen lassen sich mit einheitlichen Kriterien auf sehr große Daten- und Dokumentbestände anwenden. Vollständige Bestandsanalysen werden dadurch auch bei hunderttausenden oder Millionen Datensätzen wirtschaftlich realisierbar.</p></article>
+        <div class="business-grid business-progress" data-business-progress aria-label="Vier Schritte zur wirtschaftlichen KI-Anwendung">
+          <article class="business-step" style="--step-index: 0">
+            <button type="button" data-business-step aria-haspopup="dialog" aria-controls="business-step-dialog" aria-label="Details zu Qualität messen öffnen">
+              <span class="business-step-graphic" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="step-ring" cx="32" cy="32" r="21"></circle><circle class="step-pulse" cx="32" cy="32" r="9"></circle><path d="m23 32 6 6 13-15M32 4v8M32 52v8M4 32h8M52 32h8"></path></svg></span>
+              <span class="business-step-number">01</span><strong>Qualität</strong><small>Details öffnen <i aria-hidden="true">↗</i></small>
+            </button>
+            <div class="business-step-details" data-business-step-title="Qualität messen" hidden><p>Reale Testfälle zeigen, wie zuverlässig ein System arbeitet und bei welchen Fällen menschliche Prüfung sinnvoll ist. Bei geeigneten Aufgaben kann KI die Qualität menschlicher Arbeit bereits erreichen oder verbessern.</p></div>
+          </article>
+          <article class="business-step" style="--step-index: 1">
+            <button type="button" data-business-step aria-haspopup="dialog" aria-controls="business-step-dialog" aria-label="Details zu Personalkosten reduzieren öffnen">
+              <span class="business-step-graphic" aria-hidden="true"><svg viewBox="0 0 64 64"><path class="step-axis" d="M13 49h39M17 49V33M29 49V24M41 49V14"></path><circle class="step-coin" cx="47" cy="20" r="8"></circle><path d="M44 20h6M47 17v6"></path></svg></span>
+              <span class="business-step-number">02</span><strong>Kosten</strong><small>Details öffnen <i aria-hidden="true">↗</i></small>
+            </button>
+            <div class="business-step-details" data-business-step-title="Personalkosten reduzieren" hidden><p>Große Prüfungen und Analysen können manuell Tage, Wochen oder ganze Teams beschäftigen. Automatisierung verändert den Aufwand pro bearbeitetem Fall erheblich und macht dadurch auch Aufgaben wirtschaftlich, die bisher aus Kostengründen liegen bleiben.</p></div>
+          </article>
+          <article class="business-step" style="--step-index: 2">
+            <button type="button" data-business-step aria-haspopup="dialog" aria-controls="business-step-dialog" aria-label="Details zu Routinefälle automatisieren öffnen">
+              <span class="business-step-graphic" aria-hidden="true"><svg viewBox="0 0 64 64"><rect class="step-node step-node-a" x="9" y="13" width="16" height="13" rx="2"></rect><rect class="step-node step-node-b" x="39" y="13" width="16" height="13" rx="2"></rect><rect class="step-node step-node-c" x="24" y="40" width="16" height="13" rx="2"></rect><path class="step-route" d="M25 19.5h14M47 26v7H32v7M17 26v7h15"></path></svg></span>
+              <span class="business-step-number">03</span><strong>Routine</strong><small>Details öffnen <i aria-hidden="true">↗</i></small>
+            </button>
+            <div class="business-step-details" data-business-step-title="Routinefälle automatisieren" hidden><p>Klare Fälle können automatisch verarbeitet werden. Fachkräfte konzentrieren sich auf Ausnahmen und Entscheidungen, bei denen ihre Erfahrung tatsächlich gebraucht wird.</p></div>
+          </article>
+          <article class="business-step" style="--step-index: 3">
+            <button type="button" data-business-step aria-haspopup="dialog" aria-controls="business-step-dialog" aria-label="Details zu Skalieren öffnen">
+              <span class="business-step-graphic" aria-hidden="true"><svg viewBox="0 0 64 64"><path class="step-expand" d="M26 12H12v14M38 12h14v14M26 52H12V38M38 52h14V38M12 26 26 12M52 26 38 12M12 38l14 14M52 38 38 52"></path><circle class="step-core" cx="32" cy="32" r="6"></circle></svg></span>
+              <span class="business-step-number">04</span><strong>Skalierung</strong><small>Details öffnen <i aria-hidden="true">↗</i></small>
+            </button>
+            <div class="business-step-details" data-business-step-title="Skalieren" hidden><p>Automatisierte Prüfungen lassen sich mit einheitlichen Kriterien auf sehr große Daten- und Dokumentbestände anwenden. Vollständige Bestandsanalysen werden dadurch auch bei hunderttausenden oder Millionen Datensätzen wirtschaftlich realisierbar.</p></div>
+          </article>
+        </div>
+
+        <div class="use-case-modal business-step-modal" data-business-step-modal hidden>
+          <div class="use-case-modal-backdrop" data-business-step-close aria-hidden="true"></div>
+          <div class="use-case-dialog business-step-dialog" id="business-step-dialog" role="dialog" aria-modal="true" aria-labelledby="business-step-dialog-title" tabindex="-1">
+            <button class="use-case-modal-close" type="button" data-business-step-close aria-label="Dialog schließen"><span aria-hidden="true">×</span></button>
+            <div class="business-chat-header" aria-hidden="true"><span></span><span></span><span></span><small>RealityForge · Wirtschaftlichkeit</small></div>
+            <div class="business-message-thread">
+              <span class="business-message-avatar" aria-hidden="true">RF</span>
+              <div class="business-message-bubble"><small data-business-step-meta></small><h3 id="business-step-dialog-title" data-business-step-modal-title></h3><div data-business-step-modal-body></div></div>
+            </div>
+          </div>
         </div>
       </section>
 

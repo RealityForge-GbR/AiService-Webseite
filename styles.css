@@ -1101,6 +1101,520 @@ h2 {
   }
 }
 
+/* Refined first-view actions: compact terminal glass with a clear lead CTA. */
+@media (min-width: 761px) {
+  .hero-copy .hero-actions {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    width: max-content;
+    max-width: 100%;
+    gap: 0.7rem;
+  }
+
+  .hero-copy .hero-actions .button,
+  .hero-copy .hero-actions .text-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 3.1rem;
+    padding: 0.72rem 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.85rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.025));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 0.7rem 2rem rgba(0, 0, 0, 0.2);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 720;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .hero-copy .hero-actions .button-primary,
+  [data-theme="dark"] .hero-copy .hero-actions .button-primary {
+    min-height: 3.25rem;
+    padding-inline: 1.2rem;
+    border-color: rgba(var(--accent-rgb), 0.75);
+    background:
+      linear-gradient(135deg, rgba(var(--accent-rgb), 0.42), rgba(var(--accent-rgb), 0.14) 58%, rgba(255, 255, 255, 0.08));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 0 0 1px rgba(var(--accent-rgb), 0.12),
+      0 0.8rem 2.2rem rgba(var(--accent-rgb), 0.19);
+    color: var(--text);
+    font-weight: 780;
+  }
+
+  .hero-copy .hero-actions .button-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.2) 48%, transparent 72%);
+    transform: translateX(-120%);
+    transition: transform 520ms ease;
+  }
+
+  .hero-copy .hero-actions .button-primary:hover::before {
+    transform: translateX(120%);
+  }
+
+  .hero-copy .hero-actions .text-link:hover {
+    border-color: rgba(var(--accent-rgb), 0.42);
+    color: var(--text);
+  }
+}
+
+/* The use-case intro sits at the visual midpoint between title and tiles. */
+.use-cases {
+  --use-case-heading-gap: clamp(2.4rem, 4vw, 4rem);
+}
+
+.use-cases .section-heading {
+  margin-bottom: var(--use-case-heading-gap);
+}
+
+.use-cases .section-heading-copy {
+  display: grid;
+  gap: var(--use-case-heading-gap);
+}
+
+.use-cases .section-heading-copy h2,
+.use-cases .section-heading-copy > .use-cases-intro {
+  margin-bottom: 0;
+}
+
+/* A more literal, tactile macOS terminal for the team-level evidence. */
+.evidence-team-terminal {
+  display: block;
+  min-height: 7.25rem;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.8rem;
+  background-color: #050506;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 72% 50%, rgba(var(--accent-rgb), 0.1), transparent 58%);
+  background-size: 12px 12px, 12px 12px, auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.9),
+    inset 0 0 2.8rem rgba(255, 255, 255, 0.025),
+    0 1.15rem 2.8rem rgba(0, 0, 0, 0.34);
+  color: #f7f7f7;
+}
+
+.evidence-terminal-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.035));
+}
+
+.evidence-terminal-chrome > span {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.32);
+}
+
+.evidence-terminal-chrome > span:nth-child(2) { background: #febc2e; }
+.evidence-terminal-chrome > span:nth-child(3) { background: #28c840; }
+
+.evidence-terminal-chrome small {
+  flex: 1;
+  margin-right: 3rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.59rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.evidence-terminal-line {
+  display: flex;
+  gap: 0.72rem;
+  align-items: baseline;
+  padding: 1.35rem 1.2rem 1.5rem;
+}
+
+.evidence-terminal-line > span {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.evidence-team-terminal strong {
+  color: #f5f5f5;
+  text-shadow: 0 0 0.8rem rgba(255, 255, 255, 0.18);
+}
+
+/* Four-step animated economics path. */
+.business-grid.business-progress {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: clamp(2rem, 4vw, 3.75rem) 0 clamp(1rem, 2vw, 1.75rem);
+  border: 0;
+}
+
+.business-progress .business-step {
+  position: relative;
+  min-height: 0;
+  padding: 0 clamp(0.7rem, 1.7vw, 1.5rem);
+  border: 0;
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+
+.business-progress .business-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: clamp(4.1rem, 6.2vw, 5.55rem);
+  left: calc(50% + clamp(3rem, 4.2vw, 4rem));
+  width: calc(100% - clamp(5.8rem, 7.2vw, 7rem));
+  height: 0.24rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.2));
+  box-shadow: 0 0 1rem rgba(var(--accent-rgb), 0.42);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.business-progress .business-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: calc(clamp(4.1rem, 6.2vw, 5.55rem) - 0.24rem);
+  right: -0.28rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  box-shadow: 0 0 1rem var(--accent);
+  opacity: 0;
+}
+
+.business-step > button {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.business-step-graphic {
+  display: grid;
+  place-items: center;
+  width: clamp(6.5rem, 10vw, 9rem);
+  height: clamp(6.5rem, 10vw, 9rem);
+  border: 1px solid rgba(var(--accent-rgb), 0.5);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(var(--accent-rgb), 0.18), rgba(5, 5, 8, 0.94) 68%),
+    #050506;
+  box-shadow: inset 0 0 2.5rem rgba(var(--accent-rgb), 0.12), 0 0 2rem rgba(var(--accent-rgb), 0.1);
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.business-step-graphic svg {
+  width: 58%;
+  height: 58%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--accent-soft);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.business-step-number {
+  margin-top: 1.15rem;
+  color: var(--faint);
+  font-family: Consolas, "SFMono-Regular", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+}
+
+.business-step button > strong {
+  margin-top: 0.2rem;
+  font-size: clamp(1rem, 1.45vw, 1.25rem);
+  line-height: 1.05;
+}
+
+.business-step button > small {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.67rem;
+  font-weight: 650;
+  opacity: 0;
+  transform: translateY(0.35rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.business-step button > small i {
+  margin-left: 0.25rem;
+  color: var(--accent-soft);
+  font-style: normal;
+}
+
+.business-step button:hover .business-step-graphic,
+.business-step button:focus-visible .business-step-graphic {
+  border-color: var(--accent-soft);
+  box-shadow: inset 0 0 2.5rem rgba(var(--accent-rgb), 0.2), 0 0 2.5rem rgba(var(--accent-rgb), 0.24);
+  transform: translateY(-0.25rem) scale(1.025);
+}
+
+.business-step button:hover > small,
+.business-step button:focus-visible > small {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.business-progress.is-visible .business-step {
+  animation: business-step-enter 620ms cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+  animation-delay: calc(var(--step-index) * 180ms);
+}
+
+.business-progress.is-visible .business-step:not(:last-child)::after {
+  animation: business-connector-grow 620ms ease forwards;
+  animation-delay: calc(380ms + var(--step-index) * 180ms);
+}
+
+.business-progress.is-visible .business-step:not(:last-child)::before {
+  animation: business-progress-dot 620ms ease forwards;
+  animation-delay: calc(470ms + var(--step-index) * 180ms);
+}
+
+.business-progress.is-visible .step-pulse,
+.business-progress.is-visible .step-core,
+.business-progress.is-visible .step-coin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: business-icon-pulse 2.4s ease-in-out infinite;
+}
+
+.business-progress.is-visible .step-axis,
+.business-progress.is-visible .step-route,
+.business-progress.is-visible .step-expand {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  animation: business-icon-draw 1.2s ease forwards;
+  animation-delay: calc(360ms + var(--step-index) * 180ms);
+}
+
+.business-step-details { display: none; }
+
+@keyframes business-step-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes business-connector-grow {
+  to { transform: scaleX(1); }
+}
+
+@keyframes business-progress-dot {
+  0% { opacity: 0; transform: translateX(-2rem) scale(0.6); }
+  65% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(1rem) scale(1); }
+}
+
+@keyframes business-icon-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+
+@keyframes business-icon-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.business-step-dialog {
+  width: min(42rem, 100%);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: #09090c;
+}
+
+.business-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 3.15rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.business-chat-header > span {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.92);
+}
+
+.business-chat-header > span:nth-child(2) { opacity: 0.62; }
+.business-chat-header > span:nth-child(3) { opacity: 0.34; }
+
+.business-chat-header small {
+  margin-left: 0.45rem;
+  color: var(--faint);
+  font-family: Consolas, "SFMono-Regular", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+}
+
+.business-message-thread {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: end;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  background:
+    radial-gradient(circle at 82% 10%, rgba(var(--accent-rgb), 0.12), transparent 42%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: auto, 14px 14px, 14px 14px;
+}
+
+.business-message-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.55);
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent-soft);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.business-message-bubble {
+  position: relative;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(var(--accent-rgb), 0.32);
+  border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+  background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.12), rgba(255, 255, 255, 0.025));
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.26);
+}
+
+.business-message-bubble > small {
+  color: var(--accent-soft);
+  font-family: Consolas, "SFMono-Regular", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.business-step-dialog .business-message-bubble h3 {
+  max-width: none;
+  margin: 0.55rem 0 1rem;
+  padding: 0;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+}
+
+.business-message-bubble p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  .use-cases {
+    --use-case-heading-gap: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .business-grid.business-progress {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding-left: 0.25rem;
+  }
+
+  .business-progress .business-step {
+    min-height: 8.5rem;
+    padding: 0;
+  }
+
+  .business-step > button {
+    grid-template-columns: 6.2rem minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    justify-items: start;
+    column-gap: 1rem;
+    text-align: left;
+  }
+
+  .business-step-graphic {
+    grid-row: 1 / span 2;
+    width: 6.2rem;
+    height: 6.2rem;
+  }
+
+  .business-step-number {
+    margin-top: 1.1rem;
+  }
+
+  .business-step button > strong {
+    grid-column: 2;
+    margin-top: 0;
+  }
+
+  .business-step button > small {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+    opacity: 1;
+    transform: none;
+  }
+
+  .business-progress .business-step:not(:last-child)::after {
+    top: 6.4rem;
+    left: 3rem;
+    width: 0.22rem;
+    height: 2.3rem;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .business-progress .business-step:not(:last-child)::before {
+    top: 8.35rem;
+    right: auto;
+    left: 2.75rem;
+  }
+
+  .business-progress.is-visible .business-step:not(:last-child)::after {
+    animation-name: business-connector-grow-vertical;
+  }
+
+  .business-message-thread {
+    grid-template-columns: 1fr;
+  }
+
+  .business-message-avatar {
+    display: none;
+  }
+}
+
+@keyframes business-connector-grow-vertical {
+  to { transform: scaleY(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -5889,6 +6403,96 @@ reality-forge-logo:defined > .logo-static-fallback {
   }
 }
 
+/* Final cascade overrides for the reviewed economics and use-case components. */
+.use-cases {
+  --use-case-heading-gap: clamp(2.4rem, 4vw, 4rem);
+}
+
+.use-cases .section-heading {
+  margin-bottom: var(--use-case-heading-gap);
+}
+
+.use-cases .section-heading-copy {
+  display: grid;
+  gap: var(--use-case-heading-gap);
+}
+
+.use-cases .section-heading-copy h2,
+.use-cases .section-heading-copy > .use-cases-intro {
+  margin-bottom: 0;
+}
+
+.evidence-team .evidence-team-terminal {
+  display: block;
+  min-height: 7.25rem;
+  padding: 0;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0.8rem;
+  background-color: #050506;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.065) 1px, transparent 1px),
+    radial-gradient(circle at 72% 50%, rgba(var(--accent-rgb), 0.1), transparent 58%);
+  background-size: 12px 12px, 12px 12px, auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.9),
+    inset 0 0 2.8rem rgba(255, 255, 255, 0.025),
+    0 1.15rem 2.8rem rgba(0, 0, 0, 0.34);
+  color: #f7f7f7;
+}
+
+.evidence-team .evidence-terminal-line {
+  display: flex;
+  gap: 0.72rem;
+  align-items: baseline;
+  padding: 1.35rem 1.2rem 1.5rem;
+}
+
+.evidence-team .evidence-terminal-line > span {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.evidence-team .evidence-team-terminal strong {
+  color: #f5f5f5;
+  text-shadow: 0 0 0.8rem rgba(255, 255, 255, 0.18);
+}
+
+.business-step-modal .business-step-dialog {
+  width: min(42rem, 100%);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: #09090c;
+}
+
+.business-step-modal .business-message-bubble h3 {
+  max-width: none;
+  margin: 0.55rem 0 1rem;
+  padding: 0;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+}
+
+.business-step-modal .business-message-bubble [data-business-step-modal-body] {
+  display: block;
+  margin: 0;
+}
+
+.business-step-modal .use-case-modal-close {
+  z-index: 2;
+}
+
+@media (max-width: 760px) {
+  .use-cases {
+    --use-case-heading-gap: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .business-step-modal .business-step-dialog {
+    max-height: calc(100dvh - 1.5rem);
+    padding: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .use-case-bubble.is-revealing,
   .use-case-bubble.is-hiding {
@@ -5962,5 +6566,15 @@ reality-forge-logo:defined > .logo-static-fallback {
   .evidence-team-copy {
     opacity: 1;
     transform: none;
+  }
+
+  .business-progress .business-step,
+  .business-progress .business-step::before,
+  .business-progress .business-step::after,
+  .business-progress .business-step svg * {
+    opacity: 1;
+    animation: none !important;
+    transform: none;
+    stroke-dashoffset: 0;
   }
 }

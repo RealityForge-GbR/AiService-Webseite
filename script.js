@@ -39,6 +39,14 @@ const evidenceModalBody = document.querySelector('[data-evidence-modal-body]');
 const evidenceCloseButtons = [...document.querySelectorAll('[data-evidence-close]')];
 const evidenceTeamType = document.querySelector('[data-evidence-team-type]');
 const evidenceTeamCopy = document.querySelector('[data-evidence-team-copy]');
+const businessProgress = document.querySelector('[data-business-progress]');
+const businessStepTriggers = [...document.querySelectorAll('[data-business-step]')];
+const businessStepModal = document.querySelector('[data-business-step-modal]');
+const businessStepDialog = businessStepModal?.querySelector('.business-step-dialog');
+const businessStepModalTitle = document.querySelector('[data-business-step-modal-title]');
+const businessStepModalBody = document.querySelector('[data-business-step-modal-body]');
+const businessStepModalMeta = document.querySelector('[data-business-step-meta]');
+const businessStepCloseButtons = [...document.querySelectorAll('[data-business-step-close]')];
 const strategySite = document.querySelector('.strategy-site');
 const strategyLiftedBlock = document.querySelector('[data-strategy-lifted-block]');
 const wordmarkSettings = window.RealityForgeLogoSettings;
@@ -52,6 +60,8 @@ let activeAiTyping;
 let evidenceModalTimer;
 let lastEvidenceTrigger;
 let evidenceTypingTimer;
+let businessStepModalTimer;
+let lastBusinessStepTrigger;
 
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
@@ -263,6 +273,83 @@ document.addEventListener('keydown', (event) => {
   if (event.key !== 'Tab') return;
 
   const focusable = [...evidenceDialog.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+
+if (businessProgress) {
+  if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+    businessProgress.classList.add('is-visible');
+  } else {
+    const businessProgressObserver = new IntersectionObserver((entries, observer) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      businessProgress.classList.add('is-visible');
+      observer.disconnect();
+    }, { threshold: 0.22, rootMargin: '0px 0px -4% 0px' });
+    businessProgressObserver.observe(businessProgress);
+  }
+}
+
+function openBusinessStepModal(trigger) {
+  if (!businessStepModal || !businessStepDialog || !businessStepModalTitle || !businessStepModalBody) return;
+  const step = trigger.closest('.business-step');
+  const details = step?.querySelector('.business-step-details');
+  const title = details?.dataset.businessStepTitle;
+  if (!details || !title) return;
+
+  window.clearTimeout(businessStepModalTimer);
+  lastBusinessStepTrigger = trigger;
+  businessStepModalTitle.textContent = title;
+  businessStepModalBody.innerHTML = details.innerHTML;
+  if (businessStepModalMeta) {
+    const stepNumber = String(businessStepTriggers.indexOf(trigger) + 1).padStart(2, '0');
+    businessStepModalMeta.textContent = `Schritt ${stepNumber} von 04`;
+  }
+  businessStepDialog.scrollTop = 0;
+  businessStepModal.hidden = false;
+  document.body.classList.add('modal-open');
+
+  window.requestAnimationFrame(() => {
+    businessStepModal.classList.add('is-open');
+    businessStepDialog.querySelector('.use-case-modal-close')?.focus({ preventScroll: true });
+  });
+}
+
+function closeBusinessStepModal() {
+  if (!businessStepModal || businessStepModal.hidden) return;
+  window.clearTimeout(businessStepModalTimer);
+  businessStepModal.classList.remove('is-open');
+
+  businessStepModalTimer = window.setTimeout(() => {
+    businessStepModal.hidden = true;
+    businessStepModalBody.innerHTML = '';
+    document.body.classList.remove('modal-open');
+    lastBusinessStepTrigger?.focus({ preventScroll: true });
+  }, reduceMotion.matches ? 0 : 320);
+}
+
+businessStepTriggers.forEach((trigger) => trigger.addEventListener('click', () => openBusinessStepModal(trigger)));
+businessStepCloseButtons.forEach((button) => button.addEventListener('click', closeBusinessStepModal));
+
+document.addEventListener('keydown', (event) => {
+  if (!businessStepModal || businessStepModal.hidden) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeBusinessStepModal();
+    return;
+  }
+  if (event.key !== 'Tab') return;
+
+  const focusable = [...businessStepDialog.querySelectorAll('button, [href], [tabindex]')]
+    .filter((element) => element.tabIndex >= 0 && !element.disabled);
   if (!focusable.length) return;
   const first = focusable[0];
   const last = focusable[focusable.length - 1];
