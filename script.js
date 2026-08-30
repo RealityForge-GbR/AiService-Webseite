@@ -25,6 +25,8 @@ const heroTitle = document.querySelector('#hero-title');
 const heroTitleCopy = document.querySelector('.hero-main-title-copy');
 const heroTerminalShell = document.querySelector('.hero-terminal-shell');
 const heroCopy = document.querySelector('.hero-copy');
+const heroIntro = document.querySelector('.hero-intro');
+const heroMonitor = document.querySelector('.hero-monitor');
 const economicsTitle = document.querySelector('#economics-title');
 const economicsTitleCopy = economicsTitle?.querySelector('span');
 const evidenceShowcase = document.querySelector('.evidence-showcase');
@@ -99,6 +101,7 @@ if (heroWordmark && wordmarkSettings) {
 
       if (heroTerminalShell && window.innerWidth > 760) {
         heroTerminalShell.style.setProperty('--hero-wordmark-balance-shift', '0px');
+        heroCopy?.style.setProperty('--hero-copy-vertical-shift', '0px');
       }
 
       const realityBounds = heroWordmark.textHi.getBoundingClientRect();
@@ -131,6 +134,17 @@ if (heroWordmark && wordmarkSettings) {
 
             if (Number.isFinite(copyAlignOffset)) {
               heroCopy.style.setProperty('--hero-copy-align-offset', `${copyAlignOffset}px`);
+            }
+          }
+
+          const introBounds = heroIntro?.getBoundingClientRect();
+          const monitorBounds = heroMonitor?.getBoundingClientRect();
+
+          if (introBounds && monitorBounds) {
+            const copyVerticalShift = monitorBounds.top - introBounds.top;
+
+            if (Number.isFinite(copyVerticalShift)) {
+              heroCopy.style.setProperty('--hero-copy-vertical-shift', `${copyVerticalShift}px`);
             }
           }
         }
