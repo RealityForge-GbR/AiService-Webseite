@@ -4,9 +4,9 @@ const themeMeta = document.querySelector('meta[name="theme-color"]');
 const useCaseSection = document.querySelector('#anwendungsbeispiele');
 const useCaseToggle = document.querySelector('[data-use-case-toggle]');
 const extraUseCases = [...document.querySelectorAll('[data-extra-use-case]')];
-const useCaseTriggers = [...document.querySelectorAll('.use-case-trigger')];
+const useCaseTriggers = [...document.querySelectorAll('.use-case-trigger, [data-service-trigger]')];
 const useCaseModal = document.querySelector('[data-use-case-modal]');
-const useCaseDialog = document.querySelector('.use-case-dialog');
+const useCaseDialog = document.querySelector('#use-case-dialog');
 const useCaseModalTitle = document.querySelector('[data-use-case-modal-title]');
 const useCaseModalBody = document.querySelector('[data-use-case-modal-body]');
 const useCaseCloseButtons = [...document.querySelectorAll('[data-use-case-close]')];
@@ -88,8 +88,40 @@ function fitSingleLine(element, copy, targetWidth) {
 
 function fitEconomicsTitle() {
   if (!economicsTitle || !economicsTitleCopy) return;
+  if (window.innerWidth <= 760) {
+    economicsTitle.style.removeProperty('font-size');
+    return;
+  }
   fitSingleLine(economicsTitle, economicsTitleCopy, economicsTitle.parentElement.getBoundingClientRect().width);
 }
+
+function fitViewTitle() {
+  const title = document.querySelector('#view-title');
+  const copy = title?.querySelector('span');
+  if (!title || !copy) return;
+  if (window.innerWidth <= 760) title.style.removeProperty('font-size');
+  else fitSingleLine(title, copy, title.parentElement.getBoundingClientRect().width);
+}
+
+document.fonts?.ready.then(fitViewTitle);
+window.addEventListener('resize', fitViewTitle);
+requestAnimationFrame(fitViewTitle);
+
+// Only animate visible diagrams. Each signal ends exactly at its destination.
+document.querySelectorAll('.local-network-impulses use').forEach((signal) => {
+  const path = document.querySelector(signal.getAttribute('href'));
+  if (!path?.getTotalLength) return;
+  const length = path.getTotalLength();
+  signal.style.setProperty('--flow-end', `${-length}`);
+  signal.style.setProperty('--flow-gap', `${length + 48}`);
+});
+const activeDiagrams = [businessProgress, secureNetwork].filter(Boolean);
+if ('IntersectionObserver' in window) {
+  const motionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle('is-in-view', entry.isIntersecting));
+  }, { threshold: 0.05 });
+  activeDiagrams.forEach((diagram) => motionObserver.observe(diagram));
+} else activeDiagrams.forEach((diagram) => diagram.classList.add('is-in-view'));
 
 toggle.addEventListener('click', () => {
   root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
@@ -98,6 +130,26 @@ toggle.addEventListener('click', () => {
 });
 
 updateThemeControl();
+
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const mainNavigation = document.querySelector('.main-nav');
+function setMobileMenu(open) {
+  mobileMenuToggle?.setAttribute('aria-expanded', String(open));
+  mobileMenuToggle?.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+  mainNavigation?.classList.toggle('is-open', open);
+}
+mobileMenuToggle?.addEventListener('click', () => setMobileMenu(mobileMenuToggle.getAttribute('aria-expanded') !== 'true'));
+mainNavigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMobileMenu(false)));
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.site-header')) setMobileMenu(false);
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && mobileMenuToggle?.getAttribute('aria-expanded') === 'true') {
+    setMobileMenu(false);
+    mobileMenuToggle.focus();
+  }
+});
+window.addEventListener('resize', () => { if (window.innerWidth > 760) setMobileMenu(false); });
 
 if (heroWordmark && wordmarkSettings) {
   root.style.setProperty('--rf-logo-font-final', wordmarkSettings.fontFinal);
@@ -474,6 +526,10 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
 
       finishAiTyping();
 
+      // This is a topic explorer, not a chat history. Keep one complete answer in view.
+      aiConversation.querySelectorAll('.ai-chat-message').forEach((message) => message.remove());
+      aiConversation.scrollTop = 0;
+
       aiTopicButtons.forEach((topicButton) => {
         const isActive = topicButton === button;
         topicButton.classList.toggle('is-active', isActive);
@@ -483,7 +539,7 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
         connection.classList.toggle('is-active', connection.dataset.aiConnection === topic);
       });
 
-      const userMessage = createAiMessage('user', 110);
+      const userMessage = createAiMessage('user', reduceMotion.matches ? 0 : 110);
       const userCopy = document.createElement('p');
       userCopy.textContent = question;
       userMessage.bubble.appendChild(userCopy);
@@ -508,7 +564,9 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
       cursor.setAttribute('aria-hidden', 'true');
       assistantMessage.bubble.append(assistantCopy, cursor);
 
-      if (reduceMotion.matches) {
+      if (reduceMotion.matches || window.innerWidth <= 760) {
+        userMessage.message.classList.add('is-visible');
+        assistantMessage.message.classList.add('is-visible');
         assistantCopy.textContent = fullText;
         cursor.remove();
         return;
@@ -535,7 +593,7 @@ function updateStrategyLift() {
   strategyLiftFrame = undefined;
   if (!strategySite || !strategyLiftedBlock) return;
 
-  if (reduceMotion.matches) {
+  if (reduceMotion.matches || window.innerWidth <= 1100) {
     strategyLiftedBlock.style.setProperty('--strategy-lift-y', '0px');
     strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '19rem' : '10.75rem');
     strategyLiftedBlock.classList.add('is-landed');
@@ -620,13 +678,14 @@ if (useCaseToggle && extraUseCases.length) {
 function openUseCaseModal(trigger) {
   if (!useCaseModal || !useCaseDialog || !useCaseModalTitle || !useCaseModalBody) return;
 
-  const bubble = trigger.closest('.use-case-bubble');
+  const bubble = trigger.closest('.use-case-bubble, .service-card');
   const details = bubble?.querySelector('.use-case-details');
   const title = trigger.querySelector('span')?.textContent?.trim();
 
   if (!details || !title) return;
 
   window.clearTimeout(modalTimer);
+  useCaseDialog.classList.toggle('is-service-detail', trigger.matches('[data-service-trigger]'));
   lastUseCaseTrigger = trigger;
   useCaseModalTitle.textContent = title;
   useCaseModalBody.innerHTML = details.innerHTML;
