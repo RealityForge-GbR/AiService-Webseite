@@ -1,6 +1,23 @@
 /* Review pass: scoped component refinements, loaded after the original design. */
 :root { --review-section-space: clamp(4.5rem, 8vw, 8rem); }
-main > .section-rule { padding-block: var(--review-section-space); }
+/* Soft pools of tone meet the page colour at every edge. No rules between
+   sections, no full-viewport layers that could create horizontal overflow. */
+main > .section-rule {
+  padding-block: var(--review-section-space);
+  border-top: 0;
+  border-bottom: 0;
+  background: radial-gradient(ellipse closest-side at 50% 50%, rgba(var(--section-tone, var(--accent-rgb)), var(--section-tint, .025)), transparent 100%);
+}
+#wirtschaftlichkeit { --section-tone: 150, 145, 185; --section-tint: .065; }
+#moderne-ki { --section-tint: .055; }
+#unsere-sicht { --section-tone: 160, 155, 180; --section-tint: .045; }
+#leistungen, #lokale-ki, #kontakt { --section-tint: 0; }
+.hero-terminal-shell { border-bottom: 0; }
+.hero-terminal-shell::before, .hero-terminal-shell::after {
+  -webkit-mask-image: linear-gradient(#000 74%, transparent 100%);
+  mask-image: linear-gradient(#000 74%, transparent 100%);
+}
+.site-footer { border-top: 0; }
 .mobile-menu-toggle { display: none; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
@@ -15,8 +32,7 @@ main > .section-rule { padding-block: var(--review-section-space); }
 .evidence-bar-tasks { --bar-height: 76%; animation-delay: 180ms; }
 
 /* Short service introductions; the original prose lives in accessible dialogs. */
-.services-compact-intro { margin: 0 0 2rem; color: var(--text); font-size: clamp(1rem, 1.45vw, 1.35rem); line-height: 1.6; text-align: center; }
-.services-compact-intro span { color: var(--muted); }
+.services-compact-intro { max-width: none; margin: 0 0 clamp(2rem, 3.5vw, 3.5rem); color: var(--text); font-size: var(--reference-title-size, clamp(1rem, 2.5vw, 2.5rem)); font-weight: 570; letter-spacing: -.055em; line-height: 1.12; text-align: center; text-wrap: balance; }
 .service-grid.service-grid-compact { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; border: 0; }
 .service-grid-compact .service-card { display: flex; flex-direction: column; grid-column: auto; gap: 0; min-width: 0; min-height: 0; padding: clamp(1.5rem, 2.5vw, 2.5rem); border: 1px solid var(--line); border-radius: 1.25rem; transition: border-color 180ms ease; }
 .service-grid-compact .card-icon { width: 2rem; height: 2rem; margin-bottom: 1.5rem; }
@@ -134,6 +150,14 @@ main > .section-rule { padding-block: var(--review-section-space); }
 
 /* Live, resolution-independent content sits inside the generated blank monitor. */
 .hero-monitor { container-type: inline-size; }
+/* Confirmed monitor export: 130% at 1613 × 1168. Mobile retains its own layout.
+   The runtime only reduces this scale if a narrower desktop needs clearance. */
+@media (min-width: 761px) {
+  .hero-monitor {
+    transform: scale(var(--hero-monitor-scale, 1.3));
+    transform-origin: center bottom;
+  }
+}
 .hero-monitor > img { filter: none; }
 .hero-monitor .hero-monitor-screen {
   inset: 6.94% 7.68% auto 7.62%;
@@ -148,28 +172,6 @@ main > .section-rule { padding-block: var(--review-section-space); }
   background: radial-gradient(ellipse at 90% 0, #20132d, transparent 65%), #0b0a10;
 }
 .hero-monitor-screen::before { display: none; }
-.monitor-toolbar { display: flex; align-items: center; justify-content: space-between; color: #cdc4d5; }
-.monitor-brand { display: flex; align-items: center; gap: 1.8cqw; font-size: 2cqw; font-weight: 800; }
-.monitor-brand b { color: #a99db3; font-size: 1.4cqw; font-weight: 500; letter-spacing: .14em; }
-.monitor-toolbar-mark { display: flex; gap: .6cqw; }
-.monitor-toolbar-mark i { width: .55cqw; height: .55cqw; background: #95829f; border-radius: 50%; }
-.monitor-heading { margin: 2.1cqw 0 2.2cqw; font-size: 3.3cqw; font-weight: 600; line-height: 1.15; letter-spacing: -.03em; }
-.monitor-heading em { color: #d799ff; font-family: Georgia, serif; font-weight: 400; }
-.hero-monitor-screen ul { flex: 1; min-height: 0; grid-template-rows: repeat(5, minmax(0, 1fr)); gap: .55cqw; }
-.hero-monitor-screen li {
-  grid-template-columns: 3.5cqw minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1.6cqw;
-  padding: .65cqw 1.2cqw;
-  border: 1px solid rgba(255,255,255,.055);
-  border-radius: .9cqw;
-  background: rgba(255,255,255,.025);
-}
-.hero-monitor-screen li:first-child { background: rgba(180,76,255,.12); border-color: rgba(180,76,255,.22); }
-.hero-monitor-screen li:last-child { border-bottom: 1px solid rgba(255,255,255,.055); }
-.hero-monitor-screen li svg { width: 3.2cqw; height: 3.2cqw; fill: none; stroke: #caa9df; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.hero-monitor-screen li > strong { font-size: 2.55cqw; font-weight: 550; line-height: 1.2; letter-spacing: -.015em; overflow-wrap: normal; text-shadow: none; }
-.hero-monitor-screen li > span { color: #8f809b; font-size: 1.55cqw; letter-spacing: .05em; }
 
 /* A spacious local network: fixed stations, quiet tracks, sequential one-way signals. */
 .local-security-visual { --local-glow-room: clamp(3rem, 5vw, 6rem); margin-top: calc(var(--local-glow-room) + 1.5rem); }
@@ -263,10 +265,9 @@ main > .section-rule { padding-block: var(--review-section-space); }
 .view-people-layout .view-copy { columns: 1; min-width: 0; }
 .view-copy p { font-size: clamp(.94rem, 1.05vw, 1.07rem); line-height: 1.75; }
 .view-copy p:last-child { margin-bottom: 0; color: var(--text); }
-.portrait-placeholder { min-width: 0; margin: 0; }
-.portrait-placeholder-frame { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; aspect-ratio: 3 / 4; border: 1px solid rgba(255,255,255,.14); border-radius: 1rem; background: #060607; color: #78727e; }
-.portrait-placeholder-frame svg { width: 30%; max-width: 5rem; fill: none; stroke: #4c4652; stroke-width: 1; }
-.portrait-placeholder-frame > span { font-size: .72rem; letter-spacing: .08em; }
+.team-portrait { min-width: 0; margin: 0; }
+.team-portrait-frame { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border: 1px solid var(--line); border-radius: 1rem; background: #060607; }
+.team-portrait-frame img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
 
 /* Readable text blocks remain in flow on tablets: no hanging pieces over copy. */
 @media (max-width: 1100px) {
@@ -276,7 +277,7 @@ main > .section-rule { padding-block: var(--review-section-space); }
   .strategy-learning-path { position: relative; inset: auto; grid-column: 1 / -1; gap: 1rem; }
   .strategy-learning-path article { min-height: 0; }
   .strategy-addon-block p, .strategy-learning-path p { font-size: .9rem; }
-  .local-security-stage .local-data-label { gap: .5rem; padding: .5rem .7rem; }
+  .local-security-stage .local-data-label { min-height: max(6.5%, 2.5rem); gap: .5rem; padding: .5rem .7rem; }
   .local-data-label svg { width: 1.3rem; height: 1.3rem; }
   .view-people-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr); gap: 1.3rem; }
 }
@@ -297,8 +298,7 @@ main > .section-rule { padding-block: var(--review-section-space); }
   .service-grid-compact .card-icon { margin-bottom: 1rem; }
   .service-grid-compact h3 { min-height: 0; max-width: 24ch; }
   .service-grid-compact .service-summary { max-width: none; margin-block: .75rem 1rem; }
-  .services-compact-intro { text-align: left; margin-bottom: 1.5rem; }
-  .services-compact-intro span { display: block; }
+  .services-compact-intro { font-size: clamp(1.8rem, 7vw, 2.7rem); margin-bottom: 2rem; }
   #economics-title, #economics-title > span { white-space: normal; }
   #economics-title { font-size: clamp(1.8rem, 7vw, 2.7rem); line-height: 1.12; }
   .business-grid.business-progress { --step-symbol-size: 6.2rem; --step-gap: .75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 1.5rem; padding-left: 0; }
@@ -373,10 +373,9 @@ main > .section-rule { padding-block: var(--review-section-space); }
   .view-heading h2 { font-size: clamp(1.8rem, 7.2vw, 2.7rem); }
   .view-people-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .view-people-layout .view-copy { grid-column: 1 / -1; grid-row: 2; margin-top: 1rem; }
-  .portrait-placeholder:first-child { grid-column: 1; grid-row: 1; }
-  .portrait-placeholder:last-child { grid-column: 2; grid-row: 1; }
-  .portrait-placeholder-frame { max-height: 16rem; }
-  .portrait-placeholder-frame > span { font-size: .65rem; }
+  .team-portrait:first-child { grid-column: 1; grid-row: 1; }
+  .team-portrait:last-child { grid-column: 2; grid-row: 1; }
+  .team-portrait-frame { max-width: 12rem; margin-inline: auto; }
   .view-copy p { font-size: .95rem; }
 }
 

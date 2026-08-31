@@ -1,0 +1,145 @@
+/* Full-width tonal chapters; their content rails keep the approved widths.
+   No transformed/isolated section wrappers: fixed dialogs keep the viewport. */
+:root { --review-section-space: clamp(3.5rem, 6vw, 6rem); }
+main > .section-rule {
+  --section-frame: min(100%, var(--max-width));
+  --chapter-color: var(--bg);
+  --chapter-glow: .018;
+  --chapter-pattern: linear-gradient(transparent, transparent);
+  width: 100%;
+  padding-inline: calc((100% - var(--section-frame)) / 2 + var(--page-padding));
+  border: 0;
+  background-color: var(--chapter-color);
+  background-image:
+    linear-gradient(var(--bg), transparent 18%, transparent 82%, var(--bg)),
+    radial-gradient(ellipse 65% 55% at 50% 48%, rgba(var(--accent-rgb), var(--chapter-glow)), transparent 100%),
+    var(--chapter-pattern);
+  background-size: 100% 100%, 100% 100%, 28px 28px;
+  background-repeat: no-repeat, no-repeat, repeat;
+}
+main > #leistungen { --chapter-color: #141317; --chapter-glow: .012; }
+main > #wirtschaftlichkeit { --chapter-color: #0c0b11; --chapter-glow: .025; }
+main > #anwendungsbeispiele { --chapter-color: #0d1017; --chapter-glow: .012; }
+main > #moderne-ki {
+  --chapter-color: #100d16;
+  --chapter-glow: .024;
+  --chapter-pattern: radial-gradient(circle, rgba(var(--accent-rgb), .035) .65px, transparent .85px);
+}
+main > #unsere-sicht { --chapter-color: #121014; --chapter-glow: .008; }
+main > #lokale-ki, main > #kontakt, main > #strategie { --chapter-glow: 0; }
+
+/* Light mode has the same quiet distinctions, without dark bands. */
+:root[data-theme="light"] main > #leistungen { --chapter-color: #fff; }
+:root[data-theme="light"] main > #wirtschaftlichkeit { --chapter-color: #f6f3f9; }
+:root[data-theme="light"] main > #anwendungsbeispiele { --chapter-color: #edf1f6; }
+:root[data-theme="light"] main > #moderne-ki { --chapter-color: #eee8f5; }
+:root[data-theme="light"] main > #unsere-sicht { --chapter-color: #f8f5f5; }
+
+/* The brief transition into the construction panel replaces a large empty gap. */
+main > #wirtschaftlichkeit { padding-bottom: clamp(1.25rem, 2vw, 2rem); }
+main > #strategie { padding-top: clamp(1.5rem, 2.5vw, 2.5rem); }
+.economics-bridge { border: 0; padding-block: clamp(1.25rem, 2.5vw, 2rem); }
+.business-grid.business-progress { border: 0; padding-bottom: 0; }
+.business-progress .business-step:not(:last-child)::after { opacity: 1; }
+.modern-ai-intro, .reference-intro, .section-heading-copy > .reference-intro {
+  border: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(var(--accent-rgb), .055), transparent 100%);
+}
+#anwendungsbeispiele .section-heading { display: block; }
+#anwendungsbeispiele .section-heading-copy { width: 100%; max-width: none; }
+#use-cases-title { width: 100%; max-width: none; text-align: center; text-wrap: balance; }
+
+/* Visible without the enhancement. A single controller handles all entrances. */
+.evidence-bar { opacity: 1; transform: none; }
+.evidence-bar:hover, .evidence-bar:focus-visible { transform: translateY(-.2rem); }
+.evidence-portal-chart.is-visible .evidence-bar { animation: none; }
+.evidence-team-copy { opacity: 1; transform: none; transition: none; }
+.system-fusion .fusion-link i { opacity: 0; }
+/* Read the diagram as a short sequence: software → first signal → AI →
+   second signal → system. The narrow layout follows the same order vertically. */
+.system-fusion.is-animated.is-visible .fusion-software {
+  animation: fusion-step-enter 360ms ease-out both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-first {
+  animation: fusion-fade-in 160ms ease 220ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-first span {
+  animation: fusion-beam-grow 440ms ease 220ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-first i {
+  animation: fusion-beam-travel 440ms ease-in-out 220ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-ai {
+  animation: fusion-step-enter 360ms ease-out 660ms both;
+}
+.system-fusion.is-animated.is-visible .ai-chat-mark {
+  animation: fusion-chat-pulse 440ms ease 660ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-second {
+  animation: fusion-fade-in 160ms ease 880ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-second span {
+  animation: fusion-beam-grow 440ms ease 880ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-link-second i {
+  animation: fusion-beam-travel 440ms ease-in-out 880ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-system {
+  animation: fusion-step-enter 440ms ease-out 1320ms both;
+}
+.system-fusion.is-animated.is-visible .fusion-caption {
+  animation: fusion-fade-in 300ms ease 1760ms both;
+}
+@keyframes fusion-step-enter {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+.ai-topic-node { animation: none; margin-top: 0; }
+.use-case-bubble.is-revealing { animation-duration: 440ms; }
+@keyframes use-case-reveal {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Decorative motion is slow and only runs in the viewport. */
+.system-fusion.is-in-view .system-orbit-one { animation: fusion-orbit 60s linear infinite; }
+.system-fusion.is-in-view .system-orbit-two { animation: fusion-orbit-reverse 72s linear infinite; }
+.system-fusion.is-in-view .system-orbit-three { animation: fusion-orbit 54s linear infinite; }
+.ai-topic-network path { animation-duration: 10s; }
+.ai-topic-network path:nth-child(2n) { animation-duration: 12s; }
+.ai-topic-explorer:not(.is-in-view) .ai-topic-network path,
+.evidence-portal-chart:not(.is-in-view) .evidence-floor-portal > span,
+.strategy-panel:not(.is-in-view) *, .strategy-panel:not(.is-in-view) *::before,
+.strategy-panel:not(.is-in-view) *::after,
+.hero-terminal-shell:not(.is-in-view)::before, .hero-terminal-shell:not(.is-in-view)::after {
+  animation-play-state: paused;
+}
+.page-motion-paused *, .page-motion-paused *::before, .page-motion-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* No CSS transform here: chat centering and the fixed local-AI geometry remain
+   untouched. WAAPI's separate translate/scale properties are transient. */
+:root .scroll-reveal-pending { opacity: 0; }
+
+@media (min-width: 1600px) {
+  main > .section-rule { --section-frame: min(92%, 120rem); }
+}
+@media (max-width: 760px) {
+  :root { --review-section-space: 3rem; }
+  main > .section-rule { padding-inline: max(1rem, env(safe-area-inset-left)); }
+  main > #wirtschaftlichkeit { padding-bottom: 1rem; }
+  main > #strategie { padding-top: 1.25rem; }
+  .system-fusion.is-animated.is-visible .fusion-link-first span,
+  .system-fusion.is-animated.is-visible .fusion-link-second span { animation-name: fusion-beam-grow-vertical; }
+  .system-fusion.is-animated.is-visible .fusion-link-first i,
+  .system-fusion.is-animated.is-visible .fusion-link-second i { animation-name: fusion-beam-travel-vertical; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html, html *, html *::before, html *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+  :root .scroll-reveal-pending { opacity: 1 !important; }
+}

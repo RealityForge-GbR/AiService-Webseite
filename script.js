@@ -25,11 +25,8 @@ const heroTitle = document.querySelector('#hero-title');
 const heroTitleCopy = document.querySelector('.hero-main-title-copy');
 const heroTerminalShell = document.querySelector('.hero-terminal-shell');
 const heroCopy = document.querySelector('.hero-copy');
-const heroIntro = document.querySelector('.hero-intro');
-const heroMonitor = document.querySelector('.hero-monitor');
 const economicsTitle = document.querySelector('#economics-title');
 const economicsTitleCopy = economicsTitle?.querySelector('span');
-const evidenceShowcase = document.querySelector('.evidence-showcase');
 const evidenceChart = document.querySelector('[data-evidence-chart]');
 const evidenceTriggers = [...document.querySelectorAll('[data-evidence-trigger]')];
 const evidenceModal = document.querySelector('[data-evidence-modal]');
@@ -37,8 +34,6 @@ const evidenceDialog = evidenceModal?.querySelector('.use-case-dialog');
 const evidenceModalTitle = document.querySelector('[data-evidence-modal-title]');
 const evidenceModalBody = document.querySelector('[data-evidence-modal-body]');
 const evidenceCloseButtons = [...document.querySelectorAll('[data-evidence-close]')];
-const evidenceTeamType = document.querySelector('[data-evidence-team-type]');
-const evidenceTeamCopy = document.querySelector('[data-evidence-team-copy]');
 const businessProgress = document.querySelector('[data-business-progress]');
 const businessStepTriggers = [...document.querySelectorAll('[data-business-step]')];
 const businessStepModal = document.querySelector('[data-business-step-modal]');
@@ -59,7 +54,6 @@ let aiTypingDelayTimer;
 let activeAiTyping;
 let evidenceModalTimer;
 let lastEvidenceTrigger;
-let evidenceTypingTimer;
 let businessStepModalTimer;
 let lastBusinessStepTrigger;
 
@@ -90,9 +84,11 @@ function fitEconomicsTitle() {
   if (!economicsTitle || !economicsTitleCopy) return;
   if (window.innerWidth <= 760) {
     economicsTitle.style.removeProperty('font-size');
+    document.querySelector('#services-overview-title')?.style.removeProperty('--reference-title-size');
     return;
   }
   fitSingleLine(economicsTitle, economicsTitleCopy, economicsTitle.parentElement.getBoundingClientRect().width);
+  document.querySelector('#services-overview-title')?.style.setProperty('--reference-title-size', getComputedStyle(economicsTitle).fontSize);
 }
 
 function fitViewTitle() {
@@ -115,7 +111,8 @@ document.querySelectorAll('.local-network-impulses use').forEach((signal) => {
   signal.style.setProperty('--flow-end', `${-length}`);
   signal.style.setProperty('--flow-gap', `${length + 48}`);
 });
-const activeDiagrams = [businessProgress, secureNetwork].filter(Boolean);
+const activeDiagrams = [businessProgress, secureNetwork, systemFusion, aiTopicExplorer, evidenceChart,
+  heroTerminalShell, document.querySelector('.strategy-panel')].filter(Boolean);
 if ('IntersectionObserver' in window) {
   const motionObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => entry.target.classList.toggle('is-in-view', entry.isIntersecting));
@@ -159,69 +156,21 @@ if (heroWordmark && wordmarkSettings) {
     heroWordmark.config = wordmarkSettings;
 
     const syncHeroTitleWidth = () => {
-      if (!heroTitle || !heroTitleCopy || !heroWordmark.textHi || !heroWordmark.textB) return;
-
-      if (heroTerminalShell && window.innerWidth > 760) {
-        heroTerminalShell.style.setProperty('--hero-wordmark-balance-shift', '0px');
-        heroCopy?.style.setProperty('--hero-copy-vertical-shift', '0px');
-      }
-
-      const realityBounds = heroWordmark.textHi.getBoundingClientRect();
-      const forgeBounds = heroWordmark.textB.getBoundingClientRect();
-      const wordmarkWidth = forgeBounds.right - realityBounds.left;
-
-      if (Number.isFinite(wordmarkWidth) && wordmarkWidth > 0) {
-        const isMobile = window.innerWidth <= 760;
-        const contentWidth = isMobile && heroCopy ? heroCopy.getBoundingClientRect().width : wordmarkWidth;
-
-        // On mobile the content rail sets the width, not the SVG's empty side margins.
-        if (isMobile) {
-          const logoWidth = heroWordmark.getBoundingClientRect().width;
-          const fittedLogoWidth = Math.round(logoWidth * contentWidth / wordmarkWidth * 100) / 100;
-          const previousWidth = parseFloat(heroWordmark.style.getPropertyValue('--hero-mobile-wordmark-width')) || 0;
-          if (Math.abs(fittedLogoWidth - previousWidth) > 0.1) {
-            heroWordmark.style.setProperty('--hero-mobile-wordmark-width', `${fittedLogoWidth}px`);
-          }
-        }
-
-        heroTitle.style.setProperty('--hero-title-width', `${contentWidth}px`);
-        heroTerminalShell?.style.setProperty('--hero-content-width', `${contentWidth}px`);
-        heroTerminalShell?.style.setProperty('--hero-content-half-width', `${contentWidth / 2}px`);
-        fitSingleLine(heroTitle, heroTitleCopy, contentWidth);
-
-        if (heroTerminalShell && window.innerWidth > 760) {
-          const titleBounds = heroTitle.getBoundingClientRect();
-          const shellBounds = heroTerminalShell.getBoundingClientRect();
-          const copyBounds = heroCopy?.getBoundingClientRect();
-          const logoTop = Math.min(realityBounds.top, forgeBounds.top);
-          const logoBottom = Math.max(realityBounds.bottom, forgeBounds.bottom);
-          const topGap = logoTop + window.scrollY;
-          const titleGap = titleBounds.top - logoBottom;
-          const unclampedShift = (titleGap - topGap) / 2;
-          const balanceShift = Math.max(shellBounds.top - logoTop, unclampedShift);
-
-          if (Number.isFinite(balanceShift)) {
-            heroTerminalShell.style.setProperty('--hero-wordmark-balance-shift', `${balanceShift}px`);
-          }
-
-          if (copyBounds) {
-            const copyAlignOffset = Math.max(0, titleBounds.left - copyBounds.left);
-
-            if (Number.isFinite(copyAlignOffset)) {
-              heroCopy.style.setProperty('--hero-copy-align-offset', `${copyAlignOffset}px`);
-            }
-          }
-
-          const introBounds = heroIntro?.getBoundingClientRect();
-          const monitorBounds = heroMonitor?.getBoundingClientRect();
-
-          if (introBounds && monitorBounds) {
-            const copyVerticalShift = monitorBounds.top - introBounds.top;
-
-            if (Number.isFinite(copyVerticalShift)) {
-              heroCopy.style.setProperty('--hero-copy-vertical-shift', `${copyVerticalShift}px`);
-            }
-          }
+      if (!heroTitle || !heroTitleCopy || !heroCopy) return;
+      const rail = heroCopy.getBoundingClientRect();
+      if (!Number.isFinite(rail.width) || rail.width <= 0) return;
+      window.RealityForgeHeroLayout?.alignWordmark(heroWordmark, rail);
+      heroTerminalShell?.style.setProperty('--hero-content-width', `${rail.width}px`);
+      heroTerminalShell?.style.setProperty('--hero-content-half-width', `${rail.width / 2}px`);
+      heroTitle.classList.remove('hero-title-wrap');
+      if (window.innerWidth <= 760) {
+        heroTitle.style.removeProperty('font-size');
+      } else {
+        fitSingleLine(heroTitle, heroTitleCopy, rail.width);
+        const readableMinimum = (parseFloat(getComputedStyle(root).fontSize) || 16) * 1.5;
+        if (parseFloat(heroTitle.style.fontSize) < readableMinimum) {
+          heroTitle.classList.add('hero-title-wrap');
+          heroTitle.style.removeProperty('font-size');
         }
       }
     };
@@ -231,8 +180,10 @@ if (heroWordmark && wordmarkSettings) {
       : null;
 
     titleWidthObserver?.observe(heroWordmark);
+    if (heroCopy) titleWidthObserver?.observe(heroCopy);
     window.addEventListener('resize', syncHeroTitleWidth);
     document.fonts?.ready.then(syncHeroTitleWidth);
+    document.fonts?.addEventListener('loadingdone', syncHeroTitleWidth);
     requestAnimationFrame(syncHeroTitleWidth);
 
     requestAnimationFrame(() => {
@@ -249,49 +200,6 @@ if (heroWordmark && wordmarkSettings) {
 document.fonts?.ready.then(fitEconomicsTitle);
 requestAnimationFrame(fitEconomicsTitle);
 window.addEventListener('resize', fitEconomicsTitle);
-
-function revealEvidenceTeam() {
-  if (!evidenceTeamType || !evidenceTeamCopy) return;
-  const fullText = evidenceTeamType.dataset.text || '';
-
-  if (reduceMotion.matches) {
-    evidenceTeamType.textContent = fullText;
-    evidenceTeamType.classList.remove('is-typing');
-    evidenceTeamCopy.classList.add('is-visible');
-    return;
-  }
-
-  let characterIndex = 0;
-  evidenceTeamType.classList.add('is-typing');
-  window.setTimeout(() => evidenceTeamCopy.classList.add('is-visible'), 360);
-  evidenceTypingTimer = window.setInterval(() => {
-    characterIndex += 1;
-    evidenceTeamType.textContent = fullText.slice(0, characterIndex);
-
-    if (characterIndex < fullText.length) return;
-    window.clearInterval(evidenceTypingTimer);
-    evidenceTypingTimer = undefined;
-    evidenceTeamType.classList.remove('is-typing');
-  }, 50);
-}
-
-function revealEvidenceShowcase() {
-  evidenceChart?.classList.add('is-visible');
-  revealEvidenceTeam();
-}
-
-if (evidenceShowcase) {
-  if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-    revealEvidenceShowcase();
-  } else {
-    const evidenceShowcaseObserver = new IntersectionObserver((entries, observer) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      revealEvidenceShowcase();
-      observer.disconnect();
-    }, { threshold: 0.12, rootMargin: '0px 0px 14% 0px' });
-    evidenceShowcaseObserver.observe(evidenceShowcase);
-  }
-}
 
 function openEvidenceModal(trigger) {
   if (!evidenceModal || !evidenceDialog || !evidenceModalTitle || !evidenceModalBody) return;
@@ -350,19 +258,6 @@ document.addEventListener('keydown', (event) => {
     first.focus();
   }
 });
-
-if (businessProgress) {
-  if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-    businessProgress.classList.add('is-visible');
-  } else {
-    const businessProgressObserver = new IntersectionObserver((entries, observer) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      businessProgress.classList.add('is-visible');
-      observer.disconnect();
-    }, { threshold: 0.22, rootMargin: '0px 0px -4% 0px' });
-    businessProgressObserver.observe(businessProgress);
-  }
-}
 
 function openBusinessStepModal(trigger) {
   if (!businessStepModal || !businessStepDialog || !businessStepModalTitle || !businessStepModalBody) return;
@@ -427,38 +322,6 @@ document.addEventListener('keydown', (event) => {
     first.focus();
   }
 });
-
-if (systemFusion && !reduceMotion.matches && 'IntersectionObserver' in window) {
-  systemFusion.classList.add('is-animated');
-
-  const fusionObserver = new IntersectionObserver((entries, observer) => {
-    if (!entries.some((entry) => entry.isIntersecting)) return;
-
-    systemFusion.classList.add('is-visible');
-    observer.disconnect();
-  }, {
-    threshold: 0.3,
-    rootMargin: '0px 0px -10%'
-  });
-
-  fusionObserver.observe(systemFusion);
-}
-
-if (secureNetwork && !reduceMotion.matches && 'IntersectionObserver' in window) {
-  secureNetwork.classList.add('is-animated');
-
-  const secureNetworkObserver = new IntersectionObserver((entries, observer) => {
-    if (!entries.some((entry) => entry.isIntersecting)) return;
-
-    secureNetwork.classList.add('is-visible');
-    observer.disconnect();
-  }, {
-    threshold: 0.25,
-    rootMargin: '0px 0px -8%'
-  });
-
-  secureNetworkObserver.observe(secureNetwork);
-}
 
 if (localAiDialog && localAiDialogOpen && localAiDialogClose) {
   localAiDialogOpen.addEventListener('click', () => {
@@ -588,12 +451,14 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
 }
 
 let strategyLiftFrame;
+let strategyLiftProgress = 0;
 
 function updateStrategyLift() {
   strategyLiftFrame = undefined;
   if (!strategySite || !strategyLiftedBlock) return;
 
   if (reduceMotion.matches || window.innerWidth <= 1100) {
+    strategyLiftProgress = 1;
     strategyLiftedBlock.style.setProperty('--strategy-lift-y', '0px');
     strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '19rem' : '10.75rem');
     strategyLiftedBlock.classList.add('is-landed');
@@ -601,13 +466,13 @@ function updateStrategyLift() {
   }
 
   const panelBounds = strategySite.closest('.strategy-panel')?.getBoundingClientRect() || strategySite.getBoundingClientRect();
-  const compactLayout = window.innerWidth <= 760;
-  const travel = compactLayout ? 44 : 144;
-  const loweringDistance = compactLayout ? window.innerHeight * 0.7 : window.innerHeight * 0.4;
-  const startLine = window.innerHeight * 0.11;
-  const progress = Math.min(1, Math.max(0, (startLine - panelBounds.top) / loweringDistance));
+  const travel = 80;
+  const loweringDistance = window.innerHeight * 0.35;
+  const startLine = window.innerHeight * 0.42;
+  const progress = Math.max(strategyLiftProgress, Math.min(1, Math.max(0, (startLine - panelBounds.top) / loweringDistance)));
+  strategyLiftProgress = progress;
   const liftY = -travel + (progress * travel);
-  const cableBase = compactLayout ? 258 : 28;
+  const cableBase = 92; // Same final 172px cable; a shorter, once-only lowering.
   const cableHeight = cableBase + (progress * travel);
   strategyLiftedBlock.style.setProperty('--strategy-lift-y', `${liftY.toFixed(1)}px`);
   strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', `${cableHeight.toFixed(1)}px`);
@@ -620,7 +485,9 @@ function requestStrategyLiftUpdate() {
 }
 
 if (strategySite && strategyLiftedBlock) {
-  window.addEventListener('scroll', requestStrategyLiftUpdate, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (strategyLiftProgress < 1) requestStrategyLiftUpdate();
+  }, { passive: true });
   window.addEventListener('resize', requestStrategyLiftUpdate);
   reduceMotion.addEventListener?.('change', requestStrategyLiftUpdate);
   requestStrategyLiftUpdate();

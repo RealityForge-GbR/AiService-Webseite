@@ -1941,6 +1941,7 @@ reality-forge-logo:defined > .logo-static-fallback {
 
   .hero-main-title {
     grid-row: 4;
+    transform: translateY(var(--hero-title-balance-shift, -2rem));
   }
 
   .hero-copy {
@@ -2982,21 +2983,13 @@ reality-forge-logo:defined > .logo-static-fallback {
   display: none;
 }
 
-.strategy-addon-block small {
+.strategy-addon-block h3 {
   display: block;
-  margin-bottom: 0.7rem;
-  color: var(--accent-soft);
-  font-family: Consolas, "SFMono-Regular", monospace;
-  font-size: 0.61rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.strategy-addon-block strong {
-  display: block;
-  margin-bottom: 0.65rem;
+  max-width: none;
+  margin: 0 0 0.65rem;
   color: var(--text);
   font-size: clamp(1.15rem, 1.65vw, 1.55rem);
+  font-weight: 700;
   line-height: 1.08;
 }
 
@@ -6084,7 +6077,7 @@ reality-forge-logo:defined > .logo-static-fallback {
     bottom: 42.25rem;
   }
 
-  .strategy-addon-block strong {
+  .strategy-addon-block h3 {
     font-size: 1.15rem;
   }
 

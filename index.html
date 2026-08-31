@@ -16,13 +16,21 @@
     <meta property="og:locale" content="de_DE">
     <title>KI-Beratung &amp; lokale KI in Berlin | RealityForge</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23f4f1f8'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='20' fill='%2309080d'%3ERF%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css?v=rf-wordmark-28">
-    <link rel="stylesheet" href="refinements.css?v=rf-review-3">
+    <link rel="stylesheet" href="styles.css?v=rf-wordmark-30">
+    <link rel="stylesheet" href="refinements.css?v=rf-review-7">
+    <link rel="stylesheet" href="page-motion.css?v=2">
+    <link rel="stylesheet" href="monitor-services.css?v=6">
+    <link rel="stylesheet" href="hero-copy-layout.css?v=6">
     <link rel="stylesheet" href="https://use.typekit.net/gfg1nhn.css">
     <!-- Adobe Fonts: family assignments for the temporary and final logo faces live in assets/reality-forge-logo-config.js. -->
     <script src="assets/reality-forge-logo-config.js?v=rf-wordmark-8" defer></script>
     <script src="assets/reality-forge-logo.js?v=rf-wordmark-9" defer></script>
-    <script src="script.js?v=rf-review-2" defer></script>
+    <script src="hero-layout.js?v=3" defer></script>
+    <script src="script.js?v=rf-review-9" defer></script>
+    <script src="scroll-reveals.js?v=2" defer></script>
+    <script src="assets/local-ai-layout-config.js?v=2" defer></script>
+    <script src="local-ai-layout-core.js?v=2" defer></script>
+    <script src="local-ai-layout.js?v=1" defer></script>
     <script>
       (() => {
         const root = document.documentElement;
@@ -108,7 +116,7 @@
     </header>
 
     <main id="main">
-      <div class="hero-terminal-shell">
+      <div class="hero-terminal-shell hero-unified">
         <section class="wordmark-hero section-shell" aria-label="RealityForge">
           <div class="hero-wordmark-stage">
             <reality-forge-logo id="hero-wordmark" aria-label="RealityForge">
@@ -120,21 +128,31 @@
 
         <section class="hero section-shell" aria-labelledby="hero-title">
           <div class="hero-copy">
-            <p class="hero-intro">RealityForge entwickelt KI-Lösungen für Unternehmen: von der Automatisierung dokumentenintensiver Prozesse über die Integration vorhandener KI-Agenten bis zu lokalen Sprachmodellen auf eigener Hardware.</p>
-            <div class="hero-monitor-space">
-              <div class="hero-monitor" role="group" aria-label="Leistungsübersicht auf einem modernen Monitor">
-                <img src="assets/modern-monitor-v2.png" width="1536" height="1024" alt="" aria-hidden="true" fetchpriority="high">
-                <div class="hero-monitor-screen">
-                  <div class="monitor-toolbar"><span class="monitor-brand">RF <b>SYSTEMÜBERSICHT</b></span><span class="monitor-toolbar-mark" aria-hidden="true"><i></i><i></i><i></i></span></div>
-                  <p class="monitor-heading">Von der Idee zum <em>System.</em></p>
-                  <ul>
-                    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 11h6l-1 7 9-12h-7Z"></path></svg><strong>KI-Anwendungen &amp; Automatisierung</strong><span>01</span></li>
-                    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="6" height="6" rx="1"></rect><rect x="15" y="14" width="6" height="6" rx="1"></rect><path d="M9 7h5a4 4 0 0 1 4 4v3M15 17h-5a4 4 0 0 1-4-4v-3"></path></svg><strong>KI-Agenten &amp; Integration</strong><span>02</span></li>
-                    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M5 12h14M8 7h4M8 16h4M16 7h.01M16 16h.01"></path></svg><strong>Lokale KI &amp; On-Premises</strong><span>03</span></li>
-                    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5ZM14 3v5h5M9 12h6M9 16h6"></path></svg><strong>Dokumente &amp; Datenanalyse</strong><span>04</span></li>
-                    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2"></circle></svg><strong>Prozessanalyse vor Ort</strong><span>05</span></li>
+            <div class="hero-server-stage">
+              <div class="hero-server-rack hero-server-rack-left" aria-hidden="true">
+                <img src="assets/hero-server-left-v2.png" width="793" height="1983" alt="" decoding="async" draggable="false">
+              </div>
+              <div class="hero-system-screen" role="group" aria-labelledby="monitor-services-label">
+                <div class="monitor-services">
+                  <p class="monitor-services-label" id="monitor-services-label">Unsere Leistungen</p>
+                  <ul class="monitor-service-list" role="list" aria-labelledby="monitor-services-label">
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h10v13H4zM7 9h4M7 12h4M7 15h2.5"></path><circle cx="17" cy="8" r="3"></circle><path d="m19.2 10.2 2.3 2.3"></path></svg>
+                      <h2>KI-Anwendungen &amp; Automatisierung</h2>
+                    </li>
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5h17v11h-17zM8 20h8M12 16v4M7 9l2 2-2 2M11.5 13h4"></path></svg>
+                      <h2>KI-Agenten &amp; Systemintegration</h2>
+                    </li>
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h11v6H4zM4 14h11v6H4zM7 7h.01M7 17h.01"></path><rect x="14" y="11" width="7" height="8" rx="1"></rect><path d="M16 11V9.5a1.5 1.5 0 0 1 3 0V11M17.5 14v2"></path></svg>
+                      <h2>Lokale KI &amp; On-Premises AI</h2>
+                    </li>
                   </ul>
                 </div>
+              </div>
+              <div class="hero-server-rack hero-server-rack-right" aria-hidden="true">
+                <img src="assets/hero-server-right-v2.png" width="793" height="1983" alt="" decoding="async" draggable="false">
               </div>
             </div>
             <div class="hero-actions">
@@ -146,8 +164,7 @@
       </div>
 
       <section class="services section-shell section-rule" id="leistungen" aria-labelledby="services-overview-title">
-        <h2 class="visually-hidden" id="services-overview-title">Leistungen</h2>
-        <p class="services-compact-intro">Potenzial erkennen. Passende KI umsetzen. <span>In Berlin und Umgebung auch direkt vor Ort.</span></p>
+        <h2 class="services-compact-intro" id="services-overview-title">Potenzial erkennen. Passende KI umsetzen.</h2>
         <div class="service-grid service-grid-compact">
           <article class="service-card">
             <svg class="line-icon card-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h10v13H4zM7 9h4M7 12h4M7 15h2.5"></path><circle cx="17" cy="8" r="3"></circle><path d="m19.2 10.2 2.3 2.3"></path></svg>
@@ -162,7 +179,7 @@
           </article>
           <article class="service-card">
             <svg class="line-icon card-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h11v6H4zM4 14h11v6H4zM7 7h.01M7 17h.01"></path><rect x="14" y="11" width="7" height="8" rx="1"></rect><path d="M16 11V9.5a1.5 1.5 0 0 1 3 0V11M17.5 14v2"></path></svg>
-            <h3><button class="service-card-trigger" type="button" data-service-trigger aria-haspopup="dialog" aria-controls="use-case-dialog" aria-describedby="service-local-summary"><span>Lokale KI &amp; On-Premises AI</span></button></h3>
+            <h3><button class="service-card-trigger" type="button" data-service-trigger aria-haspopup="dialog" aria-controls="use-case-dialog" aria-describedby="service-local-summary"><span>Lokale KI &amp; <br>On-Premises AI</span></button></h3>
             <p id="service-local-summary" class="service-summary">KI auf eigener Hardware. Vertrauliche Informationen bleiben im Unternehmen.</p>
             <span class="service-card-more" aria-hidden="true">Mehr erfahren <i>↗</i></span>
             <div class="use-case-details service-details" hidden>
@@ -217,7 +234,7 @@
               <div class="evidence-terminal-chrome" aria-hidden="true">
                 <span></span><span></span><span></span>
               </div>
-              <div class="evidence-terminal-line"><span aria-hidden="true">%</span><strong data-evidence-team-type data-text="EINE FACHKRAFT MIT KI ERREICHT TEAMNIVEAU"></strong></div>
+              <div class="evidence-terminal-line"><span aria-hidden="true">%</span><strong data-evidence-team-type>EINE FACHKRAFT MIT KI ERREICHT TEAMNIVEAU</strong></div>
             </div>
             <div class="evidence-team-copy" data-evidence-team-copy>
               <p>Im Feldexperiment erreichten einzelne Fachkräfte mit generativer KI eine vergleichbare Ergebnisqualität wie klassische Zweierteams ohne KI.</p>
@@ -304,13 +321,12 @@
               <span class="crane-mast"></span><span class="crane-boom"></span><span class="crane-counterweight"></span><span class="crane-line"></span><span class="crane-hook"></span>
             </div>
             <article class="strategy-addon-block strategy-addon-fixed">
-              <small>Zusatzbaustein 01</small>
-              <strong>Erfahrung entsteht durch Anwendung.</strong>
+              <h3>Praxis schafft Erfahrung.</h3>
               <p>Technologie ist verfügbar. Der Unterschied entsteht dort, wo Teams sie auf ihre eigenen Prozesse, Daten und Qualitätsanforderungen anwenden.</p>
             </article>
             <article class="strategy-addon-block strategy-addon-lifted" data-strategy-lifted-block>
               <span class="strategy-lift-cable" aria-hidden="true"></span>
-              <small>Zusatzbaustein 02</small>
+              <h3>Früher lernen.</h3>
               <p>Wer jetzt mit echten Anwendungen beginnt, lernt früher, was im eigenen Unternehmen funktioniert. Jeder umgesetzte Schritt erweitert dieses Wissen und macht den nächsten Einsatz schneller und sicherer.</p>
             </article>
             <div class="strategy-learning-path" aria-label="Drei Schritte zum Erfahrungsvorsprung">
@@ -544,31 +560,31 @@
               <g class="local-network-impulses"><use href="#local-mobile-one" style="--flow-delay:0s"></use><use href="#local-mobile-three" style="--flow-delay:2.8s"></use><use href="#local-mobile-two" style="--flow-delay:5.6s"></use><use href="#local-mobile-four" style="--flow-delay:8.4s"></use><use href="#local-mobile-output" style="--flow-delay:11.2s"></use></g>
             </svg>
 
-            <div class="local-ai-node">
+            <div class="local-ai-node" data-layout-node="ai">
               <span class="local-ai-node-icon">
                 <svg viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" rx="4"></rect><path d="M12 3v5M20 3v5M12 24v5M20 24v5M3 12h5M3 20h5M24 12h5M24 20h5M13 15v-1a3 3 0 0 1 6 0v1"></path><rect x="12" y="15" width="8" height="6" rx="1"></rect></svg>
               </span>
               <span class="local-ai-node-copy"><strong>Lokale KI</strong><small>Auf Ihrer Hardware</small></span>
             </div>
 
-            <div class="local-data-label local-data-label-one">
+            <div class="local-data-label local-data-label-one" data-layout-node="one">
               <svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM9 7V5h6v2M4 11h16M10 14h4"></path></svg>
               <span>Mandatsdaten</span>
             </div>
-            <div class="local-data-label local-data-label-two">
+            <div class="local-data-label local-data-label-two" data-layout-node="two">
               <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"></ellipse><path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"></path></svg>
               <span>Geschäftsdaten</span>
             </div>
-            <div class="local-data-label local-data-label-three">
+            <div class="local-data-label local-data-label-three" data-layout-node="three">
               <svg viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4M13.5 5l-3 14"></path></svg>
               <span>Entwicklungs<wbr>wissen</span>
             </div>
-            <div class="local-data-label local-data-label-four">
+            <div class="local-data-label local-data-label-four" data-layout-node="four">
               <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M6.5 16c.5-1.8 1.3-2.6 2.5-2.6s2 .8 2.5 2.6M14 9h3M14 13h3M14 17h3"></path></svg>
               <span>Personaldaten</span>
             </div>
 
-            <img class="local-office-building" src="assets/local-ai-office-building-v1.png" alt="" loading="lazy" decoding="async">
+            <img class="local-office-building" data-layout-node="building" src="assets/local-ai-office-building-v1.png" width="1536" height="1024" alt="" loading="lazy" decoding="async">
           </div>
 
           <ul class="local-control-points" aria-label="Vorteile lokaler KI">
@@ -597,14 +613,14 @@
       <section class="our-view section-shell section-rule" id="unsere-sicht" aria-labelledby="view-title">
         <div class="view-heading"><h2 id="view-title"><span>Wir wissen, was moderne KI heute leisten kann.</span></h2></div>
         <div class="view-people-layout">
-        <figure class="portrait-placeholder"><div class="portrait-placeholder-frame"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="23" r="10"></circle><path d="M13 53c0-12 8-19 19-19s19 7 19 19"></path></svg><span>Porträt folgt</span></div></figure>
+        <figure class="team-portrait"><div class="team-portrait-frame"><img src="assets/patrick.png" width="3024" height="4032" alt="Patrick" loading="lazy" decoding="async"></div></figure>
         <div class="view-copy">
           <p>Die technischen Möglichkeiten von KI verändern sich derzeit außergewöhnlich schnell. Aufgaben, die vor wenigen Jahren noch erhebliche Softwareentwicklung oder große Mengen manueller Arbeit erfordert hätten, können heute mit völlig anderem Aufwand gelöst werden.</p>
           <p>Wir beschäftigen uns intensiv mit aktuellen Modellen, lokalen KI-Systemen und neuen KI-Werkzeugen. Entscheidend ist für uns der praktische Einsatz: Welche Qualität wird erreicht? Wie zuverlässig funktioniert der Prozess? Welche Infrastruktur wird benötigt? Und rechnet sich die Anwendung?</p>
           <p>Wir arbeiten dabei gerne direkt mit den Menschen, die den Prozess kennen. Denn die interessantesten Automatisierungsmöglichkeiten stehen selten in einem Organigramm. Meist kennt sie derjenige, der jeden Tag mit dem Prozess arbeitet.</p>
           <p>Genau diese Fragen beantworten wir gemeinsam mit unseren Kunden.</p>
         </div>
-        <figure class="portrait-placeholder"><div class="portrait-placeholder-frame"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="23" r="10"></circle><path d="M13 53c0-12 8-19 19-19s19 7 19 19"></path></svg><span>Porträt folgt</span></div></figure>
+        <figure class="team-portrait"><div class="team-portrait-frame"><img src="assets/evgeni.png" width="3024" height="4032" alt="Evgeni" loading="lazy" decoding="async"></div></figure>
         </div>
       </section>
 

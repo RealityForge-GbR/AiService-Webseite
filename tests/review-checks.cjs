@@ -11,6 +11,7 @@ const csstree = require(path.join(dependencyRoot, 'css-tree'));
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
+const reveals = fs.readFileSync(path.join(root, 'scroll-reveals.js'), 'utf8');
 const baseline = execFileSync('git', ['show', 'f78df52:index.html'], { cwd: root, encoding: 'utf8' });
 const document = new JSDOM(html).window.document;
 const before = new JSDOM(baseline).window.document;
@@ -37,6 +38,10 @@ assert.deepEqual(texts(document, '.service-context-detail p'), texts(before, '#l
 assert.deepEqual(texts(document, '.service-card h3'), texts(before, '.service-card h3'));
 assert.equal(document.querySelectorAll('[data-service-trigger]').length, 3);
 assert.equal(document.querySelectorAll('.service-details[hidden]').length, 3);
+assert.equal(document.querySelector('#services-overview-title').textContent, 'Potenzial erkennen. Passende KI umsetzen.');
+assert(!document.querySelector('.services-compact-intro span'));
+assert.match(document.querySelectorAll('.service-card-trigger')[1].innerHTML, /&amp;\s*<br>On-Premises AI/);
+assert.equal(document.querySelector('#economics-title').textContent, before.querySelector('#economics-title').textContent);
 for (const summary of texts(document, '.service-summary')) assert(summary.split(/\s+/).length <= 15, 'Keep the visible service summaries brief');
 assert.deepEqual(texts(document, '.evidence-bars .evidence-bar-copy > strong'), ['+17,5 %', '26 %', '50–130 %']);
 for (const key of ['accuracy', 'tasks', 'productivity']) {
@@ -45,19 +50,31 @@ for (const key of ['accuracy', 'tasks', 'productivity']) {
 assert.deepEqual(texts(document, '.view-copy p'), texts(before, '.view-copy p'), 'Retain all team section paragraphs');
 assert.deepEqual(texts(document, 'template[data-ai-response]'), texts(before, 'template[data-ai-response]'));
 assert.equal(document.querySelectorAll('#leistungen .section-context, #services-title').length, 0);
-assert.equal(document.querySelectorAll('.portrait-placeholder').length, 2);
-assert.equal(document.querySelectorAll('.portrait-placeholder figcaption').length, 0);
+assert.equal(document.querySelectorAll('.team-portrait').length, 2);
+assert.equal(document.querySelectorAll('.team-portrait figcaption, .portrait-placeholder, .monitor-toolbar, .strategy-addon-block > small').length, 0);
+assert(!document.querySelector('#unsere-sicht').textContent.includes('Porträt folgt'));
+assert.deepEqual([...document.querySelectorAll('.team-portrait img')].map(img => [img.getAttribute('src'), img.alt]), [['assets/patrick.png', 'Patrick'], ['assets/evgeni.png', 'Evgeni']], 'Patrick belongs left, Evgeni right');
+for (const img of document.querySelectorAll('.team-portrait img')) {
+  const png = fs.readFileSync(path.join(root, img.getAttribute('src')));
+  assert.equal(png.readUInt32BE(16), Number(img.width));
+  assert.equal(png.readUInt32BE(20), Number(img.height));
+  assert.equal(img.width / img.height, 3 / 4, 'Portraits fit their existing frames without cropping');
+  assert.equal(img.getAttribute('loading'), 'lazy');
+}
+assert.deepEqual(texts(document, '.strategy-addon-block h3'), ['Praxis schafft Erfahrung.', 'Früher lernen.']);
+assert.deepEqual(texts(document, '.strategy-addon-block p'), texts(before, '.strategy-addon-block p'), 'Only headings/labels change, not the explanatory copy');
 assert.equal(document.querySelectorAll('.evidence-terminal-chrome small').length, 0);
 assert.equal(document.querySelectorAll('.local-data-map animateMotion, .local-data-map circle').length, 0);
 assert.equal(document.querySelectorAll('.step-open-badge').length, 4);
-assert.equal(document.querySelectorAll('.hero-monitor-screen li').length, 5);
-for (const file of ['styles.css', 'refinements.css']) {
+assert.equal(document.querySelectorAll('.monitor-service-list > li').length, 3);
+assert.equal(document.querySelectorAll('.hero-monitor [hidden], [data-monitor-scene]').length, 0);
+for (const file of ['styles.css', 'refinements.css', 'page-motion.css', 'monitor-services.css', 'hero-copy-layout.css']) {
   const parseErrors = [];
   const ast = csstree.parse(fs.readFileSync(path.join(root, file), 'utf8'), { positions: true, parseCustomProperty: true, onParseError: (error) => parseErrors.push(error.message) });
   assert.deepEqual(parseErrors, [], `${file}: CSS parse errors`);
   csstree.walk(ast, (node) => { assert.notEqual(node.type, 'Raw', `${file}: unparsed CSS at ${node.loc?.start.line}`); });
 }
-console.log('PASS: HTML targets/assets, unchanged copy, four controls, two portrait slots, no moving dots, CSS parsing.');
+console.log('PASS: HTML/assets, unchanged paragraphs, four controls, mapped original portraits, shortened headings, removed labels, CSS parsing.');
 
 // Sample the authored SVG geometry, not a browser rendering. Reject crossings
 // and any data path entering the reserved building area before visual QA.
@@ -179,10 +196,32 @@ async function checkInteractions(width, reducedMotion) {
   window.IntersectionObserver = class {
     constructor(callback) { this.callback = callback; this.targets = []; observers.push(this); }
     observe(target) { this.targets.push(target); }
+    unobserve(target) { this.targets = this.targets.filter(item => item !== target); }
     disconnect() {}
   };
+  window.Element.prototype.animate = function() { return { cancel() {}, pause() {}, play() {} }; };
+  let strategyTop = window.innerHeight * 2;
+  doc.querySelector('.strategy-panel').getBoundingClientRect = () => ({ top: strategyTop });
   window.eval(script);
+  window.eval(reveals);
   await wait(30);
+  const lifted = doc.querySelector('[data-strategy-lifted-block]');
+  if (width > 1100 && !reducedMotion) {
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-80.0px');
+    strategyTop = window.innerHeight * .245;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-40.0px');
+    strategyTop = window.innerHeight;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-40.0px', 'Construction does not rewind when scrolling upward');
+    strategyTop = -100;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '0.0px');
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-cable-height'), '172.0px', 'Keep the original landed cable length');
+    strategyTop = window.innerHeight;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '0.0px', 'Once landed, the construction stays still');
+  } else assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '0px');
   for (const signal of doc.querySelectorAll('.local-network-impulses use')) {
     const route = doc.querySelector(signal.getAttribute('href'));
     assert.equal(Number(signal.style.getPropertyValue('--flow-end')), -route.getTotalLength());
