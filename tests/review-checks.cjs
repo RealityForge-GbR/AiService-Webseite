@@ -74,6 +74,15 @@ assert.deepEqual(texts(document, '.strategy-addon-block p'), texts(before, '.str
 assert.equal(document.querySelectorAll('.evidence-terminal-chrome small').length, 0);
 assert.equal(document.querySelectorAll('.local-data-map animateMotion, .local-data-map circle').length, 0);
 assert.equal(document.querySelectorAll('.step-open-badge').length, 4);
+const economicsMethod = document.querySelector('.economics-method-layout');
+assert(economicsMethod?.contains(document.querySelector('.economics-bridge')) && economicsMethod?.contains(document.querySelector('.business-progress')), 'Mobile economics pairs the decision text with the four-step progression');
+assert.equal(economicsMethod.children[0].className, 'economics-bridge');
+assert.equal(economicsMethod.children[1].className, 'business-grid business-progress');
+const viewportRefinements = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
+assert.match(viewportRefinements, /\.economics-method-layout \{\s*display: grid;[\s\S]*grid-template-columns: minmax\(8rem, 43%\) minmax\(0, 57%\);/s, 'Phone economics uses a two-column question/progression composition');
+assert.match(viewportRefinements, /#strategie \.strategy-crane \{[\s\S]*display: block;/s, 'The construction crane remains visible on phones');
+assert.match(viewportRefinements, /#strategie \.strategy-addon-lifted \{[\s\S]*top: 10\.4rem;[\s\S]*transform: rotate\(-\.8deg\);/s, 'The lifted construction block remains visibly offset');
+assert.match(viewportRefinements, /#strategie \.strategy-learning-path \{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/s, 'The mobile construction foundation retains its three-step row');
 assert.equal(document.querySelectorAll('.monitor-service-list > li').length, 3);
 assert.equal(document.querySelectorAll('.hero-monitor [hidden], [data-monitor-scene]').length, 0);
 for (const file of ['styles.css', 'refinements.css', 'page-motion.css', 'monitor-services.css', 'hero-copy-layout.css', 'viewport-refinements.css']) {

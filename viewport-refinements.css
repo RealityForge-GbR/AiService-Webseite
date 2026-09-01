@@ -445,3 +445,388 @@ main > #lokale-ki {
   #leistungen .service-grid-compact .service-card { padding: .78rem; }
   #leistungen .service-grid-compact h3 { font-size: clamp(.72rem, 3.55vw, .9rem); }
 }
+
+/* The wrapper is structural on wide screens so the reviewed desktop rhythm
+   remains unchanged. Phones use it to pair the decision questions with a
+   genuinely vertical four-step process. */
+.economics-method-layout { display: contents; }
+
+@media (max-width: 760px) {
+  #wirtschaftlichkeit {
+    --mobile-economics-copy-size: clamp(.79rem, 3.35vw, .86rem);
+  }
+
+  /* Keep the terminal, explanation and source together as one compact study. */
+  #wirtschaftlichkeit .evidence-showcase { gap: .45rem; }
+  #wirtschaftlichkeit .evidence-team {
+    margin-top: 0;
+    padding: .1rem 0 0;
+  }
+  #wirtschaftlichkeit .evidence-team-terminal {
+    min-height: 6.1rem;
+    border-radius: .72rem;
+  }
+  #wirtschaftlichkeit .evidence-terminal-line {
+    gap: .55rem;
+    padding: 1.05rem .9rem 1.2rem;
+  }
+  #wirtschaftlichkeit .evidence-team-terminal strong {
+    font-size: clamp(.7rem, 3vw, .8rem);
+    line-height: 1.42;
+  }
+  #wirtschaftlichkeit .evidence-team-copy {
+    margin-top: .75rem;
+    text-align: center;
+  }
+  #wirtschaftlichkeit .evidence-team-copy > p:first-child {
+    max-width: 46ch;
+    margin-inline: auto;
+    font-size: var(--mobile-economics-copy-size);
+    line-height: 1.48;
+    text-align: center;
+    text-wrap: pretty;
+  }
+  #wirtschaftlichkeit .evidence-team-copy .source-meta {
+    margin-top: .7rem;
+    padding-top: 0;
+    font-size: .55rem;
+  }
+  #wirtschaftlichkeit .evidence-team-copy .source-link {
+    align-items: center;
+    gap: .55rem;
+    margin-top: .45rem;
+    padding-top: .55rem;
+    font-size: .68rem;
+    text-align: left;
+  }
+
+  /* Draw arrows with the site's own strokes. This prevents the coloured
+     platform emoji that iOS otherwise substitutes for the glyph. */
+  #wirtschaftlichkeit .source-link > span,
+  #wirtschaftlichkeit .business-step button > small i {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    width: .82rem;
+    height: .82rem;
+    margin-left: 0;
+    overflow: hidden;
+    color: var(--accent-soft);
+    font-size: 0;
+    line-height: 0;
+  }
+  #wirtschaftlichkeit .source-link > span::before,
+  #wirtschaftlichkeit .business-step button > small i::before {
+    content: "";
+    position: absolute;
+    top: .08rem;
+    right: .08rem;
+    width: .42rem;
+    height: .42rem;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+  }
+  #wirtschaftlichkeit .source-link > span::after,
+  #wirtschaftlichkeit .business-step button > small i::after {
+    content: "";
+    position: absolute;
+    top: .39rem;
+    right: .06rem;
+    width: .72rem;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(-45deg);
+    transform-origin: right center;
+  }
+
+  .economics-method-layout {
+    display: grid;
+    grid-template-columns: minmax(8rem, 43%) minmax(0, 57%);
+    gap: .7rem;
+    align-items: center;
+    margin-top: 1.1rem;
+  }
+  #wirtschaftlichkeit .economics-bridge {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    padding: 0 0 0 .2rem;
+    border: 0;
+  }
+  #wirtschaftlichkeit .economics-bridge .reference-intro {
+    font-size: var(--mobile-economics-copy-size);
+    line-height: 1.52;
+    text-align: left;
+    text-wrap: pretty;
+  }
+  #wirtschaftlichkeit .economics-bridge strong {
+    color: var(--text);
+    font-weight: 650;
+  }
+
+  #wirtschaftlichkeit .business-grid.business-progress {
+    --step-symbol-size: 3.55rem;
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1fr);
+    align-self: center;
+    gap: .35rem;
+    padding: .2rem 0;
+  }
+  #wirtschaftlichkeit .business-progress .business-step {
+    min-height: 6.3rem;
+  }
+  #wirtschaftlichkeit .business-step > button {
+    grid-template-columns: var(--step-symbol-size) minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    column-gap: .55rem;
+    align-content: center;
+    justify-items: start;
+    min-height: 5.95rem;
+    padding: .25rem 0;
+    text-align: left;
+  }
+  #wirtschaftlichkeit .business-step-graphic {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: center;
+    width: var(--step-symbol-size);
+    height: var(--step-symbol-size);
+  }
+  #wirtschaftlichkeit .step-open-badge {
+    right: -.08rem;
+    bottom: -.05rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    box-shadow: 0 0 0 3px var(--bg);
+    font-size: .82rem;
+  }
+  #wirtschaftlichkeit .business-step-number {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin: 0;
+    font-size: .5rem;
+  }
+  #wirtschaftlichkeit .business-step button > strong {
+    grid-column: 2;
+    grid-row: 2;
+    margin: .05rem 0 0;
+    font-size: clamp(.78rem, 3.2vw, .88rem);
+    line-height: 1.06;
+  }
+  #wirtschaftlichkeit .business-step button > small {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: start;
+    gap: .3rem;
+    min-height: 1.55rem;
+    margin-top: .38rem;
+    padding: .22rem .4rem;
+    font-size: .52rem;
+    white-space: nowrap;
+  }
+  #wirtschaftlichkeit .business-step button > small i {
+    width: .62rem;
+    height: .62rem;
+  }
+  #wirtschaftlichkeit .business-step button > small i::before {
+    width: .32rem;
+    height: .32rem;
+  }
+  #wirtschaftlichkeit .business-step button > small i::after {
+    top: .3rem;
+    width: .52rem;
+  }
+  #wirtschaftlichkeit .business-progress .business-step:nth-child(2)::after,
+  #wirtschaftlichkeit .business-progress .business-step:not(:last-child)::after {
+    display: block;
+    top: 4.95rem;
+    left: calc(var(--step-symbol-size) / 2 - 1px);
+    width: 2px;
+    height: 1.72rem;
+    background: linear-gradient(180deg, var(--accent), rgba(var(--accent-rgb), .22));
+    box-shadow: 0 0 .65rem rgba(var(--accent-rgb), .28);
+    transform: none;
+  }
+
+  /* Mobile construction scene: preserve the desktop metaphor instead of
+     flattening it into five unrelated cards. */
+  #strategie .strategy-panel {
+    overflow: hidden;
+    border-radius: 1.15rem;
+  }
+  #strategie .strategy-build-intro { padding-inline: .7rem; }
+  #strategie .strategy-title-flag {
+    width: 100%;
+    margin-top: 3.1rem;
+    padding: 1rem .9rem 1.05rem;
+    transform: rotate(-.25deg);
+  }
+  #strategie .strategy-hanger {
+    display: block;
+    height: 3.1rem;
+  }
+  #strategie .strategy-title-flag h2 {
+    font-size: clamp(1.25rem, 5.75vw, 1.55rem);
+    line-height: 1.03;
+    text-wrap: balance;
+  }
+  #strategie .strategy-title-flag h2 em { margin-top: .38rem; }
+
+  #strategie .strategy-site {
+    position: relative;
+    display: block;
+    min-height: 49rem;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, transparent 70%, rgba(var(--accent-rgb), .08));
+  }
+  #strategie .strategy-site-grid {
+    display: block;
+    background-size: 1.35rem 1.35rem;
+    opacity: .9;
+  }
+  #strategie .strategy-crane {
+    display: block;
+    top: .8rem;
+    right: -3%;
+    width: 98%;
+    height: 25rem;
+    color: rgba(250, 249, 252, .64);
+    opacity: .82;
+  }
+  #strategie .crane-boom {
+    top: 5%;
+    right: 5%;
+    width: 94%;
+    height: .55rem;
+  }
+  #strategie .crane-mast {
+    right: 9%;
+    bottom: 0;
+    width: .65rem;
+    height: 95%;
+  }
+  #strategie .crane-counterweight {
+    top: 1%;
+    right: 1.5%;
+    width: 2rem;
+    height: 1.55rem;
+  }
+  #strategie .strategy-crane .crane-line,
+  #strategie .strategy-crane .crane-hook { display: none; }
+
+  #strategie .strategy-site .strategy-addon-block {
+    position: absolute;
+    right: auto;
+    bottom: auto;
+    width: 57%;
+    height: auto;
+    min-height: 9rem;
+    padding: .75rem .75rem .85rem;
+    border-radius: .32rem;
+    will-change: auto;
+  }
+  #strategie .strategy-addon-block::before { display: block; }
+  #strategie .strategy-addon-block h3 {
+    margin-bottom: .42rem;
+    font-size: clamp(.78rem, 3.3vw, .9rem);
+    line-height: 1.08;
+  }
+  #strategie .strategy-addon-block p {
+    font-size: clamp(.6rem, 2.55vw, .69rem);
+    line-height: 1.43;
+  }
+  #strategie .strategy-addon-lifted {
+    z-index: 4;
+    top: 10.4rem;
+    left: 3.5%;
+    transform: rotate(-.8deg);
+    border-bottom-color: rgba(var(--accent-rgb), .42);
+  }
+  #strategie .strategy-addon-fixed {
+    z-index: 3;
+    top: 20.15rem;
+    left: 39.5%;
+    border-bottom-color: rgba(var(--accent-rgb), .42);
+  }
+  #strategie .strategy-lift-cable {
+    display: block;
+    bottom: 100%;
+    left: 50%;
+    width: 2px;
+    height: 8.3rem !important;
+  }
+
+  #strategie .strategy-learning-path {
+    position: absolute;
+    z-index: 5;
+    top: 31.8rem;
+    right: .55rem;
+    bottom: auto;
+    left: .55rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .38rem;
+    margin: 0;
+  }
+  #strategie .strategy-learning-path article {
+    min-height: 13rem;
+    padding: .68rem .48rem .72rem;
+    border-radius: .38rem;
+  }
+  #strategie .strategy-learning-path article::before { display: block; }
+  #strategie .strategy-learning-path small {
+    position: static;
+    font-size: .52rem;
+  }
+  #strategie .strategy-learning-path h3 {
+    margin: .55rem 0 .45rem;
+    font-size: clamp(.68rem, 2.9vw, .78rem);
+    line-height: 1.08;
+    overflow-wrap: normal;
+  }
+  #strategie .strategy-learning-path p {
+    font-size: clamp(.54rem, 2.25vw, .62rem);
+    line-height: 1.42;
+  }
+  #strategie .strategy-site-details { display: block; }
+  #strategie .site-barrier {
+    bottom: .85rem;
+    width: 4.1rem;
+    height: 1.25rem;
+  }
+  #strategie .site-barrier-left { left: 4%; }
+  #strategie .site-barrier-right { right: 4%; }
+  #strategie .site-cone { bottom: 1.05rem; transform: scale(.55); transform-origin: bottom; }
+  #strategie .site-cone-one { right: 29%; }
+  #strategie .site-cone-two { right: 23%; }
+  #strategie .site-cone-three { left: 25%; }
+  #strategie .site-cone-four { left: 31%; }
+}
+
+@media (max-width: 360px) {
+  .economics-method-layout {
+    grid-template-columns: minmax(7rem, 42%) minmax(0, 58%);
+    gap: .5rem;
+  }
+  #wirtschaftlichkeit { --mobile-economics-copy-size: clamp(.72rem, 3.45vw, .79rem); }
+  #wirtschaftlichkeit .business-grid.business-progress { --step-symbol-size: 3.2rem; }
+  #wirtschaftlichkeit .business-progress .business-step { min-height: 6rem; }
+  #wirtschaftlichkeit .business-step > button { min-height: 5.7rem; column-gap: .42rem; }
+  #wirtschaftlichkeit .business-progress .business-step:nth-child(2)::after,
+  #wirtschaftlichkeit .business-progress .business-step:not(:last-child)::after {
+    top: 4.55rem;
+    height: 1.8rem;
+  }
+  #wirtschaftlichkeit .business-step button > small { padding-inline: .32rem; }
+
+  #strategie .strategy-title-flag h2 { font-size: 1.18rem; }
+  #strategie .strategy-site { min-height: 50rem; }
+  #strategie .strategy-site .strategy-addon-block { width: 61%; }
+  #strategie .strategy-addon-fixed { left: 35.5%; }
+  #strategie .strategy-learning-path article { padding-inline: .38rem; }
+  #strategie .strategy-learning-path h3 { font-size: .65rem; }
+  #strategie .strategy-learning-path p { font-size: .52rem; }
+}
