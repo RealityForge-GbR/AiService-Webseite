@@ -577,22 +577,32 @@ function updateStrategyLift() {
   strategyLiftFrame = undefined;
   if (!strategySite || !strategyLiftedBlock) return;
 
-  if (reduceMotion.matches || window.innerWidth <= 1100) {
+  if (reduceMotion.matches) {
     strategyLiftProgress = 1;
     strategyLiftedBlock.style.setProperty('--strategy-lift-y', '0px');
-    strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '19rem' : '10.75rem');
+    strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '8.25rem' : '10.75rem');
     strategyLiftedBlock.classList.add('is-landed');
     return;
   }
 
   const panelBounds = strategySite.closest('.strategy-panel')?.getBoundingClientRect() || strategySite.getBoundingClientRect();
-  const travel = 80;
-  const loweringDistance = window.innerHeight * 0.35;
-  const startLine = window.innerHeight * 0.42;
+  const isPhone = window.innerWidth <= 760;
+
+  if (!isPhone && window.innerWidth <= 1100) {
+    strategyLiftProgress = 1;
+    strategyLiftedBlock.style.setProperty('--strategy-lift-y', '0px');
+    strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', '10.75rem');
+    strategyLiftedBlock.classList.add('is-landed');
+    return;
+  }
+
+  const travel = isPhone ? 72 : 80;
+  const loweringDistance = window.innerHeight * (isPhone ? 0.58 : 0.35);
+  const startLine = window.innerHeight * (isPhone ? 0.78 : 0.42);
   const progress = Math.max(strategyLiftProgress, Math.min(1, Math.max(0, (startLine - panelBounds.top) / loweringDistance)));
   strategyLiftProgress = progress;
   const liftY = -travel + (progress * travel);
-  const cableBase = 92; // Same final 172px cable; a shorter, once-only lowering.
+  const cableBase = isPhone ? 60 : 92;
   const cableHeight = cableBase + (progress * travel);
   strategyLiftedBlock.style.setProperty('--strategy-lift-y', `${liftY.toFixed(1)}px`);
   strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', `${cableHeight.toFixed(1)}px`);

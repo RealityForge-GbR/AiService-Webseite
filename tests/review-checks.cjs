@@ -87,8 +87,9 @@ assert.equal(economicsMethod.children[1].className, 'business-grid business-prog
 const viewportRefinements = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
 assert.match(viewportRefinements, /\.economics-method-layout \{\s*display: grid;[\s\S]*grid-template-columns: minmax\(8rem, 43%\) minmax\(0, 57%\);/s, 'Phone economics uses a two-column question/progression composition');
 assert.match(viewportRefinements, /#strategie \.strategy-crane \{[\s\S]*display: block;/s, 'The construction crane remains visible on phones');
-assert.match(viewportRefinements, /#strategie \.strategy-addon-lifted \{[\s\S]*top: 10\.4rem;[\s\S]*transform: rotate\(-\.8deg\);/s, 'The lifted construction block remains visibly offset');
+assert.match(viewportRefinements, /#strategie \.strategy-addon-lifted \{[\s\S]*top: 10\.8rem;[\s\S]*transform: translate\(-50%, var\(--strategy-lift-y, -4\.5rem\)\);/s, 'The lifted construction block follows the mobile crane onto its centered landing point');
 assert.match(viewportRefinements, /#strategie \.strategy-learning-path \{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/s, 'The mobile construction foundation retains its three-step row');
+assert.match(viewportRefinements, /#strategie \.strategy-learning-path small \{ display: none; \}/, 'The compact foundation no longer repeats step numbers');
 assert.equal(document.querySelectorAll('.monitor-service-list > li').length, 3);
 assert.equal(document.querySelectorAll('.hero-monitor [hidden], [data-monitor-scene]').length, 0);
 for (const file of ['styles.css', 'refinements.css', 'page-motion.css', 'monitor-services.css', 'hero-copy-layout.css', 'viewport-refinements.css']) {
@@ -282,7 +283,19 @@ async function checkInteractions(width, reducedMotion) {
     assert.equal(viewToggle.getAttribute('aria-expanded'), 'false');
   }
   const lifted = doc.querySelector('[data-strategy-lifted-block]');
-  if (width > 1100 && !reducedMotion) {
+  if (width <= 760 && !reducedMotion) {
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-72.0px');
+    strategyTop = window.innerHeight * .49;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-36.0px');
+    strategyTop = window.innerHeight;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-36.0px', 'The phone crane does not rewind when scrolling upward');
+    strategyTop = -100;
+    window.dispatchEvent(new window.Event('scroll')); await wait(30);
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '0.0px');
+    assert.equal(lifted.style.getPropertyValue('--strategy-lift-cable-height'), '132.0px', 'The mobile cable ends exactly above the stacked block');
+  } else if (width > 1100 && !reducedMotion) {
     assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-80.0px');
     strategyTop = window.innerHeight * .245;
     window.dispatchEvent(new window.Event('scroll')); await wait(30);

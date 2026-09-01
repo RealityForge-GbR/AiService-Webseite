@@ -1216,3 +1216,275 @@ main > #lokale-ki {
   #kontakt .onsite-contact-panel { grid-template-columns: minmax(4.2rem, 22%) minmax(0, 78%); gap: .55rem; padding: .62rem; }
   #kontakt .onsite-contact-content h2 { font-size: .95rem; }
 }
+
+/* Final portrait-phone finishing pass. These rules deliberately live after
+   the earlier responsive compositions so their geometry is the single mobile
+   source of truth without changing the reviewed desktop layout. */
+@media (max-width: 760px) {
+  /* Three compact, full-width service rails replace the uneven 2 + 1 grid. */
+  #leistungen .service-grid.service-grid-compact {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .55rem;
+  }
+  #leistungen .service-grid-compact .service-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: .72rem;
+    align-content: center;
+    min-height: 5.65rem;
+    padding: .72rem 3rem .72rem .85rem;
+    border-radius: .85rem;
+  }
+  #leistungen .service-grid-compact .card-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin: 0;
+  }
+  #leistungen .service-grid-compact h3 {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 0;
+    margin: 0;
+    font-size: clamp(.82rem, 3.75vw, .98rem);
+    line-height: 1.08;
+  }
+  #leistungen .service-grid-compact .service-summary {
+    display: -webkit-box;
+    grid-column: 2;
+    grid-row: 2;
+    margin: .28rem 0 0;
+    overflow: hidden;
+    font-size: clamp(.61rem, 2.7vw, .72rem);
+    line-height: 1.3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  #leistungen .service-card-more {
+    position: absolute;
+    top: 50%;
+    right: .78rem;
+    gap: 0;
+    font-size: 0;
+    transform: translateY(-50%);
+  }
+  #leistungen .service-card-more i {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
+
+  /* The portal now sits conceptually below the columns instead of drawing a
+     glowing line through their feet. */
+  #wirtschaftlichkeit .evidence-floor-portal { display: none; }
+
+  /* The decision copy and the four controls form one compact, equal-height
+     composition. Number labels are redundant in the vertical flow. */
+  .economics-method-layout {
+    grid-template-columns: minmax(0, 61%) minmax(0, 39%);
+    gap: .58rem;
+    align-items: stretch;
+    margin-top: .7rem;
+  }
+  #wirtschaftlichkeit .economics-bridge {
+    display: grid;
+    align-self: stretch;
+    place-items: center;
+    padding-left: .08rem;
+  }
+  #wirtschaftlichkeit .economics-bridge .reference-intro {
+    font-size: var(--mobile-economics-copy-size);
+    line-height: 1.5;
+  }
+  #wirtschaftlichkeit .business-grid.business-progress {
+    --step-symbol-size: 3.25rem;
+    gap: .18rem;
+    padding: 0;
+  }
+  #wirtschaftlichkeit .business-progress .business-step,
+  #wirtschaftlichkeit .business-step > button {
+    min-height: 5.2rem;
+  }
+  #wirtschaftlichkeit .business-step > button {
+    grid-template-rows: auto auto;
+    column-gap: .48rem;
+    padding: .18rem 0;
+  }
+  #wirtschaftlichkeit .business-step-graphic { grid-row: 1 / span 2; }
+  #wirtschaftlichkeit .business-step-number { display: none; }
+  #wirtschaftlichkeit .business-step button > strong {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin: 0;
+  }
+  #wirtschaftlichkeit .business-step button > small {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    margin-top: .34rem;
+  }
+  #wirtschaftlichkeit .business-progress .business-step:nth-child(2)::after,
+  #wirtschaftlichkeit .business-progress .business-step:not(:last-child)::after {
+    top: 4.2rem;
+    height: 1.28rem;
+  }
+
+  /* One-line sign, one vertical stack and a visibly shorter construction
+     scene. The lifted block ends directly on the fixed block; the fixed block
+     ends directly on the middle foundation axis. */
+  #strategie .strategy-build-intro { padding-inline: .55rem; }
+  #strategie .strategy-title-flag {
+    margin-top: 2.35rem;
+    padding: .68rem .38rem .72rem;
+  }
+  #strategie .strategy-hanger { height: 2.35rem; }
+  #strategie .strategy-title-flag h2 {
+    font-size: clamp(.9rem, 4.3vw, 1.08rem);
+    line-height: 1.02;
+    text-align: center;
+  }
+  #strategie .strategy-title-flag h2 span,
+  #strategie .strategy-title-flag h2 em {
+    display: block;
+    white-space: nowrap;
+  }
+  #strategie .strategy-title-flag h2 em { margin-top: .25rem; }
+  #strategie .strategy-site {
+    min-height: 35.25rem;
+  }
+  #strategie .strategy-crane {
+    top: .4rem;
+    height: 20.5rem;
+  }
+  #strategie .strategy-site .strategy-addon-block {
+    display: grid;
+    align-content: center;
+    width: 54%;
+    height: 7.7rem;
+    min-height: 7.7rem;
+    padding: .58rem .7rem .62rem;
+    text-align: center;
+    will-change: transform;
+  }
+  #strategie .strategy-addon-block h3 {
+    margin: 0 0 .32rem;
+    font-size: clamp(.69rem, 3vw, .82rem);
+    line-height: 1.08;
+  }
+  #strategie .strategy-addon-block p {
+    font-size: clamp(.53rem, 2.28vw, .62rem);
+    line-height: 1.35;
+  }
+  #strategie .strategy-addon-lifted {
+    top: 10.8rem;
+    left: 50%;
+    transform: translate(-50%, var(--strategy-lift-y, -4.5rem));
+  }
+  #strategie .strategy-addon-fixed {
+    top: 18.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #strategie .strategy-lift-cable {
+    height: var(--strategy-lift-cable-height, 3.75rem) !important;
+  }
+  #strategie .strategy-learning-path {
+    top: 26.2rem;
+    right: .48rem;
+    left: .48rem;
+    gap: .32rem;
+  }
+  #strategie .strategy-learning-path article {
+    display: grid;
+    align-content: center;
+    min-height: 7.25rem;
+    padding: .42rem .34rem .48rem;
+    text-align: center;
+  }
+  #strategie .strategy-learning-path small { display: none; }
+  #strategie .strategy-learning-path h3 {
+    margin: 0 0 .34rem;
+    font-size: clamp(.59rem, 2.55vw, .7rem);
+    line-height: 1.06;
+  }
+  #strategie .strategy-learning-path p {
+    font-size: clamp(.47rem, 1.98vw, .55rem);
+    line-height: 1.34;
+  }
+  #strategie .site-barrier { bottom: .35rem; }
+  #strategie .site-cone { bottom: .5rem; }
+
+  /* A denser opening to the Bento avoids the oversized first pair. */
+  #anwendungsbeispiele .use-case-bubble:nth-child(1) { grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(2) { grid-row: span 3; }
+  #anwendungsbeispiele .use-case-trigger i {
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: .46rem;
+    background: rgba(var(--accent-rgb), .055);
+  }
+  #anwendungsbeispiele .use-case-trigger i::before {
+    top: .31rem;
+    right: .3rem;
+    width: .39rem;
+    height: .39rem;
+  }
+  #anwendungsbeispiele .use-case-trigger i::after {
+    top: .57rem;
+    right: .23rem;
+    width: .75rem;
+    transform: rotate(-45deg);
+    transform-origin: center;
+  }
+
+  /* Each fusion mark stays comfortably inside its own fifth of the row. */
+  #moderne-ki .fusion-node { grid-template-rows: 3.85rem auto; }
+  #moderne-ki .software-mark { width: min(100%, 3.8rem); }
+  #moderne-ki .ai-chat-mark { width: min(100%, 3.35rem); }
+  #moderne-ki .ai-neural-mark {
+    width: 2.55rem;
+    height: 2.4rem;
+  }
+  #moderne-ki .neural-path { width: 1.05rem; }
+  #moderne-ki .neural-node { width: .5rem; height: .5rem; }
+  #moderne-ki .system-mark { width: min(100%, 3.75rem); }
+  #moderne-ki .system-core {
+    width: 2.2rem;
+    padding: .34rem;
+    gap: .16rem;
+    border-radius: .56rem;
+  }
+  #moderne-ki .fusion-link { height: 3.85rem; }
+  #moderne-ki .fusion-link span,
+  #moderne-ki .fusion-link i,
+  #moderne-ki .fusion-link b { top: 1.92rem; }
+
+  /* The source image has generous transparent side margins. Oversizing its
+     canvas makes the visible tower fill the narrow column without cropping
+     the landmark itself. */
+  #kontakt .onsite-location { overflow: hidden; }
+  #kontakt .onsite-location img {
+    position: absolute;
+    bottom: 0;
+    left: -72.5%;
+    width: 245%;
+    max-width: none;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+}
+
+@media (max-width: 360px) {
+  #strategie .strategy-title-flag h2 { font-size: .84rem; }
+  #strategie .strategy-site .strategy-addon-block { width: 57%; }
+  #strategie .strategy-learning-path h3 { font-size: .56rem; }
+  #strategie .strategy-learning-path p { font-size: .45rem; }
+  #moderne-ki .software-mark { width: 3.45rem; }
+  #moderne-ki .ai-chat-mark { width: 3.05rem; }
+  #moderne-ki .system-mark { width: 3.4rem; }
+}
