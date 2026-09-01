@@ -268,8 +268,11 @@ if (heroWordmark && wordmarkSettings) {
       heroWordmark.addEventListener('rf:complete', revealHeroSequence, { once: true });
       heroWordmark.restart();
       window.clearTimeout(window.__rfHeroRevealFallback);
-      const revealFallbackDelay = Math.max(4000, ((Number(heroWordmark.duration) || 8) + 1) * 1000);
-      window.__rfHeroRevealFallback = window.setTimeout(revealHeroSequence, revealFallbackDelay);
+      // Hand the stage over while the wordmark is still resolving. The lower
+      // content fades in quietly instead of waiting for the complete hold.
+      const logoDuration = (Number(heroWordmark.duration) || 6) * 1000;
+      const revealDuringLogoDelay = Math.min(1800, Math.max(900, logoDuration * .22));
+      window.__rfHeroRevealFallback = window.setTimeout(revealHeroSequence, revealDuringLogoDelay);
     });
   });
 } else revealHeroSequence();
