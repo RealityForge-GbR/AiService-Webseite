@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="page-motion.css?v=2">
     <link rel="stylesheet" href="monitor-services.css?v=6">
     <link rel="stylesheet" href="hero-copy-layout.css?v=11">
-    <link rel="stylesheet" href="viewport-refinements.css?v=5">
+    <link rel="stylesheet" href="viewport-refinements.css?v=6">
     <link rel="stylesheet" href="https://use.typekit.net/gfg1nhn.css">
     <!-- Adobe Fonts: family assignments for the temporary and final logo faces live in assets/reality-forge-logo-config.js. -->
     <script src="assets/reality-forge-logo-config.js?v=rf-wordmark-8" defer></script>
@@ -508,6 +508,14 @@
             <path data-ai-connection="archive" d="M1045 555 C950 555 945 455 850 455"></path>
           </svg>
 
+          <section class="ai-chat-window" aria-label="Interaktiver Chat zu KI-Anwendungsbeispielen">
+            <div class="ai-chat-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="ai-chat-conversation" data-ai-conversation aria-live="polite">
+              <div class="ai-chat-message ai-chat-message-assistant is-visible"><span class="ai-chat-avatar" aria-hidden="true">RF</span><div><p>Wählen Sie eines der verknüpften Anwendungsbeispiele aus.</p></div></div>
+              <div class="ai-chat-scroll-space" data-ai-scroll-space aria-hidden="true"></div>
+            </div>
+          </section>
+
           <button class="ai-topic-node ai-topic-context" type="button" data-ai-topic="context" data-ai-question="Wie kann KI Bedeutung und Zusammenhänge erkennen?" aria-pressed="false">
             <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 15.5-2 2a3.5 3.5 0 0 1-5-5l3-3a3.5 3.5 0 0 1 5 0M15.5 8.5l2-2a3.5 3.5 0 0 1 5 5l-3 3a3.5 3.5 0 0 1-5 0M8 16l8-8"></path></svg><span>Text &amp; Kontext</span>
           </button>
@@ -526,14 +534,6 @@
           <button class="ai-topic-node ai-topic-archive" type="button" data-ai-topic="archive" data-ai-question="Wie untersucht KI große Dokumentbestände?" aria-pressed="false">
             <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h7l2 2h9v9H3z"></path><circle cx="15" cy="15" r="3"></circle><path d="m17.2 17.2 3 3M6 12h4"></path></svg><span>Dokumentbestände</span>
           </button>
-
-          <section class="ai-chat-window" aria-label="Interaktiver Chat zu KI-Anwendungsbeispielen">
-            <div class="ai-chat-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-            <div class="ai-chat-conversation" data-ai-conversation aria-live="polite">
-              <div class="ai-chat-message ai-chat-message-assistant is-visible"><span class="ai-chat-avatar" aria-hidden="true">RF</span><div><p>Wählen Sie eines der verknüpften Anwendungsbeispiele aus.</p></div></div>
-              <div class="ai-chat-scroll-space" data-ai-scroll-space aria-hidden="true"></div>
-            </div>
-          </section>
 
           <template data-ai-response="context"><p>Moderne Sprachmodelle erfassen Bedeutung und Zusammenhang. Sie erkennen ähnliche Sachverhalte trotz verschiedener Formulierungen und verbinden Informationen aus mehreren Dokumenten. So lassen sich Prüfungen automatisieren, für die bisher fachliches Textverständnis nötig war.</p></template>
           <template data-ai-response="tools"><p>KI kann für Berechnungen oder große Datenmengen passende Programme erstellen und ausführen. Die Verarbeitung bleibt reproduzierbar wie bei klassischer Software. Danach bewertet die KI Ergebnisse und erkennt Auffälligkeiten.</p></template>
@@ -565,10 +565,10 @@
             </svg>
             <svg class="local-data-map local-data-map-mobile" viewBox="0 0 360 560" preserveAspectRatio="none">
               <defs>
-                <path id="local-mobile-one" d="M95.4 209V175C95.4 131 126 101 148 101"></path>
-                <path id="local-mobile-two" d="M18 290H15Q8 290 8 274V126Q8 72 80 72H166"></path>
-                <path id="local-mobile-three" d="M264.6 209V175C264.6 131 234 101 212 101"></path>
-                <path id="local-mobile-four" d="M342 290H345Q352 290 352 274V126Q352 72 280 72H194"></path>
+                <path id="local-mobile-one" d="M95.4 209C95.4 153 120 115 148 101"></path>
+                <path id="local-mobile-two" d="M95.4 269C40 230 40 100 100 82C120 76 144 73 166 72"></path>
+                <path id="local-mobile-three" d="M264.6 209C264.6 153 240 115 212 101"></path>
+                <path id="local-mobile-four" d="M264.6 269C320 230 320 100 260 82C240 76 216 73 194 72"></path>
                 <path id="local-mobile-output" d="M180 189V355"></path>
               </defs>
               <g class="local-network-tracks"><use href="#local-mobile-one"></use><use href="#local-mobile-two"></use><use href="#local-mobile-three"></use><use href="#local-mobile-four"></use><use href="#local-mobile-output"></use></g>
@@ -630,7 +630,9 @@
         <figure class="team-portrait"><div class="team-portrait-frame"><img src="assets/patrick.png" width="3024" height="4032" alt="Patrick" loading="lazy" decoding="async"></div></figure>
         <div class="view-copy-column">
           <div class="view-heading"><h2 id="view-title"><span>Wir wissen, was moderne KI heute leisten kann.</span></h2></div>
-          <div class="view-copy">
+          <p class="view-mobile-summary">Aktuelle KI-Technik wird erst dann wertvoll, wenn sie zu den echten Abläufen und Qualitätsanforderungen im Unternehmen passt.</p>
+          <button class="view-copy-toggle" type="button" aria-expanded="false" aria-controls="view-copy"><span>Unsere Sicht im Detail</span><i aria-hidden="true">+</i></button>
+          <div class="view-copy" id="view-copy">
             <p>Die technischen Möglichkeiten von KI verändern sich derzeit außergewöhnlich schnell. Aufgaben, die vor wenigen Jahren noch erhebliche Softwareentwicklung oder große Mengen manueller Arbeit erfordert hätten, können heute mit völlig anderem Aufwand gelöst werden.</p>
             <p>Wir beschäftigen uns intensiv mit aktuellen Modellen, lokalen KI-Systemen und neuen KI-Werkzeugen. Entscheidend ist für uns der praktische Einsatz: Welche Qualität wird erreicht? Wie zuverlässig funktioniert der Prozess? Welche Infrastruktur wird benötigt? Und rechnet sich die Anwendung?</p>
             <p>Wir arbeiten dabei gerne direkt mit den Menschen, die den Prozess kennen. Denn die interessantesten Automatisierungsmöglichkeiten stehen selten in einem Organigramm. Meist kennt sie derjenige, der jeden Tag mit dem Prozess arbeitet.</p>

@@ -55,6 +55,12 @@ assert.equal(viewCopyColumn.nextElementSibling.className, 'team-portrait');
 assert.deepEqual(texts(document, 'template[data-ai-response]'), texts(before, 'template[data-ai-response]'));
 assert.equal(document.querySelectorAll('#leistungen .section-context, #services-title').length, 0);
 assert.equal(document.querySelectorAll('.team-portrait').length, 2);
+assert.equal(document.querySelector('.view-copy-toggle')?.getAttribute('aria-controls'), 'view-copy');
+assert(document.querySelector('.view-mobile-summary'), 'Mobile team composition has a concise alternating-layout summary');
+const aiExplorer = document.querySelector('[data-ai-topic-explorer]');
+const aiExplorerChildren = [...aiExplorer.children];
+assert(aiExplorerChildren.indexOf(aiExplorer.querySelector('.ai-chat-window')) < aiExplorerChildren.indexOf(aiExplorer.querySelector('[data-ai-topic]')), 'The chat precedes the six topic controls in source order');
+assert(aiExplorer.querySelector('.ai-chat-window').nextElementSibling.matches('[data-ai-topic]'), 'Topic controls follow the chat directly');
 assert.equal(document.querySelectorAll('.team-portrait figcaption, .portrait-placeholder, .monitor-toolbar, .strategy-addon-block > small').length, 0);
 assert(!document.querySelector('#unsere-sicht').textContent.includes('Porträt folgt'));
 assert.deepEqual([...document.querySelectorAll('.team-portrait img')].map(img => [img.getAttribute('src'), img.alt]), [['assets/patrick.png', 'Patrick'], ['assets/evgeni.png', 'Evgeni']], 'Patrick belongs left, Evgeni right');
@@ -268,6 +274,12 @@ async function checkInteractions(width, reducedMotion) {
     assert(!doc.querySelector('.view-people-layout').classList.contains('is-view-copy-stacked'), 'Returning room restores the approved portrait-text-portrait composition');
   } else {
     assert.equal(viewColumn.style.getPropertyValue('--view-copy-size'), '', 'Narrow layouts use their natural stacked typography');
+    const viewToggle = doc.querySelector('.view-copy-toggle');
+    viewToggle.click();
+    assert.equal(viewToggle.getAttribute('aria-expanded'), 'true');
+    assert(doc.querySelector('.view-people-layout').classList.contains('is-mobile-copy-expanded'));
+    viewToggle.click();
+    assert.equal(viewToggle.getAttribute('aria-expanded'), 'false');
   }
   const lifted = doc.querySelector('[data-strategy-lifted-block]');
   if (width > 1100 && !reducedMotion) {
@@ -360,9 +372,11 @@ async function checkInteractions(width, reducedMotion) {
     topic.click(); await wait(30);
     assert.equal(doc.querySelectorAll('[data-ai-topic][aria-pressed="true"]').length, 1);
     assert.equal(doc.querySelectorAll('.ai-chat-message').length, 2, 'One question/answer pair, never accumulating scrollback');
-    if (width <= 760 || reducedMotion) {
+    if (reducedMotion) {
       const source = doc.querySelector(`template[data-ai-response="${topic.dataset.aiTopic}"]`).content.textContent;
       assert.equal(normalize(doc.querySelector('.ai-chat-typed-copy').textContent), normalize(source));
+    } else {
+      assert(doc.querySelector('.ai-chat-cursor'), 'Animated chat answers retain a visible typing cursor');
     }
   }
   await wait(reducedMotion ? 20 : 180);

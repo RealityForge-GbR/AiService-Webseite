@@ -830,3 +830,389 @@ main > #lokale-ki {
   #strategie .strategy-learning-path h3 { font-size: .65rem; }
   #strategie .strategy-learning-path p { font-size: .52rem; }
 }
+
+/* Portrait-phone composition pass: the desktop layouts remain untouched. */
+.view-mobile-summary,
+.view-copy-toggle { display: none; }
+
+@media (max-width: 760px) {
+  /* The use cases keep the visual grammar of the desktop Bento, but use six
+     narrow columns so short cards, wide cards and tall cards interlock. */
+  #anwendungsbeispiele .use-case-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-flow: dense;
+    grid-auto-rows: 2.35rem;
+    gap: .42rem;
+  }
+  #anwendungsbeispiele .use-case-bubble,
+  #anwendungsbeispiele .use-case-bubble.bubble-wide,
+  #anwendungsbeispiele .use-case-bubble.bubble-compact,
+  #anwendungsbeispiele .use-case-bubble.bubble-xwide {
+    grid-column: span 3;
+    grid-row: span 3;
+    min-height: 0;
+    border-radius: .85rem;
+  }
+  #anwendungsbeispiele .use-case-bubble:nth-child(1) { grid-column: span 4; grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(2) { grid-column: span 2; grid-row: span 4; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(3) { grid-column: span 2; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(4) { grid-column: span 4; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(5) { grid-column: span 3; grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(6) { grid-column: span 3; grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(7) { grid-column: span 2; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(8) { grid-column: span 4; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(9) { grid-column: span 4; grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(10) { grid-column: span 2; grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(11) { grid-column: span 2; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(12) { grid-column: span 4; grid-row: span 2; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(13),
+  #anwendungsbeispiele .use-case-bubble:nth-child(14) { grid-column: span 3; grid-row: span 4; }
+  #anwendungsbeispiele .use-case-trigger {
+    align-items: flex-end;
+    gap: .35rem;
+    padding: .62rem;
+  }
+  #anwendungsbeispiele .use-case-trigger > span {
+    max-width: none;
+    font-size: clamp(.59rem, 2.85vw, .76rem);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+  #anwendungsbeispiele .use-case-trigger i {
+    position: absolute;
+    top: .52rem;
+    right: .52rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    overflow: hidden;
+    font-size: 0;
+  }
+  #anwendungsbeispiele .use-case-trigger i::before {
+    content: "";
+    position: absolute;
+    top: .32rem;
+    right: .3rem;
+    width: .38rem;
+    height: .38rem;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+  }
+  #anwendungsbeispiele .use-case-trigger i::after {
+    content: "";
+    position: absolute;
+    top: .66rem;
+    right: .28rem;
+    width: .65rem;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(-45deg);
+    transform-origin: right center;
+  }
+  #anwendungsbeispiele .use-case-actions { margin-top: 1.35rem; }
+  #anwendungsbeispiele .use-case-actions button { min-height: 2.7rem; padding: .55rem 1.2rem; font-size: .76rem; }
+
+  /* The three system stages form one horizontal sequence, including the
+     captions beneath the marks. */
+  #moderne-ki .section-heading { margin-bottom: 1.35rem; }
+  #moderne-ki #modern-ai-title {
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    font-size: clamp(1.55rem, 7.25vw, 1.88rem);
+    line-height: 1.02;
+    letter-spacing: -.05em;
+    text-align: center;
+    text-wrap: balance;
+  }
+  #moderne-ki .system-fusion {
+    min-height: 0;
+    padding: 1.05rem .55rem 1.15rem;
+    border-radius: 1rem;
+  }
+  #moderne-ki .fusion-stage {
+    grid-template-columns: minmax(0, 1.12fr) minmax(.55rem, .34fr) minmax(0, .88fr) minmax(.55rem, .34fr) minmax(0, 1.12fr);
+    grid-template-rows: auto;
+    gap: .3rem;
+    align-items: start;
+  }
+  #moderne-ki .fusion-node {
+    grid-template-rows: 4.6rem auto;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+  }
+  #moderne-ki .software-mark { width: min(100%, 4.7rem); border-radius: .55rem; }
+  #moderne-ki .ai-chat-mark { width: min(100%, 4.15rem); border-radius: .8rem .8rem .8rem .28rem; }
+  #moderne-ki .ai-neural-mark { width: 3.15rem; height: 3rem; }
+  #moderne-ki .neural-path { width: 1.32rem; }
+  #moderne-ki .system-mark { width: min(100%, 4.7rem); }
+  #moderne-ki .system-core { width: 2.65rem; padding: .43rem; gap: .2rem; border-radius: .65rem; }
+  #moderne-ki .fusion-node > strong {
+    margin-top: .42rem;
+    font-size: clamp(.51rem, 2.15vw, .62rem);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  #moderne-ki .fusion-link {
+    align-self: start;
+    width: 100%;
+    height: 4.6rem;
+  }
+  #moderne-ki .fusion-link span {
+    top: 2.3rem;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), .2), var(--accent), rgba(var(--accent-rgb), .2));
+    transform-origin: left;
+  }
+  #moderne-ki .fusion-link i { top: 2.3rem; left: 0; }
+  #moderne-ki .fusion-link b { top: 2.3rem; right: -.2rem; bottom: auto; left: auto; }
+  #moderne-ki .system-fusion.is-animated .fusion-link span { transform: scaleX(0); }
+  #moderne-ki .system-fusion.is-animated.is-visible .fusion-link-first span,
+  #moderne-ki .system-fusion.is-animated.is-visible .fusion-link-second span { animation-name: fusion-beam-grow; }
+  #moderne-ki .system-fusion.is-animated.is-visible .fusion-link-first i,
+  #moderne-ki .system-fusion.is-animated.is-visible .fusion-link-second i { animation-name: fusion-beam-travel; }
+  #moderne-ki .modern-ai-intro {
+    margin: 1.35rem auto;
+    padding: .85rem .25rem;
+    font-size: clamp(.76rem, 3.25vw, .86rem);
+    line-height: 1.5;
+  }
+
+  /* The conversation comes first; the six prompts follow as a clean 2 × 3
+     control grid. A fixed conversation viewport keeps both messages visible. */
+  #moderne-ki .ai-topic-explorer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem;
+    overflow: visible;
+  }
+  #moderne-ki .ai-chat-window {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: 18rem;
+    min-height: 18rem;
+    margin: 0 0 .35rem;
+    overflow: hidden;
+  }
+  #moderne-ki .ai-chat-conversation {
+    min-height: 0;
+    overflow-y: auto;
+    padding: .9rem;
+    scroll-behavior: smooth;
+  }
+  #moderne-ki .ai-topic-node {
+    position: relative;
+    inset: auto;
+    min-width: 0;
+    min-height: 3.25rem;
+    margin: 0;
+    overflow: visible;
+    border-radius: .85rem;
+  }
+
+  /* Give the secure system the full phone rail. Direct mobile routes replace
+     the earlier edge detours, while sequential light packets show direction. */
+  #lokale-ki .local-security-stage {
+    width: min(100%, 25rem);
+    max-width: none;
+  }
+  #lokale-ki .local-security-stage::before { inset-inline: -7%; }
+  #lokale-ki .local-protection-dome {
+    inset-inline: -2%;
+    border-radius: 46% 46% 1.25rem 1.25rem / 20% 20% 1.25rem 1.25rem;
+  }
+  #lokale-ki .local-network-tracks use {
+    stroke-dasharray: 2 5;
+    opacity: .72;
+    animation: local-mobile-track-flow 6s linear infinite;
+  }
+  #lokale-ki .local-network-impulses use {
+    stroke-width: 2.5;
+    stroke-dasharray: 16 var(--flow-gap, 500);
+    filter: drop-shadow(0 0 3px rgba(var(--accent-rgb), .9));
+  }
+  #lokale-ki .local-security-visual.is-in-view .local-network-impulses use { animation-duration: 8.5s; }
+
+  /* Alternating portrait/copy rhythm with progressive disclosure for the
+     long-form explanation. */
+  #unsere-sicht .view-people-layout,
+  #unsere-sicht .view-people-layout.is-view-copy-stacked {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    grid-template-areas:
+      "patrick heading"
+      "summary evgeni"
+      "toggle toggle"
+      "copy copy";
+    gap: .72rem;
+    align-items: stretch;
+  }
+  #unsere-sicht .view-copy-column {
+    display: contents;
+    margin: 0;
+  }
+  #unsere-sicht .team-portrait:first-child { grid-area: patrick; }
+  #unsere-sicht .team-portrait:last-child { grid-area: evgeni; }
+  #unsere-sicht .team-portrait-frame {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 10.5rem;
+    margin: 0;
+    border-radius: .85rem;
+  }
+  #unsere-sicht .view-heading {
+    grid-area: heading;
+    display: flex;
+    align-items: flex-end;
+    padding: .15rem .1rem;
+  }
+  #unsere-sicht .view-heading h2,
+  #unsere-sicht #view-title.fitted-title-wrap {
+    margin: 0;
+    font-size: clamp(1.18rem, 5.65vw, 1.48rem);
+    line-height: 1.02;
+    text-align: left;
+  }
+  #unsere-sicht .view-mobile-summary {
+    grid-area: summary;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: .8rem .2rem;
+    color: var(--muted);
+    font-size: clamp(.72rem, 3.05vw, .82rem);
+    line-height: 1.5;
+  }
+  #unsere-sicht .view-copy-toggle {
+    grid-area: toggle;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 3rem;
+    margin-top: .2rem;
+    padding: .65rem .9rem;
+    border: 1px solid rgba(var(--accent-rgb), .48);
+    border-radius: 999px;
+    background: rgba(var(--accent-rgb), .08);
+    color: var(--text);
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 680;
+  }
+  #unsere-sicht .view-copy-toggle i {
+    color: var(--accent-soft);
+    font-size: 1.1rem;
+    font-style: normal;
+  }
+  #unsere-sicht .view-copy {
+    grid-area: copy;
+    columns: 1;
+    margin: .2rem 0 0;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: rgba(var(--accent-rgb), .045);
+  }
+  #unsere-sicht .has-mobile-copy-toggle:not(.is-mobile-copy-expanded) .view-copy { display: none; }
+  #unsere-sicht .view-copy p { font-size: .82rem; line-height: 1.58; }
+
+  /* A narrow Berlin landmark column and a dense information column reproduce
+     the desktop split without cropping the Fernsehturm. */
+  #kontakt .onsite-contact-panel {
+    grid-template-columns: minmax(4.7rem, 23%) minmax(0, 77%);
+    gap: .72rem;
+    align-items: stretch;
+    padding: .75rem;
+    border-radius: 1rem;
+  }
+  #kontakt .onsite-location {
+    position: relative;
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+    min-height: 100%;
+    padding: 0 .58rem 0 0;
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  #kontakt .onsite-location img {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+  #kontakt .onsite-location span {
+    position: absolute;
+    top: .35rem;
+    right: -.02rem;
+    font-size: .46rem;
+  }
+  #kontakt .onsite-contact-content {
+    grid-column: 2;
+    grid-row: 1;
+    align-content: start;
+    min-width: 0;
+    padding: .15rem 0;
+  }
+  #kontakt .onsite-contact-content h2 {
+    max-width: none;
+    margin-bottom: .75rem;
+    font-size: clamp(1rem, 4.45vw, 1.18rem);
+    line-height: 1.03;
+    text-wrap: balance;
+  }
+  #kontakt .onsite-contact-content h2 strong { margin-top: .38em; font-size: .72em; line-height: 1.12; }
+  #kontakt .onsite-contact-content > p {
+    font-size: clamp(.61rem, 2.6vw, .7rem);
+    line-height: 1.5;
+  }
+  #kontakt .onsite-contact-urgency {
+    margin-top: .72rem;
+    padding-left: .65rem;
+    font-size: clamp(.57rem, 2.45vw, .66rem);
+    line-height: 1.48;
+  }
+  #kontakt .onsite-contact-actions {
+    align-items: stretch;
+    gap: .55rem;
+    margin-top: .8rem;
+  }
+  #kontakt .onsite-contact-button {
+    position: relative;
+    width: 100%;
+    min-height: 2.55rem;
+    padding: .55rem 1.75rem .55rem .62rem;
+    font-size: clamp(.58rem, 2.5vw, .67rem);
+    line-height: 1.15;
+    text-align: left;
+  }
+  #kontakt .onsite-contact-button span {
+    position: absolute;
+    top: 50%;
+    right: .62rem;
+    font-size: .7rem;
+    transform: translateY(-50%);
+  }
+  #kontakt .onsite-contact-actions .contact-email {
+    font-size: clamp(.58rem, 2.45vw, .66rem);
+    overflow-wrap: anywhere;
+  }
+}
+
+@keyframes local-mobile-track-flow {
+  to { stroke-dashoffset: -28; }
+}
+
+@media (max-width: 360px) {
+  #anwendungsbeispiele .use-case-grid { grid-auto-rows: 2.15rem; gap: .34rem; }
+  #anwendungsbeispiele .use-case-trigger { padding: .52rem; }
+  #anwendungsbeispiele .use-case-trigger > span { font-size: clamp(.54rem, 2.75vw, .67rem); }
+  #moderne-ki #modern-ai-title { font-size: clamp(1.38rem, 7.2vw, 1.62rem); }
+  #moderne-ki .fusion-node > strong { font-size: .48rem; }
+  #kontakt .onsite-contact-panel { grid-template-columns: minmax(4.2rem, 22%) minmax(0, 78%); gap: .55rem; padding: .62rem; }
+  #kontakt .onsite-contact-content h2 { font-size: .95rem; }
+}

@@ -29,6 +29,7 @@ const economicsTitle = document.querySelector('#economics-title');
 const economicsTitleCopy = economicsTitle?.querySelector('span');
 const viewPeopleLayout = document.querySelector('.view-people-layout');
 const viewCopyColumn = document.querySelector('.view-copy-column');
+const viewCopyToggle = document.querySelector('.view-copy-toggle');
 const viewTitle = document.querySelector('#view-title');
 const viewParagraph = document.querySelector('.view-copy p');
 const viewPortraitFrames = [...document.querySelectorAll('.team-portrait-frame')];
@@ -172,6 +173,17 @@ if ('ResizeObserver' in window && viewPeopleLayout) {
   viewFitObserver.observe(viewPeopleLayout);
 }
 requestViewContentFit();
+
+if (viewPeopleLayout && viewCopyToggle) {
+  viewPeopleLayout.classList.add('has-mobile-copy-toggle');
+  viewCopyToggle.addEventListener('click', () => {
+    const expanded = viewCopyToggle.getAttribute('aria-expanded') === 'true';
+    viewCopyToggle.setAttribute('aria-expanded', String(!expanded));
+    viewCopyToggle.querySelector('span').textContent = expanded ? 'Unsere Sicht im Detail' : 'Weniger anzeigen';
+    viewCopyToggle.querySelector('i').textContent = expanded ? '+' : '−';
+    viewPeopleLayout.classList.toggle('is-mobile-copy-expanded', !expanded);
+  });
+}
 
 // Only animate visible diagrams. Each signal ends exactly at its destination.
 document.querySelectorAll('.local-network-impulses use').forEach((signal) => {
@@ -535,7 +547,7 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
       cursor.setAttribute('aria-hidden', 'true');
       assistantMessage.bubble.append(assistantCopy, cursor);
 
-      if (reduceMotion.matches || window.innerWidth <= 760) {
+      if (reduceMotion.matches) {
         userMessage.message.classList.add('is-visible');
         assistantMessage.message.classList.add('is-visible');
         assistantCopy.textContent = fullText;
