@@ -48,6 +48,10 @@ for (const key of ['accuracy', 'tasks', 'productivity']) {
   assert.equal(document.querySelector(`template[data-evidence-detail="${key}"]`).innerHTML, before.querySelector(`template[data-evidence-detail="${key}"]`).innerHTML, `Preserve the ${key} study/source mapping`);
 }
 assert.deepEqual(texts(document, '.view-copy p'), texts(before, '.view-copy p'), 'Retain all team section paragraphs');
+const viewCopyColumn = document.querySelector('.view-copy-column');
+assert(viewCopyColumn?.contains(document.querySelector('#view-title')) && viewCopyColumn?.contains(document.querySelector('.view-copy')), 'The complete team message forms one middle column between the portraits');
+assert.equal(viewCopyColumn.previousElementSibling.className, 'team-portrait');
+assert.equal(viewCopyColumn.nextElementSibling.className, 'team-portrait');
 assert.deepEqual(texts(document, 'template[data-ai-response]'), texts(before, 'template[data-ai-response]'));
 assert.equal(document.querySelectorAll('#leistungen .section-context, #services-title').length, 0);
 assert.equal(document.querySelectorAll('.team-portrait').length, 2);
@@ -61,6 +65,10 @@ for (const img of document.querySelectorAll('.team-portrait img')) {
   assert.equal(img.width / img.height, 3 / 4, 'Portraits fit their existing frames without cropping');
   assert.equal(img.getAttribute('loading'), 'lazy');
 }
+const urgency = document.querySelector('.onsite-contact-urgency');
+assert.equal(normalize(urgency.textContent), 'Die technische Entwicklung wartet dabei nicht auf interne Entscheidungsprozesse. Wettbewerber sammeln gleichzeitig eigene Erfahrungen. Wer heute beginnt, kann Prozesse optimieren und Wissen aufbauen, während andere noch prüfen, ob sie überhaupt anfangen.');
+assert.equal(normalize(urgency.querySelector('strong').textContent), 'Wer heute beginnt, kann Prozesse optimieren und Wissen aufbauen, während andere noch prüfen, ob sie überhaupt anfangen.');
+assert.equal(urgency.nextElementSibling.className, 'onsite-contact-actions', 'The urgency statement leads directly into the existing CTA');
 assert.deepEqual(texts(document, '.strategy-addon-block h3'), ['Praxis schafft Erfahrung.', 'Früher lernen.']);
 assert.deepEqual(texts(document, '.strategy-addon-block p'), texts(before, '.strategy-addon-block p'), 'Only headings/labels change, not the explanatory copy');
 assert.equal(document.querySelectorAll('.evidence-terminal-chrome small').length, 0);
@@ -68,7 +76,7 @@ assert.equal(document.querySelectorAll('.local-data-map animateMotion, .local-da
 assert.equal(document.querySelectorAll('.step-open-badge').length, 4);
 assert.equal(document.querySelectorAll('.monitor-service-list > li').length, 3);
 assert.equal(document.querySelectorAll('.hero-monitor [hidden], [data-monitor-scene]').length, 0);
-for (const file of ['styles.css', 'refinements.css', 'page-motion.css', 'monitor-services.css', 'hero-copy-layout.css']) {
+for (const file of ['styles.css', 'refinements.css', 'page-motion.css', 'monitor-services.css', 'hero-copy-layout.css', 'viewport-refinements.css']) {
   const parseErrors = [];
   const ast = csstree.parse(fs.readFileSync(path.join(root, file), 'utf8'), { positions: true, parseCustomProperty: true, onParseError: (error) => parseErrors.push(error.message) });
   assert.deepEqual(parseErrors, [], `${file}: CSS parse errors`);
@@ -181,10 +189,23 @@ async function checkInteractions(width, reducedMotion) {
   const { window } = dom;
   const doc = window.document;
   Object.defineProperty(window, 'innerWidth', { value: width, writable: true });
+  doc.documentElement.style.fontSize = '16px';
+  doc.querySelector('#view-title').style.fontSize = '30px';
+  doc.querySelector('.view-copy p').style.fontSize = '13px';
+  const viewColumn = doc.querySelector('.view-copy-column');
+  let viewNaturalHeight = 385;
+  Object.defineProperty(viewColumn, 'scrollHeight', {
+    configurable: true,
+    get() {
+      const fittedCopySize = Number.parseFloat(viewColumn.style.getPropertyValue('--view-copy-size')) || 13;
+      return viewNaturalHeight * fittedCopySize / 13;
+    },
+  });
+  for (const frame of doc.querySelectorAll('.team-portrait-frame')) frame.getBoundingClientRect = () => ({ width: 270, height: 360, top: 0, right: 270, bottom: 360, left: 0 });
   window.matchMedia = () => ({ matches: reducedMotion, addEventListener() {} });
   window.scrollTo = () => {};
   window.HTMLElement.prototype.scrollTo = function(options) { this.scrollTop = options?.top || 0; };
-  window.HTMLElement.prototype.scrollIntoView = () => {};
+  window.HTMLElement.prototype.scrollIntoView = function(options) { this.__scrollIntoViewOptions = options; };
   // Native dialog layout/top-layer behavior requires a browser; test only our handlers here.
   window.HTMLDialogElement.prototype.showModal = function() { this.open = true; };
   window.HTMLDialogElement.prototype.close = function() { this.open = false; this.dispatchEvent(new window.Event('close')); };
@@ -205,6 +226,19 @@ async function checkInteractions(width, reducedMotion) {
   window.eval(script);
   window.eval(reveals);
   await wait(30);
+  if (width > 1100) {
+    assert(Number.parseFloat(viewColumn.style.getPropertyValue('--view-copy-size')) < 13, 'Wide team copy is fitted only when its natural height exceeds the portraits');
+    assert(viewColumn.scrollHeight <= 361, 'Fitted team copy remains within the portrait height');
+    assert(!doc.querySelector('.view-people-layout').classList.contains('is-view-copy-stacked'));
+    viewNaturalHeight = 900;
+    window.dispatchEvent(new window.Event('resize')); await wait(30);
+    assert(doc.querySelector('.view-people-layout').classList.contains('is-view-copy-stacked'), 'Unreadably small text reflows instead of crossing portrait edges');
+    viewNaturalHeight = 385;
+    window.dispatchEvent(new window.Event('resize')); await wait(30);
+    assert(!doc.querySelector('.view-people-layout').classList.contains('is-view-copy-stacked'), 'Returning room restores the approved portrait-text-portrait composition');
+  } else {
+    assert.equal(viewColumn.style.getPropertyValue('--view-copy-size'), '', 'Narrow layouts use their natural stacked typography');
+  }
   const lifted = doc.querySelector('[data-strategy-lifted-block]');
   if (width > 1100 && !reducedMotion) {
     assert.equal(lifted.style.getPropertyValue('--strategy-lift-y'), '-80.0px');
@@ -301,6 +335,9 @@ async function checkInteractions(width, reducedMotion) {
       assert.equal(normalize(doc.querySelector('.ai-chat-typed-copy').textContent), normalize(source));
     }
   }
+  await wait(reducedMotion ? 20 : 180);
+  assert.equal(doc.querySelector('.ai-chat-window').__scrollIntoViewOptions?.block, 'center', 'A selected topic brings the complete chat window into view');
+  assert.equal(doc.querySelector('.ai-chat-conversation').scrollTop, 0, 'The current question remains fully visible at the top of the exchange');
   doc.querySelector('[data-local-ai-open]').click();
   assert(doc.querySelector('[data-local-ai-dialog]').open);
   assert(doc.body.classList.contains('modal-open'));

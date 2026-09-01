@@ -24,52 +24,30 @@ assert.deepEqual([...serverStage.children].map(el => el.className), [
 ]);
 const rackImages = [...serverStage.querySelectorAll('.hero-server-rack img')];
 assert.equal(rackImages.length, 2);
-assert.deepEqual(rackImages.map(img => img.getAttribute('src')), ['assets/hero-server-left-v2.png', 'assets/hero-server-right-v2.png'], 'Two independent full cabinets replace the cropped landscape ends');
+assert(rackImages.every(img => img.getAttribute('src') === 'assets/hero-server-matched-v3.png'), 'One source gives the pair identical optics');
 for (const img of rackImages) {
   assert.equal(img.getAttribute('alt'), '');
   assert.equal(img.parentElement.getAttribute('aria-hidden'), 'true');
-  assert.equal(img.getAttribute('width'), '793');
-  assert.equal(img.getAttribute('height'), '1983');
+  assert.equal(img.getAttribute('width'), '901');
+  assert.equal(img.getAttribute('height'), '1746');
   const png = fs.readFileSync(path.join(root, img.getAttribute('src')));
   assert.equal(png.readUInt32BE(16), img.width);
   assert.equal(png.readUInt32BE(20), img.height);
+  assert.equal(png[25], 6, 'PNG has RGBA channels');
 }
 assert.match(css, /grid-template-columns: minmax\(0, 13%\) minmax\(0, 1fr\) minmax\(0, 13%\)/, 'Dedicated side columns keep racks outside the copy');
 assert.match(css, /\.hero-server-rack-left \{ grid-column: 1; grid-row: 1; \}/);
 assert.match(css, /\.hero-server-rack-right \{ grid-column: 3; grid-row: 1; \}/);
-assert.match(css, /\.hero-server-rack img \{[^}]*width: auto;[^}]*max-width: none;[^}]*height: 115%;/s, 'Individual image proportions are preserved');
-assert.match(css, /\.hero-server-rack img \{[^}]*top: 50%;[^}]*left: 50%;[^}]*transform: translate\(-50%, -50%\);/s, 'Both complete assets are centered in their existing slots');
+assert.match(css, /\.hero-server-rack img \{[^}]*width: auto;[^}]*max-width: none;[^}]*height: 98%;/s);
+assert.match(css, /\.hero-server-rack img \{[^}]*top: 50%;[^}]*left: 50%;[^}]*transform: translate\(-50%, -50%\);/s);
+assert.match(css, /\.hero-server-rack-right img \{ transform: translate\(-50%, -50%\) scaleX\(-1\); \}/);
 assert.match(css, /\.hero-server-rack \{[^}]*aspect-ratio: 344 \/ 941;[^}]*pointer-events: none;/s);
-assert.match(css, /\.hero-server-rack \{[^}]*overflow: visible;/s, 'The slot cannot cut off a side or foot');
-assert.match(css, /clip-path: var\(--rack-silhouette\);/, 'The bitmap is cut to the physical rack, not a rectangular fade');
-assert(!css.includes('mask-image'), 'Cabinet depth and feet remain opaque; nothing fades away');
-// Outline checks use authored source coordinates, not browser screenshots.
-const polygon = side => {
-  const match = css.match(new RegExp(`\\.hero-server-rack-${side} \\{[^}]*?--rack-silhouette: polygon\\(([^)]+)\\)`));
-  assert(match, `Missing ${side} silhouette`);
-  return match[1].split(',').map(pair => pair.trim().split(/\s+/).map((v, i) => parseFloat(v) / 100 * [793, 1983][i]));
-};
-const inside = (p, points) => {
-  let result = false;
-  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
-    const a = points[i], b = points[j];
-    if ((a[1] > p[1]) !== (b[1] > p[1]) && p[0] < (b[0] - a[0]) * (p[1] - a[1]) / (b[1] - a[1]) + a[0]) result = !result;
-  }
-  return result;
-};
-for (const [side, body, background] of [
-  ['left', [[380, 160], [118, 302], [117, 1600], [662, 400], [380, 1808], [635, 1753]], [[100, 300], [700, 500], [300, 100], [380, 1840]]],
-  ['right', [[438, 168], [109, 243], [697, 1000], [441, 1828]], [[50, 500], [735, 500], [440, 145], [440, 1850]]]
-]) {
-  const points = polygon(side);
-  for (const p of body) assert(inside(p, points), `${side}: retain cabinet at ${p}`);
-  for (const p of background) assert(!inside(p, points), `${side}: remove background at ${p}`);
-  assert(points.every(([x, y]) => x > 0 && x < 793 && y > 0 && y < 1983), 'Complete silhouettes have empty source margins on every side');
-  for (const scale of [.25, .5, 1, 1.5, 2]) {
-    const scaled = points.map(p => p.map(v => v * scale));
-    for (const p of [...body, ...background]) assert.equal(inside(p.map(v => v * scale), scaled), inside(p, points), 'Silhouette scales with the unchanged image');
-  }
-}
+assert.match(css, /\.hero-server-rack \{[^}]*overflow: visible;/s);
+const rackImageRule = css.match(/\.hero-server-rack img \{[^}]+/)[0];
+assert(!/clip-path|mask(?:-image)?\s*:/.test(rackImageRule), 'True source alpha keeps the complete cabinet visible');
+assert.match(rackImageRule, /filter: brightness\(\.53\) contrast\(1\.08\) saturate\(\.82\)/, 'The photographic source receives the darker restrained treatment');
+assert.match(css, /\.hero-server-rack::after \{[^}]*mask: url\("assets\/hero-server-matched-v3\.png"\)[^}]*mix-blend-mode: screen;[^}]*opacity: \.44;/s, 'A source-alpha-shaped violet wash styles the cabinet without tracing or altering it');
+assert.match(css, /\.hero-server-rack-right::after \{ transform: scaleX\(-1\); \}/, 'The violet treatment mirrors with the identical right cabinet');
 assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack \{ display: none; \}/, 'Phone copy has full width, never a narrow server gutter');
 assert.equal(q('.hero-actions').children.length, 2);
 assert.equal(q('.hero-actions a').getAttribute('href'), 'mailto:realityforgeeu@gmail.com?subject=Anfrage%20zu%20KI-Systemen');
@@ -93,12 +71,13 @@ for (const viewport of [761, 820, 992, 993, 1024, 1100, 1280, 1440, 1613, 1920, 
   assert(Math.abs(centerWidth + 2 * rackWidth + 2 * outerGap - railWidth) < .01);
   assert(centerWidth - 48 > 410, 'The full center width is available for single-line service names');
   const rackHeight = rackWidth * 941 / 344;
-  const imageScale = rackHeight * 1.15 / 1983;
-  const offsetX = (rackWidth - 793 * imageScale) / 2;
-  const offsetY = (rackHeight - 1983 * imageScale) / 2;
+  const imageScale = rackHeight * .98 / 1746;
+  const offsetX = (rackWidth - 901 * imageScale) / 2;
+  const offsetY = (rackHeight - 1746 * imageScale) / 2;
   for (const side of ['left', 'right']) {
-    for (const [x, y] of polygon(side)) {
-      const px = offsetX + x * imageScale, py = offsetY + y * imageScale;
+    // Bounds measured from the alpha>=128 silhouette of the actual PNG.
+    for (const [x, y] of [[136, 23], [767, 23], [136, 1727], [767, 1727]]) {
+      const px = offsetX + (side === 'left' ? x : 901 - x) * imageScale, py = offsetY + y * imageScale;
       assert(px > 0 && px < rackWidth && py > 0 && py < rackHeight, `${viewport}px: ${side} rear edge, top and feet fit fully inside their reserved slot`);
     }
   }

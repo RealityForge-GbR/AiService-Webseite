@@ -1,0 +1,219 @@
+/* Final sizing pass. No scaling of whole sections or fixed-position dialogs. */
+#wirtschaftlichkeit .economics-bridge {
+  width: 100%;
+  max-width: none;
+  margin-inline: auto;
+}
+#wirtschaftlichkeit .economics-bridge .reference-intro {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding-inline: 0;
+  font-size: clamp(1.1rem, 1.65vw, 1.5rem);
+  line-height: 1.65;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+/* The four decisions sit in the optical middle of the bridge between the
+   evidence paragraph and the strategy construction below. */
+@media (min-width: 761px) {
+  #wirtschaftlichkeit .business-grid.business-progress {
+    padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  }
+}
+
+/* Keep the use-case introduction close to its title while retaining a
+   separate, calmer hand-off to the cards. */
+#anwendungsbeispiele .section-heading {
+  margin-bottom: clamp(2rem, 3vw, 3rem);
+}
+#anwendungsbeispiele .section-heading-copy {
+  gap: clamp(.8rem, 1.35vw, 1.25rem);
+}
+
+/* The explanatory bridge belongs exactly between the fusion graphic and the
+   interactive application map, not visually to either one. */
+#moderne-ki .system-fusion { margin-bottom: 0; }
+#moderne-ki .modern-ai-intro {
+  margin: clamp(2.25rem, 4vw, 3.5rem) auto;
+}
+
+/* New messages own their position; browser scroll anchoring must not move the
+   question upward while the answer is being typed underneath it. */
+#moderne-ki .ai-chat-conversation {
+  overflow-anchor: none;
+  scroll-padding-block: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* On wide layouts the complete team message lives inside the two portrait
+   edges. JavaScript only reduces these two readable sizes when a real font or
+   viewport measurement requires it. */
+#unsere-sicht .view-people-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+#unsere-sicht .view-copy-column {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+#unsere-sicht .view-heading h2 {
+  margin: 0 0 clamp(.65rem, .9vw, 1rem);
+  font-size: var(--view-title-size, clamp(1.65rem, 2.3vw, 2.8rem));
+  line-height: 1.06;
+  white-space: normal;
+  text-wrap: balance;
+}
+#unsere-sicht .view-heading h2 > span {
+  display: inline;
+  white-space: normal;
+}
+#unsere-sicht .view-copy {
+  columns: 2;
+  column-gap: clamp(1rem, 2vw, 1.75rem);
+}
+#unsere-sicht .view-copy p {
+  margin: 0 0 clamp(.35rem, .6vw, .65rem);
+  font-size: var(--view-copy-size, clamp(.8rem, .88vw, .98rem));
+  line-height: 1.42;
+}
+#unsere-sicht .view-copy p:last-child { margin-bottom: 0; }
+
+/* When a portrait-height fit would require unreadably small type, the whole
+   copy deliberately reflows below two equal portraits instead of protruding
+   beyond their top or bottom edges. */
+@media (max-width: 1100px) {
+  #unsere-sicht .view-people-layout,
+  #unsere-sicht .view-people-layout.is-view-copy-stacked {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+  #unsere-sicht .view-copy-column {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  #unsere-sicht .team-portrait:first-child { grid-column: 1; grid-row: 1; }
+  #unsere-sicht .team-portrait:last-child { grid-column: 2; grid-row: 1; }
+  #unsere-sicht .team-portrait-frame { max-width: 18rem; margin-inline: auto; }
+  #unsere-sicht .view-heading h2 { font-size: clamp(1.8rem, 5vw, 3.35rem); }
+  #unsere-sicht .view-copy { columns: 1; }
+  #unsere-sicht .view-copy p { font-size: clamp(.94rem, 1.5vw, 1.02rem); line-height: 1.65; }
+}
+@media (min-width: 1101px) {
+  #unsere-sicht .view-people-layout.is-view-copy-stacked {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+  #unsere-sicht .view-people-layout.is-view-copy-stacked .view-copy-column {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  #unsere-sicht .view-people-layout.is-view-copy-stacked .team-portrait:first-child { grid-column: 1; grid-row: 1; }
+  #unsere-sicht .view-people-layout.is-view-copy-stacked .team-portrait:last-child { grid-column: 2; grid-row: 1; }
+  #unsere-sicht .view-people-layout.is-view-copy-stacked .team-portrait-frame { max-width: 20rem; margin-inline: auto; }
+  #unsere-sicht .view-people-layout.is-view-copy-stacked .view-copy { columns: 1; }
+}
+
+/* One urgency statement leads directly into the existing action; it is
+   differentiated by weight and a short purple guide, not another card. */
+#kontakt .onsite-contact-urgency {
+  position: relative;
+  margin-top: clamp(1rem, 1.8vw, 1.5rem);
+  padding-left: clamp(1rem, 1.6vw, 1.4rem);
+  color: color-mix(in srgb, var(--text) 84%, var(--muted) 16%);
+}
+#kontakt .onsite-contact-urgency::before {
+  content: "";
+  position: absolute;
+  top: .2em;
+  bottom: .2em;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(var(--accent-soft), rgba(var(--accent-rgb), .18));
+  box-shadow: 0 0 1rem rgba(var(--accent-rgb), .22);
+}
+#kontakt .onsite-contact-urgency strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+/* Headings stay readable in narrow windows and when users enlarge text. */
+#economics-title.fitted-title-wrap,
+#view-title.fitted-title-wrap {
+  font-size: clamp(1.5rem, 3.5vw, 3.5rem);
+  white-space: normal;
+  text-wrap: balance;
+}
+#economics-title.fitted-title-wrap > span,
+#view-title.fitted-title-wrap > span { white-space: normal; max-width: 100%; }
+#use-cases-title, #modern-ai-title { white-space: normal; text-wrap: balance; }
+.service-grid-compact h3 { overflow-wrap: anywhere; }
+
+/* The full local-AI chapter has one height budget: title + scene + benefits +
+   explanation + CTA. Only the scene is resized; its approved coordinates stay. */
+main > #lokale-ki {
+  padding-block: clamp(1rem, 2.5svh, 2rem);
+  scroll-margin-top: .5rem;
+}
+#lokale-ki .local-ai-intro { display: block; margin: 0; text-align: center; }
+#lokale-ki .local-ai-intro h2 {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  font-size: clamp(1.8rem, min(3.8vw, 5svh), 3.8rem);
+  line-height: 1.12;
+  white-space: normal;
+  text-wrap: balance;
+}
+#lokale-ki .local-security-visual {
+  --local-glow-room: clamp(.75rem, 2svh, 1.5rem);
+  margin-top: calc(var(--local-glow-room) + .5rem);
+}
+#lokale-ki .local-security-stage {
+  /* CSS-only fallback; the enhancement subtracts the measured text height. */
+  width: min(100%, var(--local-scene-width, max(40rem, min(65rem, calc((100svh - 18rem) * 1.5)))));
+  max-width: none;
+  margin-inline: auto;
+}
+#lokale-ki .local-ai-node { gap: clamp(.3rem, .85cqw, .65rem); }
+#lokale-ki .local-ai-node-copy strong { font-size: clamp(.85rem, 1.65cqw, 1.45rem); }
+#lokale-ki .local-ai-node-copy small { font-size: clamp(.6rem, 1cqw, .78rem); }
+#lokale-ki .local-data-label {
+  min-height: max(6.5%, 2.2rem);
+  gap: clamp(.3rem, .65cqw, .65rem);
+  padding: .45rem clamp(.4rem, 1cqw, 1rem);
+  font-size: clamp(.7rem, 1.2cqw, 1rem);
+}
+#lokale-ki .local-data-label svg { flex: 0 0 auto; width: clamp(.85rem, 1.6cqw, 1.6rem); height: auto; }
+#lokale-ki .local-control-points {
+  padding-top: clamp(.5rem, 1.5svh, 1rem);
+  gap: clamp(.5rem, 3vw, 3rem);
+  flex-wrap: wrap;
+}
+#lokale-ki .local-control-points li { min-width: 0; font-size: clamp(.75rem, 1vw, .94rem); }
+#lokale-ki .local-control-points svg { flex: 0 0 auto; }
+#lokale-ki .local-ai-foot { margin-top: clamp(.65rem, 1.5svh, 1rem); gap: clamp(.65rem, 1.5svh, 1rem); }
+#lokale-ki .local-ai-foot p { max-width: 80ch; font-size: clamp(.875rem, 1vw, .98rem); line-height: 1.5; text-align: center; }
+#lokale-ki .local-ai-detail-trigger { min-height: 2.75rem; padding-block: .6rem; }
+@media (max-width: 760px) {
+  #lokale-ki .local-ai-intro h2 { font-size: clamp(1.5rem, 6.5vw, 2.4rem); }
+  #lokale-ki .local-security-stage {
+    width: min(100%, var(--local-scene-width, max(15rem, min(23rem, calc((100svh - 23rem) * .642857)))));
+  }
+  #lokale-ki .local-ai-node { gap: .3rem; }
+  #lokale-ki .local-ai-node-copy strong { font-size: .875rem; }
+  #lokale-ki .local-ai-node-copy small { font-size: .6rem; }
+  #lokale-ki .local-data-label { min-height: 2rem; font-size: .65rem; padding: .25rem .3rem; gap: .25rem; }
+  #lokale-ki .local-data-label svg { width: .85rem; }
+  #lokale-ki .local-control-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #lokale-ki .local-control-points li { flex-direction: column; text-align: center; gap: .3rem; }
+  #lokale-ki .local-control-points svg { width: 1.4rem; height: 1.4rem; }
+}

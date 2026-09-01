@@ -30,7 +30,7 @@ assert(!/localStorage|sessionStorage|pointerdown|pointermove|data-layout-editor/
 assert(!fs.existsSync(path.join(root, 'local-ai-editor.js')));
 assert(!fs.existsSync(path.join(root, 'local-ai-editor.css')));
 
-function harness(width = 1440, url = 'file:///review/index.html') {
+function harness(width = 1440, url = 'file:///review/index.html', compactWidth = null) {
   const errors = [], results = [], virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
   const dom = new JSDOM(html, { url, runScripts: 'outside-only', pretendToBeVisual: true, virtualConsole });
@@ -49,17 +49,17 @@ function harness(width = 1440, url = 'file:///review/index.html') {
   const stage = doc.querySelector('.local-security-stage');
   const nodes = Object.fromEntries([...stage.querySelectorAll('[data-layout-node]')].map(el => [el.dataset.layoutNode, el]));
   const bcr = (x, y, width, height) => ({ left: x, right: x + width, top: y, bottom: y + height, x, y, width, height, toJSON() { return this; } });
-  const stageSize = () => { const mobile = w.innerWidth <= 760, width = mobile ? Math.min(544, w.innerWidth - 32) : w.innerWidth * .84; return { mobile, width, height: width * (mobile ? 560 / 360 : 800 / 1200) }; };
+  const stageSize = () => { const mobile = w.innerWidth <= 760, width = compactWidth || (mobile ? Math.min(368, w.innerWidth - 32) : Math.min(1040, w.innerWidth * .84)); return { mobile, width, height: width * (mobile ? 560 / 360 : 800 / 1200) }; };
   stage.getBoundingClientRect = () => { const { width, height } = stageSize(); return bcr(20, 200, width, height); };
   function bounds(k) {
     const s = stageSize(), { width: sw, height: sh, mobile } = s;
     let width, height, x, y;
     if (k === 'ai') {
-      width = sw * (mobile ? .58 : .24); height = sw * (mobile ? 64 / 360 : 100 / 1200) + (mobile ? 8 : 10.4) + (mobile ? 34 : 40);
+      width = sw * (mobile ? .58 : .24); height = sw * (mobile ? 64 / 360 : 100 / 1200) + Math.max(4.8, Math.min(10.4, sw * .0085)) + 34;
       x = sw / 2; y = sh * (mobile ? 69 / 560 : .14) + height / 2;
     } else if (k === 'building') { width = sw * (mobile ? .94 : .5); height = width * 2 / 3; x = sw / 2; y = sh - height / 2; }
     else {
-      width = sw * (mobile ? .43 : .21); height = Math.max(sh * (mobile ? .075 : .065), mobile ? 38.4 : w.innerWidth <= 1100 ? 40 : 48);
+      width = sw * (mobile ? .43 : .21); height = Math.max(sh * (mobile ? .075 : .065), mobile ? 32 : 35.2);
       const left = ['one', 'two'].includes(k), upper = ['one', 'three'].includes(k);
       x = sw * (left ? mobile ? .05 : .09 : mobile ? .95 : .91) + (left ? 1 : -1) * width / 2;
       y = sh * (upper ? mobile ? 209 / 560 : .3775 : mobile ? 269 / 560 : .4825) + (mobile ? height / 2 : 0);
@@ -72,9 +72,8 @@ function harness(width = 1440, url = 'file:///review/index.html') {
     nodes[k].setPointerCapture = () => {};
   }
   stage.querySelector('.local-ai-node-icon').getBoundingClientRect = () => { const s = stageSize(), a = bounds('ai'), size = s.width * (s.mobile ? 64 / 360 : 100 / 1200); return bcr(a.left + (a.width - size) / 2, a.top, size, size); };
-  stage.querySelector('.local-ai-node-copy').getBoundingClientRect = () => { const s = stageSize(), a = bounds('ai'), width = s.mobile ? 100 : 120, height = s.mobile ? 34 : 40; return bcr(a.left + (a.width - width) / 2, a.bottom - height, width, height); };
+  stage.querySelector('.local-ai-node-copy').getBoundingClientRect = () => { const s = stageSize(), a = bounds('ai'), width = s.mobile ? 100 : Math.max(100, s.width * .1), height = 34; return bcr(a.left + (a.width - width) / 2, a.bottom - height, width, height); };
 
-  const mobilePaths = [...stage.querySelectorAll('.local-data-map-mobile defs path')].map(el => el.getAttribute('d'));
   for (const p of stage.querySelectorAll('defs path')) p.getTotalLength = () => 321;
   const outside = [...doc.querySelectorAll('main > section')].filter(el => el.id !== 'lokale-ki').map(el => el.outerHTML);
   w.eval(runtime); flush();
@@ -82,7 +81,6 @@ function harness(width = 1440, url = 'file:///review/index.html') {
   const check = () => {
     assert.equal(stage.getAttribute('aria-hidden'), 'true');
     assert.equal(stage.querySelectorAll('[tabindex], [role="button"], [draggable]').length, 0);
-    assert.deepEqual([...stage.querySelectorAll('.local-data-map-mobile defs path')].map(el => el.getAttribute('d')), mobilePaths, 'Mobile paths are unchanged');
     if (w.innerWidth <= 760) {
       for (const key of core.keys) assert.equal(nodes[key].getAttribute('style'), null, 'Mobile positions are unchanged');
     } else {
@@ -94,10 +92,10 @@ function harness(width = 1440, url = 'file:///review/index.html') {
         const ra = bounds(a), rb = bounds(b);
         assert(Math.abs((ra.top + ra.height / 2) - (rb.top + rb.height / 2)) < 1e-6, 'Opposite pills stay level');
       }
-      const result = results.at(-1);
-      assert(result?.valid, w.innerWidth + ': ' + result?.issues.join(', '));
-      assert.equal(stage.querySelectorAll('use[style*="hidden"]').length, 0, 'Every connection remains visible');
     }
+    const result = results.at(-1);
+    assert(result?.valid, w.innerWidth + ': ' + result?.issues.join(', '));
+    assert.equal(stage.querySelectorAll('use[style*="hidden"]').length, 0, 'Every connection remains visible');
     assert.deepEqual(errors, []);
   };
   const finish = () => {
@@ -140,14 +138,17 @@ function checkRoutes(h) {
 for (const width of [320, 390, 540, 760, 761, 820, 1024, 1100, 1280, 1440, 1613, 1920, 2560, 3440]) {
   const h = harness(width);
   h.check();
-  if (width > 760) checkRoutes(h);
+  checkRoutes(h);
   h.finish();
   console.log('PASS: ' + width + 'px fixture, approved position/row alignment, route visibility, no crossings/building intersections.');
 }
 const h = harness(1613, 'https://example.test/?edit-local-ai=1');
 for (const width of [390, 2560, 760, 761, 1440, 320, 1920]) {
-  h.resize(width); h.check(); if (width > 760) checkRoutes(h);
+  h.resize(width); h.check(); checkRoutes(h);
 }
 h.finish();
+for (const [viewport, compact] of [[320, 240], [390, 260], [760, 368], [761, 640], [1366, 680], [1920, 900]]) {
+  const compactScene = harness(viewport, 'file:///review/index.html', compact);
+  compactScene.check(); checkRoutes(compactScene); compactScene.finish();
+}
 console.log('PASS: local/public URLs use identical approved layout; old editor parameter/storage ignored; mobile/desktop resize round trips; no editor UI/handlers.');
-

@@ -27,6 +27,11 @@ const heroTerminalShell = document.querySelector('.hero-terminal-shell');
 const heroCopy = document.querySelector('.hero-copy');
 const economicsTitle = document.querySelector('#economics-title');
 const economicsTitleCopy = economicsTitle?.querySelector('span');
+const viewPeopleLayout = document.querySelector('.view-people-layout');
+const viewCopyColumn = document.querySelector('.view-copy-column');
+const viewTitle = document.querySelector('#view-title');
+const viewParagraph = document.querySelector('.view-copy p');
+const viewPortraitFrames = [...document.querySelectorAll('.team-portrait-frame')];
 const evidenceChart = document.querySelector('[data-evidence-chart]');
 const evidenceTriggers = [...document.querySelectorAll('[data-evidence-trigger]')];
 const evidenceModal = document.querySelector('[data-evidence-modal]');
@@ -52,10 +57,13 @@ let lastUseCaseTrigger;
 let aiTypingTimer;
 let aiTypingDelayTimer;
 let activeAiTyping;
+let aiExchangeScrollTimer;
 let evidenceModalTimer;
 let lastEvidenceTrigger;
 let businessStepModalTimer;
 let lastBusinessStepTrigger;
+let viewFitFrame;
+let viewObservedWidth = 0;
 
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
@@ -68,40 +76,93 @@ function updateThemeControl() {
   themeMeta.setAttribute('content', isLight ? '#f4f1f7' : '#09080d');
 }
 
-function fitSingleLine(element, copy, targetWidth) {
+function fitSingleLine(element, copy, targetWidth, readable = false) {
   if (!element || !copy || !Number.isFinite(targetWidth) || targetWidth <= 0) return;
-
+  element.classList.remove('fitted-title-wrap');
   const measurementSize = 100;
   element.style.fontSize = `${measurementSize}px`;
   const naturalWidth = copy.getBoundingClientRect().width;
 
   if (Number.isFinite(naturalWidth) && naturalWidth > 0) {
-    element.style.fontSize = `${(targetWidth / naturalWidth) * measurementSize}px`;
-  }
+    const size = (targetWidth / naturalWidth) * measurementSize;
+    if (readable && size < (parseFloat(getComputedStyle(root).fontSize) || 16) * 1.5) {
+      element.classList.add('fitted-title-wrap');
+      element.style.removeProperty('font-size');
+    } else element.style.fontSize = `${size}px`;
+  } else element.style.removeProperty('font-size');
 }
 
 function fitEconomicsTitle() {
   if (!economicsTitle || !economicsTitleCopy) return;
   if (window.innerWidth <= 760) {
     economicsTitle.style.removeProperty('font-size');
+    economicsTitle.classList.remove('fitted-title-wrap');
     document.querySelector('#services-overview-title')?.style.removeProperty('--reference-title-size');
     return;
   }
-  fitSingleLine(economicsTitle, economicsTitleCopy, economicsTitle.parentElement.getBoundingClientRect().width);
+  fitSingleLine(economicsTitle, economicsTitleCopy, economicsTitle.parentElement.getBoundingClientRect().width, true);
   document.querySelector('#services-overview-title')?.style.setProperty('--reference-title-size', getComputedStyle(economicsTitle).fontSize);
 }
 
-function fitViewTitle() {
-  const title = document.querySelector('#view-title');
-  const copy = title?.querySelector('span');
-  if (!title || !copy) return;
-  if (window.innerWidth <= 760) title.style.removeProperty('font-size');
-  else fitSingleLine(title, copy, title.parentElement.getBoundingClientRect().width);
+function fitViewContent() {
+  viewFitFrame = undefined;
+  if (!viewPeopleLayout || !viewCopyColumn || !viewTitle || !viewParagraph) return;
+
+  viewPeopleLayout.classList.remove('is-view-copy-stacked');
+  viewCopyColumn.style.removeProperty('--view-title-size');
+  viewCopyColumn.style.removeProperty('--view-copy-size');
+  if (window.innerWidth <= 1100) return;
+
+  const portraitHeight = Math.min(...viewPortraitFrames.map((frame) => frame.getBoundingClientRect().height));
+  const baseTitleSize = Number.parseFloat(getComputedStyle(viewTitle).fontSize);
+  const baseCopySize = Number.parseFloat(getComputedStyle(viewParagraph).fontSize);
+  if (![portraitHeight, baseTitleSize, baseCopySize].every((value) => Number.isFinite(value) && value > 0)) return;
+  if (viewCopyColumn.scrollHeight <= portraitHeight + 1) return;
+
+  const rootSize = Number.parseFloat(getComputedStyle(root).fontSize) || 16;
+  const minimumScale = Math.min(1, Math.max((rootSize * 1.5) / baseTitleSize, (rootSize * .74) / baseCopySize));
+  const applyScale = (scale) => {
+    viewCopyColumn.style.setProperty('--view-title-size', `${(baseTitleSize * scale).toFixed(3)}px`);
+    viewCopyColumn.style.setProperty('--view-copy-size', `${(baseCopySize * scale).toFixed(3)}px`);
+  };
+
+  applyScale(minimumScale);
+  if (viewCopyColumn.scrollHeight > portraitHeight + 1) {
+    viewCopyColumn.style.removeProperty('--view-title-size');
+    viewCopyColumn.style.removeProperty('--view-copy-size');
+    viewPeopleLayout.classList.add('is-view-copy-stacked');
+    return;
+  }
+
+  let low = minimumScale;
+  let high = 1;
+  for (let iteration = 0; iteration < 10; iteration += 1) {
+    const candidate = (low + high) / 2;
+    applyScale(candidate);
+    if (viewCopyColumn.scrollHeight <= portraitHeight + 1) low = candidate;
+    else high = candidate;
+  }
+  applyScale(low);
 }
 
-document.fonts?.ready.then(fitViewTitle);
-window.addEventListener('resize', fitViewTitle);
-requestAnimationFrame(fitViewTitle);
+function requestViewContentFit() {
+  if (viewFitFrame) return;
+  viewFitFrame = window.requestAnimationFrame(fitViewContent);
+}
+
+document.fonts?.ready.then(requestViewContentFit);
+document.fonts?.addEventListener('loadingdone', requestViewContentFit);
+window.addEventListener('resize', requestViewContentFit);
+if ('ResizeObserver' in window && viewPeopleLayout) {
+  const viewFitObserver = new ResizeObserver((entries) => {
+    const width = entries[0]?.contentRect?.width || viewPeopleLayout.getBoundingClientRect().width;
+    if (!Number.isFinite(width) || Math.abs(width - viewObservedWidth) < .5) return;
+    viewObservedWidth = width;
+    requestViewContentFit();
+  });
+  viewFitObserver.observe(viewPeopleLayout);
+}
+requestViewContentFit();
 
 // Only animate visible diagrams. Each signal ends exactly at its destination.
 document.querySelectorAll('.local-network-impulses use').forEach((signal) => {
@@ -173,6 +234,7 @@ if (heroWordmark && wordmarkSettings) {
           heroTitle.style.removeProperty('font-size');
         }
       }
+      window.RealityForgeHeroLayout?.centerPortal(heroWordmark, heroTitleCopy);
     };
 
     const titleWidthObserver = 'ResizeObserver' in window
@@ -180,6 +242,7 @@ if (heroWordmark && wordmarkSettings) {
       : null;
 
     titleWidthObserver?.observe(heroWordmark);
+    if (heroTitle) titleWidthObserver?.observe(heroTitle);
     if (heroCopy) titleWidthObserver?.observe(heroCopy);
     window.addEventListener('resize', syncHeroTitleWidth);
     document.fonts?.ready.then(syncHeroTitleWidth);
@@ -198,6 +261,7 @@ if (heroWordmark && wordmarkSettings) {
 }
 
 document.fonts?.ready.then(fitEconomicsTitle);
+document.fonts?.addEventListener('loadingdone', fitEconomicsTitle);
 requestAnimationFrame(fitEconomicsTitle);
 window.addEventListener('resize', fitEconomicsTitle);
 
@@ -379,6 +443,30 @@ function createAiMessage(kind, revealDelay = 0) {
   return { message, bubble };
 }
 
+function revealAiQuestion(userMessage) {
+  if (!aiConversation || !userMessage?.isConnected) return;
+  const conversationPadding = Number.parseFloat(window.getComputedStyle(aiConversation).paddingTop) || 0;
+  const alignQuestion = () => aiConversation.scrollTo({
+    top: Math.max(0, userMessage.offsetTop - conversationPadding),
+    behavior: reduceMotion.matches ? 'auto' : 'smooth',
+  });
+
+  alignQuestion();
+
+  const chatWindow = aiConversation.closest('.ai-chat-window');
+  if (!chatWindow) return;
+  const bounds = chatWindow.getBoundingClientRect();
+  const viewportInset = Math.max(16, window.innerHeight * .08);
+  if (bounds.top < viewportInset || bounds.bottom > window.innerHeight - viewportInset) {
+    chatWindow.scrollIntoView({
+      behavior: reduceMotion.matches ? 'auto' : 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
+    window.requestAnimationFrame(alignQuestion);
+  }
+}
+
 if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
   aiTopicButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -388,6 +476,7 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
       if (!topic || !question || !template) return;
 
       finishAiTyping();
+      window.clearTimeout(aiExchangeScrollTimer);
 
       // This is a topic explorer, not a chat history. Keep one complete answer in view.
       aiConversation.querySelectorAll('.ai-chat-message').forEach((message) => message.remove());
@@ -407,13 +496,10 @@ if (aiTopicExplorer && aiConversation && aiTopicButtons.length) {
       userCopy.textContent = question;
       userMessage.bubble.appendChild(userCopy);
 
-      window.setTimeout(() => {
-        const conversationPadding = Number.parseFloat(window.getComputedStyle(aiConversation).paddingTop) || 0;
-        aiConversation.scrollTo({
-          top: Math.max(0, userMessage.message.offsetTop - conversationPadding),
-          behavior: reduceMotion.matches ? 'auto' : 'smooth',
-        });
-      }, 150);
+      aiExchangeScrollTimer = window.setTimeout(() => {
+        aiExchangeScrollTimer = undefined;
+        revealAiQuestion(userMessage.message);
+      }, reduceMotion.matches ? 0 : 150);
 
       const paragraphs = [...template.content.querySelectorAll('p')]
         .map((paragraph) => paragraph.textContent.trim())

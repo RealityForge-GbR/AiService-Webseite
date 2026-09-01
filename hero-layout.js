@@ -23,5 +23,17 @@
     }
     return true;
   }
-  window.RealityForgeHeroLayout = Object.freeze({ alignWordmark });
+  function centerPortal(logo, title) {
+    if (!logo?.textHi || !logo.textB || !logo.setLowerPortalY || !title) return false;
+    const matrix = logo.word?.getScreenCTM?.();
+    if (!matrix || !Number.isFinite(matrix.d) || matrix.d <= 0) return false;
+    // SVG text bounds describe the lettering, not its oversized host box.
+    // All measurements share viewport coordinates, so scrolling cancels out.
+    const bottom = Math.max(logo.textHi.getBoundingClientRect().bottom, logo.textB.getBoundingClientRect().bottom);
+    const top = title.getBoundingClientRect().top;
+    if (![bottom, top, matrix.f].every(Number.isFinite) || top <= bottom) return false;
+    logo.setLowerPortalY(((bottom + top) / 2 - matrix.f) / matrix.d);
+    return true;
+  }
+  window.RealityForgeHeroLayout = Object.freeze({ alignWordmark, centerPortal });
 })();

@@ -38,8 +38,8 @@
   function render() {
     frame = 0;
     applyPositions();
-    // The separate authored mobile composition and its paths remain untouched.
-    if (!config.layouts[currentVariant]) return;
+    // Positions stay authored, including the separate mobile composition.
+    // Paths follow the measured ports even when the height budget shrinks it.
     const scene = measure();
     if (!scene) return;
     const result = core.routeScene(scene);

@@ -172,6 +172,15 @@
     showFinal() { this._playing = false; this._ambient = false; this._t = this._tl.total; this._render(this._t); }
     get duration() { return this._tl.total / 1000; }
     get currentTime() { return this._t / 1000; }
+    // Integration can place the lower beam between adjacent elements without
+    // restarting the logo or changing its scanner/lettering geometry.
+    setLowerPortalY(y) {
+      if (!Number.isFinite(y) || Math.abs(y - this._lowerPortalY) < 0.05) return;
+      const previous = Number.isFinite(this._lowerPortalY) ? this._lowerPortalY : this.L.bottom + this._cfg.lowerPortalGap;
+      this._lowerPortalY = y;
+      this._lowerParts.forEach(p => { if (p.alive) p.y += y - previous; });
+      this._render(this._t);
+    }
 
     /* ---------- lifecycle ---------- */
     connectedCallback() {
@@ -588,7 +597,7 @@
       var lowerX = L.originX;
       var lowerTargetW = Math.max(0, L.wordEndX - L.originX);
       var lowerW = lowerTargetW;
-      var lowerFinalY = L.bottom + c.lowerPortalGap;
+      var lowerFinalY = Number.isFinite(this._lowerPortalY) ? this._lowerPortalY : L.bottom + c.lowerPortalGap;
       var lowerY = lowerFinalY + c.lowerPortalLift * (1 - lowerE);
       var lowerGlowH = c.lowerPortalGlowH * lowerE;
       var lowerColor = c.linkColors ? c.portalColor : c.scanColor;
