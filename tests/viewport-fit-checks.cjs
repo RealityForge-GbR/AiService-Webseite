@@ -52,7 +52,7 @@ w.visualViewport = { height: 500, scale: 2 };
 observeCallback(); flush(); assert(sceneWidth() >= unzoomed);
 assert.equal(d.querySelectorAll('.local-control-points li').length, 3);
 assert(d.querySelector('[data-local-ai-open]'));
-assert(!/\.local-ai-foot[^}]*display:\s*none|overflow:\s*hidden|transform:\s*scale/.test(css));
+assert(!/\.local-ai-foot[^}]*(?:display:\s*none|overflow:\s*hidden|transform:\s*scale)/.test(css));
 assert.match(css, /#wirtschaftlichkeit \.economics-bridge \.reference-intro \{[^}]*width: 100%;[^}]*max-width: none;[^}]*margin: 0 auto;[^}]*padding-inline: 0;/s);
 assert.match(css, /@media \(min-width: 761px\) \{\s*#wirtschaftlichkeit \.business-grid\.business-progress \{\s*padding-block: clamp\(1\.5rem, 3vw, 2\.25rem\);/s);
 assert.match(css, /#anwendungsbeispiele \.section-heading-copy \{\s*gap: clamp\(\.8rem, 1\.35vw, 1\.25rem\);/s);

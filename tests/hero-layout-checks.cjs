@@ -8,6 +8,7 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const source = fs.readFileSync(path.join(root, 'hero-layout.js'), 'utf8');
 const main = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
 const css = fs.readFileSync(path.join(root, 'hero-copy-layout.css'), 'utf8');
+const viewportCss = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
 const dom = new JSDOM(html, { url: 'https://test.invalid/', runScripts: 'outside-only', pretendToBeVisual: true });
 const w = dom.window, d = w.document, q = s => d.querySelector(s);
 const rect = (left, top, width, height) => ({ left, top, width, height, right: left + width, bottom: top + height });
@@ -48,7 +49,8 @@ assert(!/clip-path|mask(?:-image)?\s*:/.test(rackImageRule), 'True source alpha 
 assert.match(rackImageRule, /filter: brightness\(\.53\) contrast\(1\.08\) saturate\(\.82\)/, 'The photographic source receives the darker restrained treatment');
 assert.match(css, /\.hero-server-rack::after \{[^}]*mask: url\("assets\/hero-server-matched-v3\.png"\)[^}]*mix-blend-mode: screen;[^}]*opacity: \.44;/s, 'A source-alpha-shaped violet wash styles the cabinet without tracing or altering it');
 assert.match(css, /\.hero-server-rack-right::after \{ transform: scaleX\(-1\); \}/, 'The violet treatment mirrors with the identical right cabinet');
-assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack \{ display: none; \}/, 'Phone copy has full width, never a narrow server gutter');
+assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack \{ display: none; \}/, 'The base phone layout removes both decorative racks');
+assert.match(viewportCss, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack-right \{[\s\S]*display: block;/, 'The final phone composition restores one restrained server beside the service list');
 assert.match(html, /root\.classList\.add\('hero-sequence-pending'\)/, 'The pre-paint guard prevents the below-logo content from flashing early');
 assert.match(main, /heroWordmark\.addEventListener\('rf:complete', revealHeroSequence, \{ once: true \}\)/, 'Logo completion remains a safe final reveal boundary');
 assert.match(main, /revealDuringLogoDelay[\s\S]*setTimeout\(revealHeroSequence, revealDuringLogoDelay\)/, 'The lower stage begins fading while the wordmark is still running');
