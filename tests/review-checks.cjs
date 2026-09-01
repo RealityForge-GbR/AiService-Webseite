@@ -87,6 +87,7 @@ assert.equal(economicsMethod.children[1].className, 'business-grid business-prog
 const viewportRefinements = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
 assert.match(viewportRefinements, /\.economics-method-layout \{\s*display: grid;[\s\S]*grid-template-columns: minmax\(8rem, 43%\) minmax\(0, 57%\);/s, 'Phone economics uses a two-column question/progression composition');
 assert.match(viewportRefinements, /#strategie \.strategy-crane \{[\s\S]*display: block;/s, 'The construction crane remains visible on phones');
+assert.match(viewportRefinements, /#strategie \.crane-mast \{[\s\S]*bottom: 3rem;[\s\S]*height: calc\(95% - 3rem\);/s, 'The mobile crane mast terminates behind the right foundation block');
 assert.match(viewportRefinements, /#strategie \.strategy-addon-lifted \{[\s\S]*top: 10\.8rem;[\s\S]*transform: translate\(-50%, var\(--strategy-lift-y, -4\.5rem\)\);/s, 'The lifted construction block follows the mobile crane onto its centered landing point');
 assert.match(viewportRefinements, /#strategie \.strategy-learning-path \{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/s, 'The mobile construction foundation retains its three-step row');
 assert.match(viewportRefinements, /#strategie \.strategy-learning-path small \{ display: none; \}/, 'The compact foundation no longer repeats step numbers');

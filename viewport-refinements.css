@@ -1364,6 +1364,10 @@ main > #lokale-ki {
     top: .4rem;
     height: calc(100% - .55rem);
   }
+  #strategie .crane-mast {
+    bottom: 3rem;
+    height: calc(95% - 3rem);
+  }
   #strategie .strategy-site .strategy-addon-block {
     display: grid;
     align-content: center;
