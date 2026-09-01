@@ -58,6 +58,7 @@ assert.match(css, /@media \(min-width: 761px\) \{\s*#wirtschaftlichkeit \.busine
 assert.match(css, /#anwendungsbeispiele \.section-heading-copy \{\s*gap: clamp\(\.8rem, 1\.35vw, 1\.25rem\);/s);
 assert.match(css, /#moderne-ki \.system-fusion \{ margin-bottom: 0; \}[\s\S]*#moderne-ki \.modern-ai-intro \{\s*margin: clamp\(2\.25rem, 4vw, 3\.5rem\) auto;/s);
 assert.match(css, /#moderne-ki \.ai-chat-conversation \{[^}]*overflow-anchor: none;/s);
+assert.match(read('script.js'), /messageBounds\.top - conversationBounds\.top - conversationPadding/, 'Chat scrolling uses the visible conversation edge, so the sent question cannot hide under the window chrome');
 assert.match(css, /#unsere-sicht \.view-copy-column \{[^}]*grid-column: 2;[^}]*grid-row: 1;[^}]*justify-content: center;/s);
 assert.match(css, /#unsere-sicht \.view-copy \{[^}]*columns: 2;/s);
 assert.match(css, /@media \(max-width: 1100px\)[\s\S]*#unsere-sicht \.view-copy-column \{[^}]*grid-column: 1 \/ -1;[^}]*grid-row: 2;/s);

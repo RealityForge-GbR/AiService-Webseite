@@ -11,6 +11,7 @@
   --accent-soft: #d799ff;
   --accent-rgb: 180, 76, 255;
   --max-width: 76rem;
+  --legal-reading-width: 52rem;
   --page-padding: clamp(1.25rem, 5vw, 4.5rem);
 }
 [data-theme="light"] {
@@ -112,39 +113,25 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .theme-icon { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
 .theme-icon-moon, [data-theme="light"] .theme-icon-sun { display: none; }
 [data-theme="light"] .theme-icon-moon { display: block; }
-.legal-shell { padding-block: clamp(4rem, 9vw, 8rem); }
+.legal-shell { padding-block: clamp(3rem, 7vw, 6rem); }
 .legal-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 2fr);
-  gap: clamp(2rem, 6vw, 7rem);
-  align-items: end;
-  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  width: min(100%, var(--legal-reading-width));
+  margin-left: auto;
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
   border-bottom: 1px solid var(--line);
 }
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin: 0 0 .75rem;
-  color: var(--accent-soft);
-  font-family: Consolas, "SFMono-Regular", monospace;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.eyebrow::before { content: ""; width: 2rem; height: 1px; background: var(--accent); }
 .legal-intro h1 {
-  grid-column: 2;
   margin: 0;
-  font-size: clamp(3rem, 8vw, 7.5rem);
-  line-height: .9;
-  letter-spacing: -.07em;
+  max-width: 100%;
+  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  line-height: .94;
+  letter-spacing: -.065em;
+  overflow-wrap: anywhere;
 }
-.legal-intro .eyebrow { grid-column: 1; grid-row: 1; }
 .legal-document {
-  width: min(100%, 52rem);
-  margin: clamp(3rem, 7vw, 6rem) 0 0 auto;
+  width: min(100%, var(--legal-reading-width));
+  margin: clamp(2.5rem, 5vw, 4.5rem) 0 0 auto;
+  font-size: clamp(.94rem, .2vw + .9rem, 1rem);
 }
 .legal-document h2 {
   margin: clamp(2.4rem, 5vw, 4rem) 0 .8rem;
@@ -171,9 +158,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   .legal-nav { gap: .8rem; }
   .legal-nav a { font-size: .72rem; }
   .theme-toggle { width: 2.5rem; height: 2.5rem; }
-  .legal-intro { display: block; }
-  .legal-intro h1 { margin-top: 1rem; overflow-wrap: anywhere; }
-  .legal-document { margin-top: 3rem; }
+  .legal-shell { padding-block: clamp(2.25rem, 9vw, 3.5rem); }
+  .legal-intro { padding-bottom: clamp(1.5rem, 6vw, 2.25rem); }
+  .legal-intro h1 { font-size: clamp(2.65rem, 15vw, 4.5rem); }
+  .legal-document { margin-top: clamp(2rem, 8vw, 3rem); }
+  .legal-document h2 { overflow-wrap: anywhere; }
   .footer-bottom { flex-direction: column; }
   .footer-bottom nav { justify-content: flex-start; }
 }

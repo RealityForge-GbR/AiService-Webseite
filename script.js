@@ -463,10 +463,15 @@ function createAiMessage(kind, revealDelay = 0) {
 function revealAiQuestion(userMessage) {
   if (!aiConversation || !userMessage?.isConnected) return;
   const conversationPadding = Number.parseFloat(window.getComputedStyle(aiConversation).paddingTop) || 0;
-  const alignQuestion = () => aiConversation.scrollTo({
-    top: Math.max(0, userMessage.offsetTop - conversationPadding),
-    behavior: reduceMotion.matches ? 'auto' : 'smooth',
-  });
+  const alignQuestion = (behavior = reduceMotion.matches ? 'auto' : 'smooth') => {
+    const conversationBounds = aiConversation.getBoundingClientRect();
+    const messageBounds = userMessage.getBoundingClientRect();
+    const targetTop = aiConversation.scrollTop + messageBounds.top - conversationBounds.top - conversationPadding;
+    aiConversation.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior,
+    });
+  };
 
   alignQuestion();
 
@@ -480,7 +485,7 @@ function revealAiQuestion(userMessage) {
       block: 'center',
       inline: 'nearest',
     });
-    window.requestAnimationFrame(alignQuestion);
+    window.requestAnimationFrame(() => alignQuestion('auto'));
   }
 }
 

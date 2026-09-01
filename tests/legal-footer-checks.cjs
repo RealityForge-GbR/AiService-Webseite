@@ -27,6 +27,7 @@ for (const [source, current, counterpart] of [[legal, 'Impressum', '../privacy-p
   assert(doc.querySelector('.brand-wordmark'));
   assert.equal(doc.querySelector('[aria-current="page"]').textContent, current);
   assert(doc.querySelector(`a[href="${counterpart}"]`));
+  assert.equal(doc.querySelector('.legal-intro .eyebrow'), null, 'The redundant legal eyebrow is removed');
   window.localStorage.setItem('realityforge-theme', 'dark');
   doc.documentElement.dataset.theme = 'dark';
   window.eval(behavior);
@@ -39,5 +40,9 @@ for (const [source, current, counterpart] of [[legal, 'Impressum', '../privacy-p
 
 assert.match(privacy, /<h2>17\. Änderungen dieser Datenschutzerklärung<\/h2>/);
 assert.match(legal, /Biberacher Weg 3/);
+assert.match(legal, /USt-IdNr\.: DE464541470/);
+assert.match(css, /--legal-reading-width: 52rem;/);
+assert.match(css, /\.legal-intro \{[^}]*width: min\(100%, var\(--legal-reading-width\)\);[^}]*margin-left: auto;/s, 'Legal title and document share one left edge');
+assert.match(css, /\.legal-document \{[^}]*width: min\(100%, var\(--legal-reading-width\)\);[^}]*margin:[^}]*auto;/s, 'Long legal copy follows the same responsive reading column');
 homeDom.window.close();
 console.log('PASS: static wordmarks, compact footer, working local legal routes and shared persisted theme.');
