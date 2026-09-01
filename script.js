@@ -580,7 +580,7 @@ function updateStrategyLift() {
   if (reduceMotion.matches) {
     strategyLiftProgress = 1;
     strategyLiftedBlock.style.setProperty('--strategy-lift-y', '0px');
-    strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '8.25rem' : '10.75rem');
+    strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', window.innerWidth <= 760 ? '8.6875rem' : '10.75rem');
     strategyLiftedBlock.classList.add('is-landed');
     return;
   }
@@ -602,7 +602,7 @@ function updateStrategyLift() {
   const progress = Math.max(strategyLiftProgress, Math.min(1, Math.max(0, (startLine - panelBounds.top) / loweringDistance)));
   strategyLiftProgress = progress;
   const liftY = -travel + (progress * travel);
-  const cableBase = isPhone ? 60 : 92;
+  const cableBase = isPhone ? 67 : 92;
   const cableHeight = cableBase + (progress * travel);
   strategyLiftedBlock.style.setProperty('--strategy-lift-y', `${liftY.toFixed(1)}px`);
   strategyLiftedBlock.style.setProperty('--strategy-lift-cable-height', `${cableHeight.toFixed(1)}px`);

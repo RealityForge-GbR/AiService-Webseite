@@ -493,6 +493,7 @@ main > #lokale-ki {
   }
   #wirtschaftlichkeit .evidence-team-copy .source-link {
     align-items: center;
+    justify-content: flex-start;
     gap: .55rem;
     margin-top: .45rem;
     padding-top: .55rem;
@@ -537,6 +538,9 @@ main > #lokale-ki {
     background: currentColor;
     transform: rotate(-45deg);
     transform-origin: right center;
+  }
+  #wirtschaftlichkeit .source-link > span::after {
+    transform-origin: center;
   }
 
   .economics-method-layout {
@@ -1358,7 +1362,7 @@ main > #lokale-ki {
   }
   #strategie .strategy-crane {
     top: .4rem;
-    height: 20.5rem;
+    height: calc(100% - .55rem);
   }
   #strategie .strategy-site .strategy-addon-block {
     display: grid;
@@ -1390,8 +1394,9 @@ main > #lokale-ki {
     transform: translateX(-50%);
   }
   #strategie .strategy-lift-cable {
-    height: var(--strategy-lift-cable-height, 3.75rem) !important;
+    height: var(--strategy-lift-cable-height, 4.1875rem) !important;
   }
+  #strategie .strategy-lift-cable::before { display: none; }
   #strategie .strategy-learning-path {
     top: 26.2rem;
     right: .48rem;
@@ -1420,7 +1425,8 @@ main > #lokale-ki {
 
   /* A denser opening to the Bento avoids the oversized first pair. */
   #anwendungsbeispiele .use-case-bubble:nth-child(1) { grid-row: span 2; }
-  #anwendungsbeispiele .use-case-bubble:nth-child(2) { grid-row: span 3; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(2) { grid-row: span 4; }
+  #anwendungsbeispiele .use-case-bubble:nth-child(4) { grid-column: span 2; }
   #anwendungsbeispiele .use-case-trigger i {
     width: 1.45rem;
     height: 1.45rem;
@@ -1442,26 +1448,33 @@ main > #lokale-ki {
   }
 
   /* Each fusion mark stays comfortably inside its own fifth of the row. */
-  #moderne-ki .fusion-node { grid-template-rows: 3.85rem auto; }
-  #moderne-ki .software-mark { width: min(100%, 3.8rem); }
-  #moderne-ki .ai-chat-mark { width: min(100%, 3.35rem); }
+  #moderne-ki .fusion-node { grid-template-rows: 3.35rem auto; }
+  #moderne-ki .software-mark { width: min(100%, 3.15rem); }
+  #moderne-ki .ai-chat-mark { width: min(100%, 2.75rem); }
   #moderne-ki .ai-neural-mark {
-    width: 2.55rem;
-    height: 2.4rem;
+    width: 2rem;
+    height: 1.9rem;
   }
-  #moderne-ki .neural-path { width: 1.05rem; }
-  #moderne-ki .neural-node { width: .5rem; height: .5rem; }
-  #moderne-ki .system-mark { width: min(100%, 3.75rem); }
+  #moderne-ki .neural-path { width: .82rem; }
+  #moderne-ki .neural-node { width: .4rem; height: .4rem; }
+  #moderne-ki .neural-core {
+    width: .78rem;
+    height: .78rem;
+    border-radius: .22rem;
+  }
+  #moderne-ki .neural-core::after { inset: .2rem; }
+  #moderne-ki .system-mark { width: min(100%, 3rem); }
   #moderne-ki .system-core {
-    width: 2.2rem;
-    padding: .34rem;
-    gap: .16rem;
-    border-radius: .56rem;
+    width: 1.75rem;
+    padding: .27rem;
+    gap: .13rem;
+    border-radius: .46rem;
   }
-  #moderne-ki .fusion-link { height: 3.85rem; }
+  #moderne-ki .system-orbit i { width: .42rem; height: .42rem; }
+  #moderne-ki .fusion-link { height: 3.35rem; }
   #moderne-ki .fusion-link span,
   #moderne-ki .fusion-link i,
-  #moderne-ki .fusion-link b { top: 1.92rem; }
+  #moderne-ki .fusion-link b { top: 1.675rem; }
 
   /* The source image has generous transparent side margins. Oversizing its
      canvas makes the visible tower fill the narrow column without cropping
@@ -1484,7 +1497,7 @@ main > #lokale-ki {
   #strategie .strategy-site .strategy-addon-block { width: 57%; }
   #strategie .strategy-learning-path h3 { font-size: .56rem; }
   #strategie .strategy-learning-path p { font-size: .45rem; }
-  #moderne-ki .software-mark { width: 3.45rem; }
-  #moderne-ki .ai-chat-mark { width: 3.05rem; }
-  #moderne-ki .system-mark { width: 3.4rem; }
+  #moderne-ki .software-mark { width: 2.9rem; }
+  #moderne-ki .ai-chat-mark { width: 2.55rem; }
+  #moderne-ki .system-mark { width: 2.8rem; }
 }
