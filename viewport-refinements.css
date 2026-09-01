@@ -1452,13 +1452,45 @@ main > #lokale-ki {
   }
 
   /* Each fusion mark stays comfortably inside its own fifth of the row. */
+  #moderne-ki { overflow: clip; }
+  #moderne-ki .section-shell,
+  #moderne-ki .system-fusion,
+  #moderne-ki .fusion-stage {
+    min-width: 0;
+    max-width: 100%;
+  }
   #moderne-ki .fusion-node { grid-template-rows: 3.35rem auto; }
   #moderne-ki .software-mark { width: min(100%, 3.15rem); }
+  #moderne-ki .software-bar {
+    height: .72rem;
+    gap: .14rem;
+    padding-inline: .28rem;
+  }
+  #moderne-ki .software-bar i { width: .18rem; height: .18rem; }
+  #moderne-ki .software-sidebar {
+    top: .72rem;
+    gap: .2rem;
+    padding: .3rem .2rem;
+  }
+  #moderne-ki .software-sidebar i { height: .11rem; }
+  #moderne-ki .software-workspace {
+    top: .72rem;
+    gap: .2rem;
+    padding: .3rem .28rem;
+  }
+  #moderne-ki .software-workspace i { height: .12rem; }
   #moderne-ki .ai-chat-mark { width: min(100%, 2.75rem); }
+  #moderne-ki .ai-chat-mark::after {
+    bottom: -.24rem;
+    left: .3rem;
+    width: .52rem;
+    height: .52rem;
+  }
   #moderne-ki .ai-neural-mark {
     width: 2rem;
     height: 1.9rem;
   }
+  #moderne-ki .ai-neural-mark::before { inset: .25rem .32rem; }
   #moderne-ki .neural-path { width: .82rem; }
   #moderne-ki .neural-node { width: .4rem; height: .4rem; }
   #moderne-ki .neural-core {
@@ -1468,13 +1500,19 @@ main > #lokale-ki {
   }
   #moderne-ki .neural-core::after { inset: .2rem; }
   #moderne-ki .system-mark { width: min(100%, 3rem); }
+  #moderne-ki .system-orbit-one { inset: .18rem; }
+  #moderne-ki .system-orbit-two { inset: .44rem; }
+  #moderne-ki .system-orbit-three { inset: .7rem; }
   #moderne-ki .system-core {
     width: 1.75rem;
     padding: .27rem;
     gap: .13rem;
     border-radius: .46rem;
   }
-  #moderne-ki .system-orbit i { width: .42rem; height: .42rem; }
+  #moderne-ki .system-orbit i { width: .3rem; height: .3rem; }
+  #moderne-ki .system-orbit-one i { top: -.15rem; }
+  #moderne-ki .system-orbit-two i { right: -.15rem; }
+  #moderne-ki .system-orbit-three i { bottom: -.15rem; }
   #moderne-ki .fusion-link { height: 3.35rem; }
   #moderne-ki .fusion-link span,
   #moderne-ki .fusion-link i,
