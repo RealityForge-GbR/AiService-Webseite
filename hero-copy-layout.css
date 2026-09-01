@@ -59,6 +59,39 @@
   min-width: 0;
   padding: 0;
 }
+
+/* The page reserves its final geometry immediately, but the content below the
+   wordmark waits for the actual logo completion event. The reveal is a single
+   soft hand-off, not a second looping spectacle. */
+.hero-unified .hero-main-title,
+.hero-server-rack,
+.hero-system-screen .monitor-services,
+.hero-unified .hero-copy .hero-actions {
+  transition:
+    opacity 560ms ease,
+    transform 680ms cubic-bezier(.2, .78, .2, 1),
+    filter 560ms ease;
+}
+.hero-sequence-pending .hero-unified .hero-main-title,
+.hero-sequence-pending .hero-server-rack,
+.hero-sequence-pending .hero-system-screen .monitor-services,
+.hero-sequence-pending .hero-unified .hero-copy .hero-actions {
+  opacity: 0;
+  filter: blur(.28rem);
+}
+.hero-sequence-pending .hero-unified .hero-main-title,
+.hero-sequence-pending .hero-system-screen .monitor-services,
+.hero-sequence-pending .hero-unified .hero-copy .hero-actions {
+  transform: translateY(.6rem);
+}
+.hero-sequence-pending .hero-server-rack-left { transform: translateX(-.65rem); }
+.hero-sequence-pending .hero-server-rack-right { transform: translateX(.65rem); }
+.hero-sequence-pending .hero-unified .hero-copy .hero-actions { pointer-events: none; }
+.hero-sequence-ready .hero-unified .hero-main-title { transition-delay: 0ms; }
+.hero-sequence-ready .hero-server-rack { transition-delay: 110ms; }
+.hero-sequence-ready .hero-system-screen .monitor-services { transition-delay: 190ms; }
+.hero-sequence-ready .hero-unified .hero-copy .hero-actions { transition-delay: 330ms; }
+
 .hero-server-stage {
   position: relative;
   isolation: isolate;
@@ -172,4 +205,15 @@
   .hero-system-screen { padding: 1rem 0; }
   .hero-unified .hero-main-title { font-size: clamp(1.6rem, 5.7vw, 2.5rem); }
   .hero-unified .hero-copy .hero-actions > a { flex: 1 1 12rem; font-size: .8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-unified .hero-main-title,
+  .hero-server-rack,
+  .hero-system-screen .monitor-services,
+  .hero-unified .hero-copy .hero-actions {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }

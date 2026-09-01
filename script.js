@@ -64,6 +64,15 @@ let businessStepModalTimer;
 let lastBusinessStepTrigger;
 let viewFitFrame;
 let viewObservedWidth = 0;
+let heroSequenceRevealed = false;
+
+function revealHeroSequence() {
+  if (heroSequenceRevealed) return;
+  heroSequenceRevealed = true;
+  window.clearTimeout(window.__rfHeroRevealFallback);
+  root.classList.remove('hero-sequence-pending');
+  root.classList.add('hero-sequence-ready');
+}
 
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
@@ -252,13 +261,18 @@ if (heroWordmark && wordmarkSettings) {
     requestAnimationFrame(() => {
       if (wordmarkSettings.reducedMotion === 'static' && reduceMotion.matches) {
         heroWordmark.showFinal();
+        revealHeroSequence();
         return;
       }
 
+      heroWordmark.addEventListener('rf:complete', revealHeroSequence, { once: true });
       heroWordmark.restart();
+      window.clearTimeout(window.__rfHeroRevealFallback);
+      const revealFallbackDelay = Math.max(4000, ((Number(heroWordmark.duration) || 8) + 1) * 1000);
+      window.__rfHeroRevealFallback = window.setTimeout(revealHeroSequence, revealFallbackDelay);
     });
   });
-}
+} else revealHeroSequence();
 
 document.fonts?.ready.then(fitEconomicsTitle);
 document.fonts?.addEventListener('loadingdone', fitEconomicsTitle);

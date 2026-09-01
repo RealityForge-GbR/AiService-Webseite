@@ -189,6 +189,15 @@ async function checkInteractions(width, reducedMotion) {
   const { window } = dom;
   const doc = window.document;
   Object.defineProperty(window, 'innerWidth', { value: width, writable: true });
+  let logoRestarted = 0;
+  let logoFinalized = 0;
+  window.RealityForgeLogoSettings = { fontFinal: 'sans-serif', fontCode: 'monospace', reducedMotion: 'static' };
+  window.customElements.define('reality-forge-logo', class extends window.HTMLElement {
+    restart() { logoRestarted += 1; }
+    showFinal() { logoFinalized += 1; }
+    get duration() { return 1; }
+  });
+  doc.documentElement.classList.add('hero-sequence-pending');
   doc.documentElement.style.fontSize = '16px';
   doc.querySelector('#view-title').style.fontSize = '30px';
   doc.querySelector('.view-copy p').style.fontSize = '13px';
@@ -226,6 +235,18 @@ async function checkInteractions(width, reducedMotion) {
   window.eval(script);
   window.eval(reveals);
   await wait(30);
+  if (reducedMotion) {
+    assert.equal(logoFinalized, 1);
+    assert.equal(logoRestarted, 0);
+    assert(doc.documentElement.classList.contains('hero-sequence-ready'));
+  } else {
+    assert.equal(logoRestarted, 1);
+    assert(doc.documentElement.classList.contains('hero-sequence-pending'), 'Below-logo content waits while the wordmark runs');
+    doc.querySelector('#hero-wordmark').dispatchEvent(new window.CustomEvent('rf:complete'));
+    await wait(20);
+    assert(!doc.documentElement.classList.contains('hero-sequence-pending'));
+    assert(doc.documentElement.classList.contains('hero-sequence-ready'));
+  }
   if (width > 1100) {
     assert(Number.parseFloat(viewColumn.style.getPropertyValue('--view-copy-size')) < 13, 'Wide team copy is fitted only when its natural height exceeds the portraits');
     assert(viewColumn.scrollHeight <= 361, 'Fitted team copy remains within the portrait height');

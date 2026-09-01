@@ -49,6 +49,12 @@ assert.match(rackImageRule, /filter: brightness\(\.53\) contrast\(1\.08\) satura
 assert.match(css, /\.hero-server-rack::after \{[^}]*mask: url\("assets\/hero-server-matched-v3\.png"\)[^}]*mix-blend-mode: screen;[^}]*opacity: \.44;/s, 'A source-alpha-shaped violet wash styles the cabinet without tracing or altering it');
 assert.match(css, /\.hero-server-rack-right::after \{ transform: scaleX\(-1\); \}/, 'The violet treatment mirrors with the identical right cabinet');
 assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack \{ display: none; \}/, 'Phone copy has full width, never a narrow server gutter');
+assert.match(html, /root\.classList\.add\('hero-sequence-pending'\)/, 'The pre-paint guard prevents the below-logo content from flashing early');
+assert.match(main, /heroWordmark\.addEventListener\('rf:complete', revealHeroSequence, \{ once: true \}\)/, 'The reveal follows the real wordmark completion event');
+assert.match(main, /revealFallbackDelay[\s\S]*setTimeout\(revealHeroSequence, revealFallbackDelay\)/, 'A bounded fallback can never leave the hero hidden');
+assert.match(css, /\.hero-sequence-pending \.hero-unified \.hero-main-title[\s\S]*opacity: 0;[\s\S]*filter: blur\(\.28rem\);/, 'Headline and hero details wait invisibly in their final layout');
+assert.match(css, /\.hero-sequence-ready \.hero-unified \.hero-main-title \{ transition-delay: 0ms; \}[\s\S]*\.hero-sequence-ready \.hero-server-rack \{ transition-delay: 110ms; \}[\s\S]*\.hero-sequence-ready \.hero-system-screen \.monitor-services \{ transition-delay: 190ms; \}[\s\S]*\.hero-sequence-ready \.hero-unified \.hero-copy \.hero-actions \{ transition-delay: 330ms; \}/, 'The one-time reveal uses the approved restrained order');
+assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*\.hero-system-screen \.monitor-services[\s\S]*transition: none;/, 'Reduced motion shows final content immediately');
 assert.equal(q('.hero-actions').children.length, 2);
 assert.equal(q('.hero-actions a').getAttribute('href'), 'mailto:realityforgeeu@gmail.com?subject=Anfrage%20zu%20KI-Systemen');
 assert.equal(q('.hero-actions a:last-child').getAttribute('href'), '#anwendungsbeispiele');
@@ -129,9 +135,12 @@ copy.getBoundingClientRect = () => rail;
 q('.hero-main-title-copy').getBoundingClientRect = () => rect(rail.left, 0, (parseFloat(title.style.fontSize) || 30) * 20, 50);
 d.documentElement.style.fontSize = '16px';
 const content = screen.innerHTML;
+d.documentElement.classList.add('hero-sequence-pending');
 w.eval(main);
 (async () => {
   await Promise.resolve(); flush();
+  assert(!d.documentElement.classList.contains('hero-sequence-pending'));
+  assert(d.documentElement.classList.contains('hero-sequence-ready'), 'Reduced motion reveals the completed header immediately');
   for (const width of [1613, 390, 1024, 760, 2560, 1613]) {
     w.innerWidth = width;
     rail = rect(20, 500, Math.min(width - 40, 1300), 300);
