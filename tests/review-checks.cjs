@@ -85,6 +85,9 @@ assert(economicsMethod?.contains(document.querySelector('.economics-bridge')) &&
 assert.equal(economicsMethod.children[0].className, 'economics-bridge');
 assert.equal(economicsMethod.children[1].className, 'business-grid business-progress');
 const viewportRefinements = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
+assert.match(viewportRefinements, /\.step-open-badge,\s*\[data-use-case-toggle\] > span,\s*\.view-copy-toggle > i \{\s*font-size: 0 !important;/s, 'Every interactive plus uses the same font-independent geometry');
+assert.match(viewportRefinements, /\.step-open-badge::before,[\s\S]*top: 50%;[\s\S]*left: 50%;[\s\S]*transform: translate\(-50%, -50%\);/s, 'The shared plus geometry is centered on both axes');
+assert.match(viewportRefinements, /\[data-use-case-toggle\]\[aria-expanded="true"\] > span::after,\s*\.view-copy-toggle\[aria-expanded="true"\] > i::after \{\s*opacity: 0;/s, 'Disclosure controls retain a geometric minus state');
 assert.match(viewportRefinements, /\.economics-method-layout \{\s*display: grid;[\s\S]*grid-template-columns: minmax\(8rem, 43%\) minmax\(0, 57%\);/s, 'Phone economics uses a two-column question/progression composition');
 assert.match(viewportRefinements, /#strategie \.strategy-crane \{[\s\S]*display: block;/s, 'The construction crane remains visible on phones');
 assert.match(viewportRefinements, /#strategie \.crane-mast \{[\s\S]*bottom: 3rem;[\s\S]*height: calc\(95% - 3rem\);/s, 'The mobile crane mast terminates behind the right foundation block');

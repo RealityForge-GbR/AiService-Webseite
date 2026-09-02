@@ -1543,3 +1543,59 @@ main > #lokale-ki {
   #moderne-ki .ai-chat-mark { width: 2.55rem; }
   #moderne-ki .system-mark { width: 2.8rem; }
 }
+
+/* Draw interactive plus/minus marks geometrically instead of relying on font
+   glyph metrics. This keeps every mark optically centered across browsers,
+   operating systems, themes and compact phone sizes. */
+.step-open-badge,
+[data-use-case-toggle] > span,
+.view-copy-toggle > i {
+  font-size: 0 !important;
+  line-height: 0;
+}
+
+[data-use-case-toggle] > span,
+.view-copy-toggle > i {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+}
+
+.step-open-badge::before,
+.step-open-badge::after,
+[data-use-case-toggle] > span::before,
+[data-use-case-toggle] > span::after,
+.view-copy-toggle > i::before,
+.view-copy-toggle > i::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 999px;
+  background: currentColor;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.step-open-badge::before,
+[data-use-case-toggle] > span::before,
+.view-copy-toggle > i::before {
+  width: 48%;
+  height: 1.5px;
+}
+
+.step-open-badge::after,
+[data-use-case-toggle] > span::after,
+.view-copy-toggle > i::after {
+  width: 1.5px;
+  height: 48%;
+  transition: opacity .16s ease, transform .16s ease;
+}
+
+[data-use-case-toggle][aria-expanded="true"] > span::after,
+.view-copy-toggle[aria-expanded="true"] > i::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleY(0);
+}
