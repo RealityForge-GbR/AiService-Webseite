@@ -1,0 +1,379 @@
+/*
+ * Light mode is an optical layer only. It deliberately avoids layout,
+ * sizing and positioning declarations so the approved geometry remains
+ * identical to dark mode.
+ */
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f3f8;
+  --bg-elevated: #fffdfd;
+  --surface: #eee7f1;
+  --surface-hover: #e7ddeb;
+  --text: #1a1420;
+  --muted: #625968;
+  --faint: #7b7082;
+  --line: rgba(50, 32, 58, 0.14);
+  --line-strong: rgba(50, 32, 58, 0.26);
+  --accent: #922bd1;
+  --accent-soft: #74209b;
+  --accent-rgb: 146, 43, 209;
+  --button-text: #ffffff;
+  --shadow: rgba(59, 31, 70, 0.14);
+}
+
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(var(--accent-rgb), 0.075), transparent 36rem),
+    var(--bg);
+}
+
+:root[data-theme="light"] .site-header::before {
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(var(--accent-rgb), 0.095), transparent 66%),
+    rgba(255, 253, 255, 0.96);
+}
+
+:root[data-theme="light"] .theme-toggle,
+:root[data-theme="light"] .mobile-menu-toggle {
+  border-color: rgba(71, 43, 81, 0.24);
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 0.45rem 1.4rem rgba(63, 35, 74, 0.08);
+}
+
+/* Bright architectural hero: dark hardware stays photographic, while the
+   former grey vignette becomes a clean violet-lit stage. */
+:root[data-theme="light"] .hero-terminal-shell {
+  border-color: rgba(74, 45, 84, 0.18);
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(var(--accent-rgb), 0.15), transparent 48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(245, 239, 248, 0.96)),
+    var(--bg);
+}
+
+:root[data-theme="light"] .hero-terminal-shell::before {
+  background:
+    repeating-linear-gradient(0deg, rgba(48, 30, 55, 0.026) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.026) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, transparent 0%, rgba(var(--accent-rgb), 0.085) 48%, transparent 52%);
+}
+
+:root[data-theme="light"] .hero-terminal-shell::after {
+  background: radial-gradient(ellipse at center, transparent 47%, rgba(83, 54, 93, 0.1) 100%);
+}
+
+:root[data-theme="light"] .hero-server-stage::before {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(var(--accent-rgb), 0.16) 5%, rgba(var(--accent-rgb), 0.075) 46%, transparent 73%),
+    radial-gradient(ellipse at 50% 58%, rgba(255, 255, 255, 0.86), transparent 70%);
+}
+
+:root[data-theme="light"] .hero-server-rack img {
+  filter: brightness(0.68) contrast(1.08) saturate(0.82);
+}
+
+:root[data-theme="light"] .hero-system-screen,
+:root[data-theme="light"] .monitor-service-list h2 {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .monitor-services .monitor-services-label {
+  color: var(--muted);
+}
+
+:root[data-theme="light"] .monitor-service-list svg {
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 0.65rem rgba(var(--accent-rgb), 0.2));
+}
+
+:root[data-theme="light"] .hero-copy .hero-actions .button,
+:root[data-theme="light"] .hero-copy .hero-actions .text-link {
+  border-color: rgba(75, 46, 86, 0.24);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(236, 225, 241, 0.82));
+  box-shadow: inset 0 1px 0 #ffffff, 0 0.7rem 1.8rem rgba(61, 34, 72, 0.13);
+}
+
+:root[data-theme="light"] .hero-copy .hero-actions .button-primary {
+  border-color: rgba(var(--accent-rgb), 0.62);
+  background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.22), rgba(255, 255, 255, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 0.8rem 2rem rgba(var(--accent-rgb), 0.18);
+}
+
+/* Quiet chapter alternation keeps the long page readable without adding
+   separators or changing any section dimensions. */
+:root[data-theme="light"] main > #leistungen {
+  --chapter-color: #fffdfd;
+  --chapter-glow: 0.035;
+}
+
+:root[data-theme="light"] main > #wirtschaftlichkeit {
+  --chapter-color: #f3edf6;
+  --chapter-glow: 0.06;
+}
+
+:root[data-theme="light"] main > #anwendungsbeispiele {
+  --chapter-color: #f1f4f7;
+  --chapter-glow: 0.04;
+}
+
+:root[data-theme="light"] main > #moderne-ki {
+  --chapter-color: #f2ebf6;
+  --chapter-glow: 0.055;
+}
+
+:root[data-theme="light"] main > #lokale-ki,
+:root[data-theme="light"] main > #kontakt,
+:root[data-theme="light"] main > #strategie {
+  --chapter-color: #f8f5f9;
+}
+
+:root[data-theme="light"] .service-card {
+  border-color: rgba(66, 40, 76, 0.17);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(var(--accent-rgb), 0.055)),
+    var(--bg-elevated);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 1rem 2.8rem rgba(60, 31, 72, 0.07);
+}
+
+:root[data-theme="light"] .service-card::before {
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), transparent 46%);
+}
+
+:root[data-theme="light"] .service-card-more i,
+:root[data-theme="light"] .use-case-trigger i {
+  border-color: rgba(var(--accent-rgb), 0.38);
+  background: rgba(255, 255, 255, 0.54);
+}
+
+/* Evidence remains a visual instrument rather than becoming washed out on
+   paper. The adjacent copy stays light-mode dark for normal reading. */
+:root[data-theme="light"] .evidence-bar {
+  border-color: rgba(73, 46, 83, 0.42);
+  background:
+    linear-gradient(180deg, rgba(36, 27, 40, 0.94), rgba(17, 13, 21, 0.98)),
+    #151019;
+  box-shadow: inset 0 0 2.5rem rgba(255, 255, 255, 0.025), 0 1rem 2.5rem rgba(48, 25, 58, 0.13);
+  color: #f7f2f9;
+}
+
+:root[data-theme="light"] .evidence-bar:hover,
+:root[data-theme="light"] .evidence-bar:focus-visible {
+  border-color: rgba(var(--accent-rgb), 0.74);
+  box-shadow: inset 0 0 3rem rgba(var(--accent-rgb), 0.08), 0 1rem 2.8rem rgba(var(--accent-rgb), 0.18);
+}
+
+:root[data-theme="light"] .evidence-bar-column::before {
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 5px);
+}
+
+:root[data-theme="light"] .evidence-bar-column i {
+  background: #f7f2f9;
+  box-shadow: 0 -0.35rem 1rem rgba(255, 255, 255, 0.22);
+}
+
+:root[data-theme="light"] .evidence-bar-copy strong {
+  color: #d99aff;
+}
+
+:root[data-theme="light"] .evidence-bar-copy b {
+  color: #f7f2f9;
+}
+
+:root[data-theme="light"] .evidence-bar-copy small {
+  color: rgba(247, 242, 249, 0.62);
+}
+
+:root[data-theme="light"] .business-step-graphic {
+  border-color: rgba(var(--accent-rgb), 0.68);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(var(--accent-rgb), 0.18), transparent 62%),
+    #17111c;
+  box-shadow: inset 0 0 2.5rem rgba(var(--accent-rgb), 0.16), 0 0.8rem 2rem rgba(51, 26, 62, 0.12);
+}
+
+/* The crane is a deliberate dark blueprint panel in both themes. That keeps
+   its fine white construction lines visible and removes the pale-mode haze. */
+:root[data-theme="light"] .strategy-panel {
+  --bg: #0b0910;
+  --bg-elevated: #100c15;
+  --surface: #17101f;
+  --surface-hover: #1e1428;
+  --text: #f4eff7;
+  --muted: #aaa1ad;
+  --faint: #7d7481;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --accent: #b44cff;
+  --accent-soft: #d799ff;
+  --accent-rgb: 180, 76, 255;
+  border-color: rgba(180, 76, 255, 0.44);
+  background:
+    radial-gradient(ellipse at 50% 22%, rgba(180, 76, 255, 0.11), transparent 48%),
+    linear-gradient(160deg, #130d19, #09070d 72%);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025), 0 2rem 5rem rgba(52, 24, 62, 0.2);
+}
+
+:root[data-theme="light"] .strategy-title-flag,
+:root[data-theme="light"] .strategy-addon-block,
+:root[data-theme="light"] .strategy-learning-path article {
+  border-color: rgba(180, 76, 255, 0.48);
+  background:
+    linear-gradient(145deg, rgba(180, 76, 255, 0.18), rgba(180, 76, 255, 0.055)),
+    #130d19;
+  box-shadow: inset 0 0 2.5rem rgba(180, 76, 255, 0.055), 0 0.9rem 2.2rem rgba(0, 0, 0, 0.22);
+}
+
+:root[data-theme="light"] .strategy-site-console {
+  background: rgba(10, 9, 15, 0.9);
+}
+
+/* Use-case cards read like refined paper tiles rather than flat grey blocks. */
+:root[data-theme="light"] .use-case-bubble {
+  border-color: rgba(66, 40, 76, 0.17);
+  background:
+    radial-gradient(circle at 90% 10%, rgba(var(--accent-rgb), 0.16), transparent 46%),
+    linear-gradient(145deg, #fffdfd, #eee6f1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 0.9rem 2.2rem rgba(54, 29, 65, 0.07);
+}
+
+:root[data-theme="light"] .use-case-bubble:nth-child(4n + 2) {
+  background:
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent 62%),
+    #fffdfd;
+}
+
+:root[data-theme="light"] .use-case-bubble:nth-child(4n + 3) {
+  background:
+    radial-gradient(circle at 18% 120%, rgba(var(--accent-rgb), 0.2), transparent 58%),
+    #eee7f1;
+}
+
+/* This sequence is effectively a product diagram, so it remains a dark
+   framed screen inside the otherwise bright chapter. */
+:root[data-theme="light"] .system-fusion {
+  --bg-elevated: #0d0b12;
+  --surface: #15101b;
+  --text: #f4f0f7;
+  --muted: #aaa2ad;
+  --faint: #7d7580;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --accent: #b44cff;
+  --accent-soft: #d799ff;
+  --accent-rgb: 180, 76, 255;
+  border-color: rgba(180, 76, 255, 0.34);
+  background:
+    radial-gradient(circle at 50% 48%, rgba(180, 76, 255, 0.19), transparent 34%),
+    linear-gradient(145deg, rgba(180, 76, 255, 0.07), transparent 52%),
+    #0d0b12;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025), 0 2rem 5rem rgba(48, 24, 58, 0.2);
+}
+
+:root[data-theme="light"] .ai-topic-explorer {
+  border-color: rgba(70, 43, 81, 0.18);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.13), transparent 37%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), transparent 48%),
+    #faf7fb;
+  box-shadow: 0 1.5rem 4rem rgba(55, 29, 67, 0.1), inset 0 0 4rem rgba(var(--accent-rgb), 0.035);
+}
+
+:root[data-theme="light"] .ai-topic-node {
+  border-color: rgba(var(--accent-rgb), 0.38);
+  background: color-mix(in srgb, #fffdfd 82%, var(--accent) 18%);
+  box-shadow: 0 0.7rem 1.8rem rgba(58, 31, 70, 0.08), inset 0 0 1.3rem rgba(var(--accent-rgb), 0.06);
+}
+
+:root[data-theme="light"] .local-protection-dome {
+  border-color: rgba(var(--accent-rgb), 0.58);
+  background:
+    radial-gradient(ellipse at 50% 9%, rgba(var(--accent-rgb), 0.19), transparent 38%),
+    radial-gradient(ellipse at 50% 72%, rgba(var(--accent-rgb), 0.075), transparent 64%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(var(--accent-rgb), 0.035));
+  box-shadow: inset 0 0 6rem rgba(var(--accent-rgb), 0.1), 0 -1rem 3.5rem rgba(var(--accent-rgb), 0.14);
+}
+
+:root[data-theme="light"] .local-data-label,
+:root[data-theme="light"] .local-ai-node-icon {
+  background: rgba(255, 253, 255, 0.9);
+  box-shadow: 0 0.7rem 1.8rem rgba(57, 31, 68, 0.09), inset 0 0 1.4rem rgba(var(--accent-rgb), 0.08);
+}
+
+/* Patrick and Evgeni stay untouched. The full chapter becomes a framed dark
+   island, matching the portrait backgrounds and the established dark mode. */
+:root[data-theme="light"] main > #unsere-sicht {
+  --bg: #0a080d;
+  --bg-elevated: #0e0b12;
+  --surface: #151019;
+  --surface-hover: #1b1421;
+  --text: #f3f0f6;
+  --muted: #aaa3ae;
+  --faint: #7b7480;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --accent: #b44cff;
+  --accent-soft: #d799ff;
+  --accent-rgb: 180, 76, 255;
+  --chapter-color: #0c0910;
+  --chapter-glow: 0.055;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(180, 76, 255, 0.18), 0 2rem 5rem rgba(48, 24, 58, 0.19);
+}
+
+:root[data-theme="light"] #unsere-sicht .team-portrait-frame {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: #060607;
+  box-shadow: 0 1.25rem 3.2rem rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(180, 76, 255, 0.12);
+}
+
+:root[data-theme="light"] #unsere-sicht .view-copy-toggle {
+  border-color: rgba(180, 76, 255, 0.48);
+  background: rgba(180, 76, 255, 0.1);
+  color: var(--text);
+}
+
+:root[data-theme="light"] .onsite-contact-panel {
+  border-color: rgba(69, 42, 79, 0.24);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(var(--accent-rgb), 0.09), transparent 42%),
+    #fffdfd;
+  box-shadow: inset 0 1px 0 #ffffff, 0 1.8rem 4rem rgba(55, 29, 67, 0.11);
+}
+
+:root[data-theme="light"] .onsite-contact-button {
+  background: linear-gradient(135deg, #b95cf1, var(--accent));
+  color: #ffffff;
+  box-shadow: 0 0.9rem 2rem rgba(var(--accent-rgb), 0.25);
+}
+
+:root[data-theme="light"] .onsite-contact-button span {
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .site-footer {
+  --text: #f3f0f6;
+  --muted: #aaa3ae;
+  --faint: #7b7480;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --accent: #b44cff;
+  --accent-soft: #d799ff;
+  --accent-rgb: 180, 76, 255;
+  border-color: rgba(180, 76, 255, 0.22);
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(180, 76, 255, 0.13), transparent 40%),
+    #0b0910;
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 -1.5rem 4rem rgba(53, 26, 63, 0.12);
+}
+
+:root[data-theme="light"] .use-case-dialog,
+:root[data-theme="light"] .local-ai-dialog {
+  border-color: rgba(var(--accent-rgb), 0.36);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(var(--accent-rgb), 0.13), transparent 38%),
+    #fffdfd;
+  box-shadow: 0 2.5rem 7rem rgba(56, 28, 67, 0.24);
+}

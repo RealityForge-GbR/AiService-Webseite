@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="monitor-services.css?v=6">
     <link rel="stylesheet" href="hero-copy-layout.css?v=11">
     <link rel="stylesheet" href="viewport-refinements.css?v=10">
+    <link rel="stylesheet" href="light-mode.css?v=1">
     <link rel="stylesheet" href="https://use.typekit.net/gfg1nhn.css">
     <!-- Adobe Fonts: family assignments for the temporary and final logo faces live in assets/reality-forge-logo-config.js. -->
     <script src="assets/reality-forge-logo-config.js?v=rf-wordmark-8" defer></script>
@@ -41,6 +42,7 @@
           savedTheme = localStorage.getItem('realityforge-theme') === 'light' ? 'light' : 'dark';
         } catch (_) {}
         root.dataset.theme = savedTheme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', savedTheme === 'light' ? '#f7f3f8' : '#09080d');
 
         if (!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
           root.classList.add('hero-sequence-pending');

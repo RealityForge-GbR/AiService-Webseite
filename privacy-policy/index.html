@@ -10,11 +10,13 @@
     <link rel="canonical" href="https://aiservice.realityforge.eu/privacy-policy/">
     <link rel="stylesheet" href="https://use.typekit.net/gfg1nhn.css">
     <link rel="stylesheet" href="../legal.css?v=2">
+    <link rel="stylesheet" href="../light-mode.css?v=1">
     <script>
       (() => {
         let theme = 'dark';
         try { theme = localStorage.getItem('realityforge-theme') === 'light' ? 'light' : 'dark'; } catch (_) {}
         document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f7f3f8' : '#09080d');
       })();
     </script>
     <script src="../legal.js?v=1" defer></script>
