@@ -261,7 +261,14 @@ main > .section-rule {
 .our-view { display: block; }
 .view-heading h2 { width: 100%; max-width: none; margin: 0 0 clamp(2.5rem, 4vw, 4rem); font-size: clamp(1.8rem, 3.65vw, 4.7rem); white-space: nowrap; }
 .view-heading h2 > span { display: inline-block; white-space: nowrap; }
-.view-people-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 3vw, 3rem); }
+.view-people-layout { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 3vw, 3rem); }
+.view-people-layout::before {
+  position: absolute;
+  z-index: -1;
+  inset: calc(clamp(1rem, 3vw, 3rem) * -1);
+  border-radius: clamp(1.25rem, 2.2vw, 2rem);
+  pointer-events: none;
+}
 .view-people-layout .view-copy { columns: 1; min-width: 0; }
 .view-copy p { font-size: clamp(.94rem, 1.05vw, 1.07rem); line-height: 1.75; }
 .view-copy p:last-child { margin-bottom: 0; color: var(--text); }

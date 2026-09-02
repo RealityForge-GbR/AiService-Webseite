@@ -40,7 +40,11 @@ assert.match(privacyPolicy, /\.\.\/light-mode\.css\?v=1/);
 
 assert.match(home, /assets\/patrick\.png/);
 assert.match(home, /assets\/evgeni\.png/);
-assert.match(css, /main > #unsere-sicht/);
+assert.match(css, /#unsere-sicht \.view-people-layout::before/);
 assert.match(css, /#unsere-sicht \.team-portrait-frame/);
+assert.match(css, /\.hero-server-image-dark[\s\S]*opacity: 0/);
+assert.match(css, /\.hero-server-image-light[\s\S]*opacity: 1/);
+assert.match(css, /\.business-step-graphic \{[\s\S]*linear-gradient\(145deg, #ffffff, #eee5f2\)/);
+assert.match(css, /\.strategy-crane \{[\s\S]*color: rgba\(255, 255, 255, 0\.94\)/);
 
 console.log('Light-mode checks passed');

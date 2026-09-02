@@ -157,6 +157,7 @@
   transform: translate(-50%, -50%);
   filter: brightness(.53) contrast(1.08) saturate(.82);
 }
+.hero-server-image-light { opacity: 0; }
 .hero-server-rack::after {
   content: "";
   position: absolute;
@@ -206,7 +207,7 @@
 .hero-unified .hero-copy .hero-actions > a {
   flex: 0 1 auto;
   max-width: 100%;
-  min-height: 2.75rem;
+  min-height: 3.25rem;
   white-space: normal;
   text-align: center;
 }

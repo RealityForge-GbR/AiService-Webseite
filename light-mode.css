@@ -41,8 +41,8 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 0.45rem 1.4rem rgba(63, 35, 74, 0.08);
 }
 
-/* Bright architectural hero: dark hardware stays photographic, while the
-   former grey vignette becomes a clean violet-lit stage. */
+/* Bright architectural hero: the dark cabinets are replaced by a dedicated
+   pearl-white pair, and the former grey vignette becomes a clean paper stage. */
 :root[data-theme="light"] .hero-terminal-shell {
   border-color: rgba(74, 45, 84, 0.18);
   background:
@@ -64,12 +64,28 @@
 
 :root[data-theme="light"] .hero-server-stage::before {
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(var(--accent-rgb), 0.16) 5%, rgba(var(--accent-rgb), 0.075) 46%, transparent 73%),
-    radial-gradient(ellipse at 50% 58%, rgba(255, 255, 255, 0.86), transparent 70%);
+    radial-gradient(ellipse at 50% 50%, rgba(var(--accent-rgb), 0.085), transparent 68%),
+    radial-gradient(ellipse at 50% 58%, rgba(255, 255, 255, 0.9), transparent 72%);
 }
 
-:root[data-theme="light"] .hero-server-rack img {
-  filter: brightness(0.68) contrast(1.08) saturate(0.82);
+:root[data-theme="light"] .hero-server-image-dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .hero-server-image-light {
+  opacity: 1;
+  filter: brightness(1.02) contrast(1.03) saturate(0.94);
+  mix-blend-mode: multiply;
+  clip-path: polygon(38% 0, 79% 1%, 80% 94%, 77% 95%, 76% 98%, 40% 100%, 38% 97%, 21% 94%, 21% 10%);
+}
+
+:root[data-theme="light"] .hero-server-rack::before {
+  background: radial-gradient(ellipse at 50% 50%, rgba(var(--accent-rgb), 0.12), transparent 70%);
+  opacity: 0.42;
+}
+
+:root[data-theme="light"] .hero-server-rack::after {
+  opacity: 0;
 }
 
 :root[data-theme="light"] .hero-system-screen,
@@ -148,11 +164,11 @@
 /* Evidence remains a visual instrument rather than becoming washed out on
    paper. The adjacent copy stays light-mode dark for normal reading. */
 :root[data-theme="light"] .evidence-bar {
-  border-color: rgba(73, 46, 83, 0.42);
+  border-color: rgba(73, 46, 83, 0.58);
   background:
-    linear-gradient(180deg, rgba(36, 27, 40, 0.94), rgba(17, 13, 21, 0.98)),
+    linear-gradient(180deg, rgba(42, 31, 47, 0.97), rgba(19, 14, 23, 0.99)),
     #151019;
-  box-shadow: inset 0 0 2.5rem rgba(255, 255, 255, 0.025), 0 1rem 2.5rem rgba(48, 25, 58, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09), inset 0 0 2.5rem rgba(var(--accent-rgb), 0.06), 0 1rem 2.5rem rgba(48, 25, 58, 0.16);
   color: #f7f2f9;
 }
 
@@ -184,11 +200,22 @@
 }
 
 :root[data-theme="light"] .business-step-graphic {
-  border-color: rgba(var(--accent-rgb), 0.68);
+  border-color: rgba(var(--accent-rgb), 0.46);
   background:
-    radial-gradient(circle at 50% 45%, rgba(var(--accent-rgb), 0.18), transparent 62%),
-    #17111c;
-  box-shadow: inset 0 0 2.5rem rgba(var(--accent-rgb), 0.16), 0 0.8rem 2rem rgba(51, 26, 62, 0.12);
+    radial-gradient(circle at 50% 42%, rgba(var(--accent-rgb), 0.16), transparent 65%),
+    linear-gradient(145deg, #ffffff, #eee5f2);
+  box-shadow: inset 0 1px 0 #ffffff, inset 0 0 2.5rem rgba(var(--accent-rgb), 0.055), 0 0.8rem 2rem rgba(51, 26, 62, 0.11);
+}
+
+:root[data-theme="light"] .business-step-graphic svg {
+  stroke: #76209f;
+  filter: drop-shadow(0 0 0.55rem rgba(var(--accent-rgb), 0.16));
+}
+
+:root[data-theme="light"] .step-open-badge {
+  border-color: rgba(var(--accent-rgb), 0.48);
+  background: #fffdfd;
+  color: #76209f;
 }
 
 /* The crane is a deliberate dark blueprint panel in both themes. That keeps
@@ -226,6 +253,17 @@
 
 :root[data-theme="light"] .strategy-site-console {
   background: rgba(10, 9, 15, 0.9);
+}
+
+:root[data-theme="light"] .strategy-crane {
+  color: rgba(255, 255, 255, 0.94);
+  opacity: 0.96;
+  filter: drop-shadow(0 0 0.6rem rgba(180, 76, 255, 0.28));
+}
+
+:root[data-theme="light"] .strategy-crane .crane-line,
+:root[data-theme="light"] .strategy-crane .crane-hook {
+  color: #e7baff;
 }
 
 /* Use-case cards read like refined paper tiles rather than flat grey blocks. */
@@ -301,9 +339,10 @@
   box-shadow: 0 0.7rem 1.8rem rgba(57, 31, 68, 0.09), inset 0 0 1.4rem rgba(var(--accent-rgb), 0.08);
 }
 
-/* Patrick and Evgeni stay untouched. The full chapter becomes a framed dark
-   island, matching the portrait backgrounds and the established dark mode. */
-:root[data-theme="light"] main > #unsere-sicht {
+/* Patrick and Evgeni stay untouched. Their approved three-column composition
+   now sits inside one rounded dark-mode card rather than recoloring the whole
+   chapter from edge to edge. */
+:root[data-theme="light"] #unsere-sicht .view-people-layout {
   --bg: #0a080d;
   --bg-elevated: #0e0b12;
   --surface: #151019;
@@ -316,10 +355,16 @@
   --accent: #b44cff;
   --accent-soft: #d799ff;
   --accent-rgb: 180, 76, 255;
-  --chapter-color: #0c0910;
-  --chapter-glow: 0.055;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px rgba(180, 76, 255, 0.18), 0 2rem 5rem rgba(48, 24, 58, 0.19);
+}
+
+:root[data-theme="light"] #unsere-sicht .view-people-layout::before {
+  content: "";
+  border: 1px solid rgba(180, 76, 255, 0.24);
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(180, 76, 255, 0.1), transparent 48%),
+    linear-gradient(155deg, #120d17, #08070b 74%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025), 0 2rem 5rem rgba(48, 24, 58, 0.19);
 }
 
 :root[data-theme="light"] #unsere-sicht .team-portrait-frame {

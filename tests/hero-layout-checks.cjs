@@ -24,18 +24,21 @@ assert.deepEqual([...serverStage.children].map(el => el.className), [
   'hero-server-rack hero-server-rack-left', 'hero-system-screen', 'hero-server-rack hero-server-rack-right'
 ]);
 const rackImages = [...serverStage.querySelectorAll('.hero-server-rack img')];
-assert.equal(rackImages.length, 2);
-assert(rackImages.every(img => img.getAttribute('src') === 'assets/hero-server-matched-v3.png'), 'One source gives the pair identical optics');
+assert.equal(rackImages.length, 4);
+assert.equal(serverStage.querySelectorAll('.hero-server-image-dark').length, 2, 'Dark mode keeps its approved server pair');
+assert.equal(serverStage.querySelectorAll('.hero-server-image-light').length, 2, 'Light mode owns a separate server pair');
+assert([...serverStage.querySelectorAll('.hero-server-image-dark')].every(img => img.getAttribute('src') === 'assets/hero-server-matched-v3.png'));
+assert([...serverStage.querySelectorAll('.hero-server-image-light')].every(img => img.getAttribute('src') === 'assets/hero-server-light-v1.png'));
 for (const img of rackImages) {
   assert.equal(img.getAttribute('alt'), '');
   assert.equal(img.parentElement.getAttribute('aria-hidden'), 'true');
-  assert.equal(img.getAttribute('width'), '901');
-  assert.equal(img.getAttribute('height'), '1746');
   const png = fs.readFileSync(path.join(root, img.getAttribute('src')));
   assert.equal(png.readUInt32BE(16), img.width);
   assert.equal(png.readUInt32BE(20), img.height);
-  assert.equal(png[25], 6, 'PNG has RGBA channels');
 }
+assert([...serverStage.querySelectorAll('.hero-server-image-dark')].every(img => img.width === 901 && img.height === 1746));
+assert([...serverStage.querySelectorAll('.hero-server-image-light')].every(img => img.width === 1024 && img.height === 1536));
+assert.equal(fs.readFileSync(path.join(root, 'assets/hero-server-matched-v3.png'))[25], 6, 'Dark PNG retains genuine RGBA channels');
 assert.match(css, /grid-template-columns: minmax\(0, 13%\) minmax\(0, 1fr\) minmax\(0, 13%\)/, 'Dedicated side columns keep racks outside the copy');
 assert.match(css, /\.hero-server-rack-left \{ grid-column: 1; grid-row: 1; \}/);
 assert.match(css, /\.hero-server-rack-right \{ grid-column: 3; grid-row: 1; \}/);
@@ -47,6 +50,7 @@ assert.match(css, /\.hero-server-rack \{[^}]*overflow: visible;/s);
 const rackImageRule = css.match(/\.hero-server-rack img \{[^}]+/)[0];
 assert(!/clip-path|mask(?:-image)?\s*:/.test(rackImageRule), 'True source alpha keeps the complete cabinet visible');
 assert.match(rackImageRule, /filter: brightness\(\.53\) contrast\(1\.08\) saturate\(\.82\)/, 'The photographic source receives the darker restrained treatment');
+assert.match(css, /\.hero-server-image-light \{ opacity: 0; \}/, 'The generated light hardware is dormant in dark mode');
 assert.match(css, /\.hero-server-rack::after \{[^}]*mask: url\("assets\/hero-server-matched-v3\.png"\)[^}]*mix-blend-mode: screen;[^}]*opacity: \.44;/s, 'A source-alpha-shaped violet wash styles the cabinet without tracing or altering it');
 assert.match(css, /\.hero-server-rack-right::after \{ transform: scaleX\(-1\); \}/, 'The violet treatment mirrors with the identical right cabinet');
 assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.hero-server-rack \{ display: none; \}/, 'The base phone layout removes both decorative racks');
