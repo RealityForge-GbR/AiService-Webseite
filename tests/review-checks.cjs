@@ -85,6 +85,7 @@ assert(economicsMethod?.contains(document.querySelector('.economics-bridge')) &&
 assert.equal(economicsMethod.children[0].className, 'economics-bridge');
 assert.equal(economicsMethod.children[1].className, 'business-grid business-progress');
 const viewportRefinements = fs.readFileSync(path.join(root, 'viewport-refinements.css'), 'utf8');
+assert.match(html, /viewport-refinements\.css\?v=11/, 'The corrected desktop refinements bypass the previous cached stylesheet');
 assert.match(viewportRefinements, /\.step-open-badge,\s*\[data-use-case-toggle\] > span,\s*\.view-copy-toggle > i \{\s*font-size: 0 !important;/s, 'Every interactive plus uses the same font-independent geometry');
 assert.match(viewportRefinements, /\.step-open-badge::before,[\s\S]*top: 50%;[\s\S]*left: 50%;[\s\S]*transform: translate\(-50%, -50%\);/s, 'The shared plus geometry is centered on both axes');
 assert.match(viewportRefinements, /\[data-use-case-toggle\]\[aria-expanded="true"\] > span::after,\s*\.view-copy-toggle\[aria-expanded="true"\] > i::after \{\s*opacity: 0;/s, 'Disclosure controls retain a geometric minus state');
@@ -98,7 +99,7 @@ assert.match(viewportRefinements, /#moderne-ki \.ai-chat-mark::after \{[\s\S]*wi
 assert.match(viewportRefinements, /#moderne-ki \.system-orbit-three \{ inset: \.7rem; \}/, 'The compact system orbits remain inside their mark');
 assert.match(viewportRefinements, /#strategie \.strategy-addon-lifted \{[\s\S]*top: 10\.8rem;[\s\S]*transform: translate\(-50%, var\(--strategy-lift-y, -4\.5rem\)\);/s, 'The lifted construction block follows the mobile crane onto its centered landing point');
 assert.match(viewportRefinements, /#strategie \.strategy-learning-path \{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/s, 'The mobile construction foundation retains its three-step row');
-assert.match(viewportRefinements, /#strategie \.strategy-learning-path small \{ display: none; \}/, 'The compact foundation no longer repeats step numbers');
+assert.match(viewportRefinements, /#strategie \.strategy-learning-path small \{ display: none; \}/, 'The foundation cards no longer repeat step numbers at any viewport size');
 assert.match(viewportRefinements, /#wirtschaftlichkeit \.evidence-team-copy \.source-link \{[\s\S]*justify-content: flex-start;/s, 'The study arrow stays attached to its source instead of floating at the opposite edge');
 assert.equal(document.querySelectorAll('.monitor-service-list > li').length, 3);
 assert.equal(document.querySelectorAll('.hero-monitor [hidden], [data-monitor-scene]').length, 0);

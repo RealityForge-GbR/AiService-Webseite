@@ -84,6 +84,10 @@
 }
 #unsere-sicht .view-copy p:last-child { margin-bottom: 0; }
 
+/* The three foundation cards no longer repeat an artificial sequence number.
+   Their headings already communicate the intended learning progression. */
+#strategie .strategy-learning-path small { display: none; }
+
 /* When a portrait-height fit would require unreadably small type, the whole
    copy deliberately reflows below two equal portraits instead of protruding
    beyond their top or bottom edges. */
